@@ -1,0 +1,241 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid()) @db.Uuid
+  email     String   @unique
+  name      String
+  password  String
+  roles     Role[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  submissions  Submission[]  @relation("SubmissionAuthor")
+  decisions    Decision[]    @relation("DecisionDecider")
+  feedbacks    Feedback[]    @relation("FeedbackAuthor")
+  journals     Journal[]     @relation("JournalEditor")
+  participants Participant[]
+
+  @@map("users")
+}
+
+model Journal {
+  id              String   @id @default(uuid()) @db.Uuid
+  name            String
+  description     String
+  issn            String?
+  editorInChiefId String   @db.Uuid
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  editorInChief User         @relation("JournalEditor", fields: [editorInChiefId], references: [id])
+  issues        Issue[]
+  submissions   Submission[]
+
+  @@map("journals")
+}
+
+model Issue {
+  id          String    @id @default(uuid()) @db.Uuid
+  journalId   String    @db.Uuid
+  volume      Int
+  number      Int
+  title       String?
+  description String?
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  journal      Journal       @relation(fields: [journalId], references: [id])
+  publications Publication[]
+
+  @@map("issues")
+}
+
+model Submission {
+  id        String           @id @default(uuid()) @db.Uuid
+  journalId String           @db.Uuid
+  authorId  String           @db.Uuid
+  title     String
+  abstract  String
+  status    SubmissionStatus @default(Draft)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  journal      Journal       @relation(fields: [journalId], references: [id])
+  author       User          @relation("SubmissionAuthor", fields: [authorId], references: [id])
+  revisions    Revision[]
+  decisions    Decision[]
+  feedbacks    Feedback[]
+  participants Participant[]
+  publication  Publication?
+
+  @@map("submissions")
+}
+
+model Revision {
+  id           String        @id @default(uuid()) @db.Uuid
+  submissionId String        @db.Uuid
+  fileId       String        @db.Uuid
+  version      Int
+  startStage   RevisionStage @default(Draft)
+  currentStage RevisionStage @default(Draft)
+  isFrozen     Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  submission  Submission   @relation(fields: [submissionId], references: [id])
+  file        File         @relation(fields: [fileId], references: [id])
+  decision    Decision?
+  feedbacks   Feedback[]
+  publication Publication?
+
+  @@unique([submissionId, version])
+  @@map("revisions")
+}
+
+model File {
+  id           String @id @default(uuid()) @db.Uuid
+  filename     String
+  originalName String
+  mimeType     String
+  size         Int
+
+  revisions Revision[]
+  feedbacks Feedback[]
+
+  @@map("files")
+}
+
+model Decision {
+  id           String        @id @default(uuid()) @db.Uuid
+  submissionId String        @db.Uuid
+  revisionId   String        @unique @db.Uuid
+  deciderId    String        @db.Uuid
+  startStage   RevisionStage
+  decidedStage RevisionStage
+  comment      String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  submission Submission @relation(fields: [submissionId], references: [id])
+  revision   Revision   @relation(fields: [revisionId], references: [id])
+  decider    User       @relation("DecisionDecider", fields: [deciderId], references: [id])
+
+  @@map("decisions")
+}
+
+model Feedback {
+  id             String                 @id @default(uuid()) @db.Uuid
+  submissionId   String                 @db.Uuid
+  revisionId     String                 @db.Uuid
+  authorId       String                 @db.Uuid
+  fileId         String?                @db.Uuid
+  content        String
+  stage          FeedbackStage
+  recommendation FeedbackRecommendation
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+
+  submission Submission @relation(fields: [submissionId], references: [id])
+  revision   Revision   @relation(fields: [revisionId], references: [id])
+  author     User       @relation("FeedbackAuthor", fields: [authorId], references: [id])
+  file       File?      @relation(fields: [fileId], references: [id])
+
+  @@map("feedbacks")
+}
+
+model Publication {
+  id           String    @id @default(uuid()) @db.Uuid
+  issueId      String    @db.Uuid
+  revisionId   String    @unique @db.Uuid
+  submissionId String    @unique @db.Uuid
+  doi          String?
+  publishedAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  issue      Issue      @relation(fields: [issueId], references: [id])
+  revision   Revision   @relation(fields: [revisionId], references: [id])
+  submission Submission @relation(fields: [submissionId], references: [id])
+
+  @@unique([issueId, submissionId])
+  @@map("publications")
+}
+
+model Participant {
+  id           String        @id @default(uuid()) @db.Uuid
+  submissionId String        @db.Uuid
+  userId       String        @db.Uuid
+  stage        RevisionStage
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  submission Submission @relation(fields: [submissionId], references: [id])
+  user       User       @relation(fields: [userId], references: [id])
+
+  @@map("participants")
+}
+
+enum Role {
+  Author        @map("AUTHOR")
+  Reviewer      @map("REVIEWER")
+  Editor        @map("EDITOR")
+  Administrator @map("ADMINISTRATOR")
+
+  @@map("role")
+}
+
+enum SubmissionStatus {
+  Draft       @map("DRAFT")
+  Submitted   @map("SUBMITTED")
+  Review      @map("REVIEW")
+  Edit        @map("EDIT")
+  CopyEdit    @map("COPY_EDIT")
+  LayoutEdit  @map("LAYOUT_EDIT")
+  FinalReview @map("FINAL_REVIEW")
+  Published   @map("PUBLISHED")
+  Rejected    @map("REJECTED")
+  Withdrawn   @map("WITHDRAWN")
+
+  @@map("submission_status")
+}
+
+enum RevisionStage {
+  Draft       @map("DRAFT")
+  Submitted   @map("SUBMITTED")
+  Review      @map("REVIEW")
+  Edit        @map("EDIT")
+  CopyEdit    @map("COPY_EDIT")
+  LayoutEdit  @map("LAYOUT_EDIT")
+  FinalReview @map("FINAL_REVIEW")
+  Published   @map("PUBLISHED")
+  Rejected    @map("REJECTED")
+  Withdrawn   @map("WITHDRAWN")
+
+  @@map("revision_stage")
+}
+
+enum FeedbackRecommendation {
+  Continue @map("CONTINUE")
+  Reject   @map("REJECT")
+  Revise   @map("REVISE")
+
+  @@map("feedback_recommendation")
+}
+
+enum FeedbackStage {
+  Review      @map("REVIEW")
+  Edit        @map("EDIT")
+  CopyEdit    @map("COPY_EDIT")
+  LayoutEdit  @map("LAYOUT_EDIT")
+  FinalReview @map("FINAL_REVIEW")
+
+  @@map("feedback_stage")
+}
