@@ -64,6 +64,7 @@ model Submission {
   authorId  String           @db.Uuid
   title     String
   abstract  String
+  authors   Json
   status    SubmissionStatus @default(Draft)
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
