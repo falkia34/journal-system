@@ -6,17 +6,7 @@ export class Participant {
     public id: string,
     public submissionId: string,
     public userId: string,
-    public stage:
-      | 'Draft'
-      | 'Submitted'
-      | 'Review'
-      | 'Edit'
-      | 'CopyEdit'
-      | 'LayoutEdit'
-      | 'FinalReview'
-      | 'Published'
-      | 'Rejected'
-      | 'Withdrawn',
+    public stage: 'Review' | 'Edit' | 'CopyEdit' | 'LayoutEdit' | 'FinalReview',
     public createdAt: Date,
     public updatedAt: Date,
     public submission?: Submission,
