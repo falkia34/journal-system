@@ -8,6 +8,7 @@ export class Submission {
     public journalId: string,
     public title: string,
     public abstract: string,
+    public authors: string[],
     public status:
       | 'Draft'
       | 'Submitted'
