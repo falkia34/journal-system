@@ -1,9 +1,7 @@
 import { betterAuth, BetterAuthOptions } from 'better-auth/minimal';
-import { customSession, genericOAuth } from 'better-auth/plugins';
-import { getAccountCookie } from 'better-auth/cookies';
-// import { GetUsersWithToken, GetUserPermissionsWithToken } from '@app/application';
-import { match } from 'effect/Either';
+import { isLeft } from 'effect/Either';
 import { nextCookies } from 'better-auth/next-js';
+import { GetUsers } from '@app/application';
 
 export type AuthServerDataSource = ReturnType<typeof authServerDataSourceImpl>;
 
@@ -18,175 +16,129 @@ const additionalOptions = {
       },
       roles: {
         type: 'string[]',
-        input: false,
+        input: true,
+      },
+      activeRole: {
+        type: 'string',
+        input: true,
       },
     },
   },
 } satisfies BetterAuthOptions;
 
-export const authServerDataSourceImpl = () =>
-  // getUsers: GetUsersWithToken,
-  // getUserPermissions: GetUserPermissionsWithToken,
-  {
-    return betterAuth({
-      ...additionalOptions,
-      secret: isCIBuild ? 'some-ci-default-secret-please-change' : process.env.BETTER_AUTH_SECRET!,
-      baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:3000',
-      basePath: '/auth',
-      session: {
-        expiresIn: 3 * 60 * 60, // 3 hour
-        updateAge: 10 * 60, // 10 minutes
-        cookieCache: {
-          enabled: false,
-          refreshCache: true,
-        },
+export const authServerDataSourceImpl = (getUsers: GetUsers) => {
+  return betterAuth({
+    ...additionalOptions,
+    secret: isCIBuild ? 'some-ci-default-secret-please-change' : process.env.BETTER_AUTH_SECRET!,
+    baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:3000',
+    basePath: '/auth',
+    session: {
+      expiresIn: 3 * 60 * 60,
+      updateAge: 10 * 60,
+      cookieCache: {
+        enabled: true,
+        maxAge: 3 * 60 * 60,
       },
-      account: {
-        storeStateStrategy: 'cookie',
-        storeAccountCookie: true,
-        accountLinking: {
-          enabled: false,
-        },
+    },
+    account: {
+      storeStateStrategy: 'cookie',
+      storeAccountCookie: false,
+      accountLinking: {
+        enabled: false,
       },
-      plugins: [
-        nextCookies(),
-        genericOAuth({
-          config: [
-            {
-              providerId: 'infinite-sso',
-              clientId: process.env.BETTER_AUTH_INFINITE_SSO_ID!,
-              clientSecret: process.env.BETTER_AUTH_INFINITE_SSO_SECRET!,
-              discoveryUrl: process.env.BETTER_AUTH_INFINITE_SSO_DISCOVERY_URL!,
-              // getUserInfo: async (tokens) => {
-              //   const accessTokenPayload = Buffer.from(
-              //     tokens.accessToken?.split('.')[1] ?? '',
-              //     'base64',
-              //   ).toString('utf-8');
-              //   const accessTokenData = JSON.parse(accessTokenPayload);
-              //   const id = accessTokenData.sub;
-              //   const email = accessTokenData.email;
+    },
+    socialProviders: {
+      google: {
+        prompt: 'select_account',
+        clientId: process.env.GOOGLE_CLIENT_ID as string,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+        getUserInfo: async (token) => {
+          try {
+            const response = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+              headers: {
+                Authorization: `Bearer ${token.accessToken}`,
+              },
+            });
 
-              //   if (!email || email.trim() === '') {
-              //     throw new Error('Email not found in access token');
-              //   }
+            if (!response.ok) {
+              return null;
+            }
 
-              //   const usersResult = await getUsers.execute(
-              //     undefined,
-              //     { emailAddress: email },
-              //     undefined,
-              //     undefined,
-              //   );
+            const profile = await response.json();
 
-              //   const [users] = match(usersResult, {
-              //     onLeft: (error) => {
-              //       throw error;
-              //     },
-              //     onRight: (result) => result,
-              //   });
+            const usersResult = await getUsers.execute({ email: profile.email });
 
-              //   const userPermissionsResult = await getUserPermissions.execute(
-              //     users[0].id,
-              //     ['nested'],
-              //     undefined,
-              //     tokens.accessToken ?? '',
-              //   );
+            if (isLeft(usersResult)) {
+              return null;
+            }
 
-              //   const userPermissions = match(userPermissionsResult, {
-              //     onLeft: (error) => {
-              //       throw error;
-              //     },
-              //     onRight: (result) => result,
-              //   });
+            const [users] = usersResult.right;
 
-              //   if (users.length !== 1) {
-              //     throw new Error(
-              //       `Expected to find exactly one user with email ${email}, but found ${users.length} user(s).`,
-              //     );
-              //   }
+            if (users.length !== 1) {
+              return null;
+            }
 
-              //   return {
-              //     id: id,
-              //     internalId: users[0].id,
-              //     name: users[0].name,
-              //     username: users[0].username,
-              //     email: email,
-              //     emailVerified: true,
-              //     permissions: userPermissions.map((userPermission) => userPermission.name),
-              //   };
-              // },
-              mapProfileToUser: (profile) => ({
-                internalId: profile.internalId,
+            return {
+              user: {
+                id: profile.id,
+                email: profile.email,
+                emailVerified: profile.verified_email,
                 name: profile.name,
-                username: profile.username,
-              }),
-            },
-          ],
-        }),
-        customSession(async ({ user, session }, ctx) => {
-          const account = await getAccountCookie(ctx);
-
-          return {
-            session,
-            user,
-            account,
-          };
-        }, additionalOptions),
-      ],
-      databaseHooks: {
-        account: {
-          create: {
-            before: async (account) => {
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              const { idToken, ...data } = account;
-
-              return {
-                data: {
-                  idToken: undefined,
-                  ...data,
-                },
-              };
-            },
-          },
+                image: profile.picture,
+                internalId: users[0].id,
+                roles: users[0].roles,
+                activeRole: users[0].roles[0],
+              },
+              data: {
+                ...profile,
+                internalId: users[0].id,
+                roles: users[0].roles,
+                activeRole: users[0].roles[0],
+              },
+            };
+          } catch {
+            return null;
+          }
         },
       },
-      disabledPaths: [
-        '/error',
-        '/ok',
-        '/sign-up/email',
-        '/sign-in/email',
-        '/sign-in/social',
-        '/link-social',
-        '/callback/:id',
-        '/change-password',
-        '/request-password-reset',
-        '/reset-password',
-        '/reset-password/:token',
-        '/verify-password',
-        '/change-email',
-        '/send-verification-email',
-        '/verify-email',
-        '/list-accounts',
-        '/unlink-account',
-        '/account-info',
-        '/update-user',
-        '/delete-user',
-        '/delete-user/callback',
-        '/list-sessions',
-        '/update-session',
-        '/revoke-session',
-        '/revoke-sessions',
-        '/revoke-other-sessions',
-        '/refresh-token',
-        '/oauth2/link',
-      ],
-      onAPIError: {
-        errorURL: '/login',
+    },
+    plugins: [nextCookies()],
+    disabledPaths: [
+      '/error',
+      '/ok',
+      '/sign-up/email',
+      '/sign-in/email',
+      '/link-social',
+      '/change-password',
+      '/request-password-reset',
+      '/reset-password',
+      '/reset-password/:token',
+      '/verify-password',
+      '/change-email',
+      '/send-verification-email',
+      '/verify-email',
+      '/list-accounts',
+      '/unlink-account',
+      '/account-info',
+      '/delete-user',
+      '/delete-user/callback',
+      '/list-sessions',
+      '/update-session',
+      '/revoke-session',
+      '/revoke-sessions',
+      '/revoke-other-sessions',
+      '/refresh-token',
+      '/get-access-token',
+    ],
+    onAPIError: {
+      throw: false,
+      errorURL: '/login',
+    },
+    advanced: {
+      cookiePrefix: 'auth',
+      database: {
+        generateId: 'uuid',
       },
-      advanced: {
-        cookiePrefix: 'auth',
-        database: {
-          generateId: 'uuid',
-        },
-      },
-    });
-  };
+    },
+  });
+};

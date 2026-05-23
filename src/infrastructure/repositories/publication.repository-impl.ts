@@ -86,7 +86,6 @@ export class PublicationRepositoryImpl implements PublicationRepository {
           issueId: publication.issueId,
           submissionId: publication.submissionId,
           revisionId: publication.revisionId,
-          doi: publication.doi ?? undefined,
           publishedAt: publication.publishedAt,
         },
         include: buildPublicationInclude(['issue', 'submission', 'revision']),
@@ -109,7 +108,6 @@ export class PublicationRepositoryImpl implements PublicationRepository {
           issueId: publication.issueId,
           submissionId: publication.submissionId,
           revisionId: publication.revisionId,
-          doi: publication.doi ?? undefined,
           publishedAt: publication.publishedAt ?? undefined,
         },
         include: buildPublicationInclude(['issue', 'submission', 'revision']),
@@ -155,15 +153,15 @@ const buildPublicationOrderBy = (sortOptions?: PublicationSortOptions) => {
   const orderBy: Array<Record<string, 'asc' | 'desc'>> = [];
 
   if (sortOptions.createdAt) {
-    orderBy.push({ createdAt: sortOptions.createdAt });
+    orderBy.push({ createdAt: sortOptions.createdAt.toLowerCase() as 'asc' | 'desc' });
   }
 
   if (sortOptions.updatedAt) {
-    orderBy.push({ updatedAt: sortOptions.updatedAt });
+    orderBy.push({ updatedAt: sortOptions.updatedAt.toLowerCase() as 'asc' | 'desc' });
   }
 
   if (sortOptions.publishedAt) {
-    orderBy.push({ publishedAt: sortOptions.publishedAt });
+    orderBy.push({ publishedAt: sortOptions.publishedAt.toLowerCase() as 'asc' | 'desc' });
   }
 
   return orderBy.length > 0 ? orderBy : { createdAt: 'desc' as const };

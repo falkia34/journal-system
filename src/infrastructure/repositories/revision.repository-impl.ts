@@ -105,19 +105,13 @@ export class RevisionRepositoryImpl implements RevisionRepository {
       const created = await this.dataSource.revision.create({
         data: {
           submissionId: revision.submissionId,
-          fileId: revision.fileId,
+          file: typeof revision.file === 'string' ? revision.file : null,
           version: revision.version,
           startStage: revision.startStage,
           currentStage: revision.currentStage,
           isFrozen: revision.isFrozen,
         },
-        include: buildRevisionInclude([
-          'submission',
-          'file',
-          'feedbacks',
-          'decision',
-          'publication',
-        ]),
+        include: buildRevisionInclude(['submission', 'feedbacks', 'decisions', 'publication']),
       });
 
       return right(RevisionMapper.fromPrismaToDomain(created));
@@ -135,19 +129,18 @@ export class RevisionRepositoryImpl implements RevisionRepository {
         where: { id },
         data: {
           submissionId: revision.submissionId,
-          fileId: revision.fileId,
+          file:
+            revision.file !== undefined
+              ? typeof revision.file === 'string'
+                ? revision.file
+                : null
+              : undefined,
           version: revision.version,
           startStage: revision.startStage,
           currentStage: revision.currentStage,
           isFrozen: revision.isFrozen,
         },
-        include: buildRevisionInclude([
-          'submission',
-          'file',
-          'feedbacks',
-          'decision',
-          'publication',
-        ]),
+        include: buildRevisionInclude(['submission', 'feedbacks', 'decisions', 'publication']),
       });
 
       return right(RevisionMapper.fromPrismaToDomain(updated));
@@ -160,13 +153,7 @@ export class RevisionRepositoryImpl implements RevisionRepository {
     try {
       const deleted = await this.dataSource.revision.delete({
         where: { id },
-        include: buildRevisionInclude([
-          'submission',
-          'file',
-          'feedbacks',
-          'decision',
-          'publication',
-        ]),
+        include: buildRevisionInclude(['submission', 'feedbacks', 'decisions', 'publication']),
       });
 
       return right(RevisionMapper.fromPrismaToDomain(deleted));
@@ -183,9 +170,11 @@ const buildRevisionWhere = (filterOptions?: RevisionFilterOptions) => {
 
   return {
     ...(filterOptions.submissionId ? { submissionId: filterOptions.submissionId } : {}),
-    ...(filterOptions.fileId ? { fileId: filterOptions.fileId } : {}),
     ...(filterOptions.isFrozen !== undefined ? { isFrozen: filterOptions.isFrozen } : {}),
     ...(filterOptions.currentStage ? { currentStage: filterOptions.currentStage } : {}),
+    ...(filterOptions.participantUserId
+      ? { submission: { participants: { some: { userId: filterOptions.participantUserId } } } }
+      : {}),
   };
 };
 
@@ -197,15 +186,15 @@ const buildRevisionOrderBy = (sortOptions?: RevisionSortOptions) => {
   const orderBy: Array<Record<string, 'asc' | 'desc'>> = [];
 
   if (sortOptions.createdAt) {
-    orderBy.push({ createdAt: sortOptions.createdAt });
+    orderBy.push({ createdAt: sortOptions.createdAt.toLowerCase() as 'asc' | 'desc' });
   }
 
   if (sortOptions.updatedAt) {
-    orderBy.push({ updatedAt: sortOptions.updatedAt });
+    orderBy.push({ updatedAt: sortOptions.updatedAt.toLowerCase() as 'asc' | 'desc' });
   }
 
   if (sortOptions.version) {
-    orderBy.push({ version: sortOptions.version });
+    orderBy.push({ version: sortOptions.version.toLowerCase() as 'asc' | 'desc' });
   }
 
   return orderBy.length > 0 ? orderBy : { createdAt: 'desc' as const };
@@ -218,9 +207,8 @@ const buildRevisionInclude = (includeOptions?: RevisionIncludeOptions) => {
 
   return {
     submission: includeOptions.includes('submission'),
-    file: includeOptions.includes('file'),
     feedbacks: includeOptions.includes('feedbacks'),
-    decision: includeOptions.includes('decision'),
+    decisions: includeOptions.includes('decisions'),
     publication: includeOptions.includes('publication'),
   };
 };

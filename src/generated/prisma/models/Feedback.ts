@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums"
-import type * as Prisma from "../internal/prismaNamespace"
+import type * as $Enums from "../enums.js"
+import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model Feedback
@@ -29,7 +29,7 @@ export type FeedbackMinAggregateOutputType = {
   submissionId: string | null
   revisionId: string | null
   authorId: string | null
-  fileId: string | null
+  file: string | null
   content: string | null
   stage: $Enums.FeedbackStage | null
   recommendation: $Enums.FeedbackRecommendation | null
@@ -42,7 +42,7 @@ export type FeedbackMaxAggregateOutputType = {
   submissionId: string | null
   revisionId: string | null
   authorId: string | null
-  fileId: string | null
+  file: string | null
   content: string | null
   stage: $Enums.FeedbackStage | null
   recommendation: $Enums.FeedbackRecommendation | null
@@ -55,7 +55,7 @@ export type FeedbackCountAggregateOutputType = {
   submissionId: number
   revisionId: number
   authorId: number
-  fileId: number
+  file: number
   content: number
   stage: number
   recommendation: number
@@ -70,7 +70,7 @@ export type FeedbackMinAggregateInputType = {
   submissionId?: true
   revisionId?: true
   authorId?: true
-  fileId?: true
+  file?: true
   content?: true
   stage?: true
   recommendation?: true
@@ -83,7 +83,7 @@ export type FeedbackMaxAggregateInputType = {
   submissionId?: true
   revisionId?: true
   authorId?: true
-  fileId?: true
+  file?: true
   content?: true
   stage?: true
   recommendation?: true
@@ -96,7 +96,7 @@ export type FeedbackCountAggregateInputType = {
   submissionId?: true
   revisionId?: true
   authorId?: true
-  fileId?: true
+  file?: true
   content?: true
   stage?: true
   recommendation?: true
@@ -182,7 +182,7 @@ export type FeedbackGroupByOutputType = {
   submissionId: string
   revisionId: string
   authorId: string
-  fileId: string | null
+  file: string | null
   content: string
   stage: $Enums.FeedbackStage
   recommendation: $Enums.FeedbackRecommendation
@@ -216,7 +216,7 @@ export type FeedbackWhereInput = {
   submissionId?: Prisma.UuidFilter<"Feedback"> | string
   revisionId?: Prisma.UuidFilter<"Feedback"> | string
   authorId?: Prisma.UuidFilter<"Feedback"> | string
-  fileId?: Prisma.UuidNullableFilter<"Feedback"> | string | null
+  file?: Prisma.StringNullableFilter<"Feedback"> | string | null
   content?: Prisma.StringFilter<"Feedback"> | string
   stage?: Prisma.EnumFeedbackStageFilter<"Feedback"> | $Enums.FeedbackStage
   recommendation?: Prisma.EnumFeedbackRecommendationFilter<"Feedback"> | $Enums.FeedbackRecommendation
@@ -225,7 +225,6 @@ export type FeedbackWhereInput = {
   submission?: Prisma.XOR<Prisma.SubmissionScalarRelationFilter, Prisma.SubmissionWhereInput>
   revision?: Prisma.XOR<Prisma.RevisionScalarRelationFilter, Prisma.RevisionWhereInput>
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  file?: Prisma.XOR<Prisma.FileNullableScalarRelationFilter, Prisma.FileWhereInput> | null
 }
 
 export type FeedbackOrderByWithRelationInput = {
@@ -233,7 +232,7 @@ export type FeedbackOrderByWithRelationInput = {
   submissionId?: Prisma.SortOrder
   revisionId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
-  fileId?: Prisma.SortOrderInput | Prisma.SortOrder
+  file?: Prisma.SortOrderInput | Prisma.SortOrder
   content?: Prisma.SortOrder
   stage?: Prisma.SortOrder
   recommendation?: Prisma.SortOrder
@@ -242,7 +241,6 @@ export type FeedbackOrderByWithRelationInput = {
   submission?: Prisma.SubmissionOrderByWithRelationInput
   revision?: Prisma.RevisionOrderByWithRelationInput
   author?: Prisma.UserOrderByWithRelationInput
-  file?: Prisma.FileOrderByWithRelationInput
 }
 
 export type FeedbackWhereUniqueInput = Prisma.AtLeast<{
@@ -253,7 +251,7 @@ export type FeedbackWhereUniqueInput = Prisma.AtLeast<{
   submissionId?: Prisma.UuidFilter<"Feedback"> | string
   revisionId?: Prisma.UuidFilter<"Feedback"> | string
   authorId?: Prisma.UuidFilter<"Feedback"> | string
-  fileId?: Prisma.UuidNullableFilter<"Feedback"> | string | null
+  file?: Prisma.StringNullableFilter<"Feedback"> | string | null
   content?: Prisma.StringFilter<"Feedback"> | string
   stage?: Prisma.EnumFeedbackStageFilter<"Feedback"> | $Enums.FeedbackStage
   recommendation?: Prisma.EnumFeedbackRecommendationFilter<"Feedback"> | $Enums.FeedbackRecommendation
@@ -262,7 +260,6 @@ export type FeedbackWhereUniqueInput = Prisma.AtLeast<{
   submission?: Prisma.XOR<Prisma.SubmissionScalarRelationFilter, Prisma.SubmissionWhereInput>
   revision?: Prisma.XOR<Prisma.RevisionScalarRelationFilter, Prisma.RevisionWhereInput>
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  file?: Prisma.XOR<Prisma.FileNullableScalarRelationFilter, Prisma.FileWhereInput> | null
 }, "id">
 
 export type FeedbackOrderByWithAggregationInput = {
@@ -270,7 +267,7 @@ export type FeedbackOrderByWithAggregationInput = {
   submissionId?: Prisma.SortOrder
   revisionId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
-  fileId?: Prisma.SortOrderInput | Prisma.SortOrder
+  file?: Prisma.SortOrderInput | Prisma.SortOrder
   content?: Prisma.SortOrder
   stage?: Prisma.SortOrder
   recommendation?: Prisma.SortOrder
@@ -289,7 +286,7 @@ export type FeedbackScalarWhereWithAggregatesInput = {
   submissionId?: Prisma.UuidWithAggregatesFilter<"Feedback"> | string
   revisionId?: Prisma.UuidWithAggregatesFilter<"Feedback"> | string
   authorId?: Prisma.UuidWithAggregatesFilter<"Feedback"> | string
-  fileId?: Prisma.UuidNullableWithAggregatesFilter<"Feedback"> | string | null
+  file?: Prisma.StringNullableWithAggregatesFilter<"Feedback"> | string | null
   content?: Prisma.StringWithAggregatesFilter<"Feedback"> | string
   stage?: Prisma.EnumFeedbackStageWithAggregatesFilter<"Feedback"> | $Enums.FeedbackStage
   recommendation?: Prisma.EnumFeedbackRecommendationWithAggregatesFilter<"Feedback"> | $Enums.FeedbackRecommendation
@@ -299,6 +296,7 @@ export type FeedbackScalarWhereWithAggregatesInput = {
 
 export type FeedbackCreateInput = {
   id?: string
+  file?: string | null
   content: string
   stage: $Enums.FeedbackStage
   recommendation: $Enums.FeedbackRecommendation
@@ -307,7 +305,6 @@ export type FeedbackCreateInput = {
   submission: Prisma.SubmissionCreateNestedOneWithoutFeedbacksInput
   revision: Prisma.RevisionCreateNestedOneWithoutFeedbacksInput
   author: Prisma.UserCreateNestedOneWithoutFeedbacksInput
-  file?: Prisma.FileCreateNestedOneWithoutFeedbacksInput
 }
 
 export type FeedbackUncheckedCreateInput = {
@@ -315,7 +312,7 @@ export type FeedbackUncheckedCreateInput = {
   submissionId: string
   revisionId: string
   authorId: string
-  fileId?: string | null
+  file?: string | null
   content: string
   stage: $Enums.FeedbackStage
   recommendation: $Enums.FeedbackRecommendation
@@ -325,6 +322,7 @@ export type FeedbackUncheckedCreateInput = {
 
 export type FeedbackUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   stage?: Prisma.EnumFeedbackStageFieldUpdateOperationsInput | $Enums.FeedbackStage
   recommendation?: Prisma.EnumFeedbackRecommendationFieldUpdateOperationsInput | $Enums.FeedbackRecommendation
@@ -333,7 +331,6 @@ export type FeedbackUpdateInput = {
   submission?: Prisma.SubmissionUpdateOneRequiredWithoutFeedbacksNestedInput
   revision?: Prisma.RevisionUpdateOneRequiredWithoutFeedbacksNestedInput
   author?: Prisma.UserUpdateOneRequiredWithoutFeedbacksNestedInput
-  file?: Prisma.FileUpdateOneWithoutFeedbacksNestedInput
 }
 
 export type FeedbackUncheckedUpdateInput = {
@@ -341,7 +338,7 @@ export type FeedbackUncheckedUpdateInput = {
   submissionId?: Prisma.StringFieldUpdateOperationsInput | string
   revisionId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
-  fileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   stage?: Prisma.EnumFeedbackStageFieldUpdateOperationsInput | $Enums.FeedbackStage
   recommendation?: Prisma.EnumFeedbackRecommendationFieldUpdateOperationsInput | $Enums.FeedbackRecommendation
@@ -354,7 +351,7 @@ export type FeedbackCreateManyInput = {
   submissionId: string
   revisionId: string
   authorId: string
-  fileId?: string | null
+  file?: string | null
   content: string
   stage: $Enums.FeedbackStage
   recommendation: $Enums.FeedbackRecommendation
@@ -364,6 +361,7 @@ export type FeedbackCreateManyInput = {
 
 export type FeedbackUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   stage?: Prisma.EnumFeedbackStageFieldUpdateOperationsInput | $Enums.FeedbackStage
   recommendation?: Prisma.EnumFeedbackRecommendationFieldUpdateOperationsInput | $Enums.FeedbackRecommendation
@@ -376,7 +374,7 @@ export type FeedbackUncheckedUpdateManyInput = {
   submissionId?: Prisma.StringFieldUpdateOperationsInput | string
   revisionId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
-  fileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   stage?: Prisma.EnumFeedbackStageFieldUpdateOperationsInput | $Enums.FeedbackStage
   recommendation?: Prisma.EnumFeedbackRecommendationFieldUpdateOperationsInput | $Enums.FeedbackRecommendation
@@ -399,7 +397,7 @@ export type FeedbackCountOrderByAggregateInput = {
   submissionId?: Prisma.SortOrder
   revisionId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
-  fileId?: Prisma.SortOrder
+  file?: Prisma.SortOrder
   content?: Prisma.SortOrder
   stage?: Prisma.SortOrder
   recommendation?: Prisma.SortOrder
@@ -412,7 +410,7 @@ export type FeedbackMaxOrderByAggregateInput = {
   submissionId?: Prisma.SortOrder
   revisionId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
-  fileId?: Prisma.SortOrder
+  file?: Prisma.SortOrder
   content?: Prisma.SortOrder
   stage?: Prisma.SortOrder
   recommendation?: Prisma.SortOrder
@@ -425,7 +423,7 @@ export type FeedbackMinOrderByAggregateInput = {
   submissionId?: Prisma.SortOrder
   revisionId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
-  fileId?: Prisma.SortOrder
+  file?: Prisma.SortOrder
   content?: Prisma.SortOrder
   stage?: Prisma.SortOrder
   recommendation?: Prisma.SortOrder
@@ -559,48 +557,6 @@ export type FeedbackUncheckedUpdateManyWithoutRevisionNestedInput = {
   deleteMany?: Prisma.FeedbackScalarWhereInput | Prisma.FeedbackScalarWhereInput[]
 }
 
-export type FeedbackCreateNestedManyWithoutFileInput = {
-  create?: Prisma.XOR<Prisma.FeedbackCreateWithoutFileInput, Prisma.FeedbackUncheckedCreateWithoutFileInput> | Prisma.FeedbackCreateWithoutFileInput[] | Prisma.FeedbackUncheckedCreateWithoutFileInput[]
-  connectOrCreate?: Prisma.FeedbackCreateOrConnectWithoutFileInput | Prisma.FeedbackCreateOrConnectWithoutFileInput[]
-  createMany?: Prisma.FeedbackCreateManyFileInputEnvelope
-  connect?: Prisma.FeedbackWhereUniqueInput | Prisma.FeedbackWhereUniqueInput[]
-}
-
-export type FeedbackUncheckedCreateNestedManyWithoutFileInput = {
-  create?: Prisma.XOR<Prisma.FeedbackCreateWithoutFileInput, Prisma.FeedbackUncheckedCreateWithoutFileInput> | Prisma.FeedbackCreateWithoutFileInput[] | Prisma.FeedbackUncheckedCreateWithoutFileInput[]
-  connectOrCreate?: Prisma.FeedbackCreateOrConnectWithoutFileInput | Prisma.FeedbackCreateOrConnectWithoutFileInput[]
-  createMany?: Prisma.FeedbackCreateManyFileInputEnvelope
-  connect?: Prisma.FeedbackWhereUniqueInput | Prisma.FeedbackWhereUniqueInput[]
-}
-
-export type FeedbackUpdateManyWithoutFileNestedInput = {
-  create?: Prisma.XOR<Prisma.FeedbackCreateWithoutFileInput, Prisma.FeedbackUncheckedCreateWithoutFileInput> | Prisma.FeedbackCreateWithoutFileInput[] | Prisma.FeedbackUncheckedCreateWithoutFileInput[]
-  connectOrCreate?: Prisma.FeedbackCreateOrConnectWithoutFileInput | Prisma.FeedbackCreateOrConnectWithoutFileInput[]
-  upsert?: Prisma.FeedbackUpsertWithWhereUniqueWithoutFileInput | Prisma.FeedbackUpsertWithWhereUniqueWithoutFileInput[]
-  createMany?: Prisma.FeedbackCreateManyFileInputEnvelope
-  set?: Prisma.FeedbackWhereUniqueInput | Prisma.FeedbackWhereUniqueInput[]
-  disconnect?: Prisma.FeedbackWhereUniqueInput | Prisma.FeedbackWhereUniqueInput[]
-  delete?: Prisma.FeedbackWhereUniqueInput | Prisma.FeedbackWhereUniqueInput[]
-  connect?: Prisma.FeedbackWhereUniqueInput | Prisma.FeedbackWhereUniqueInput[]
-  update?: Prisma.FeedbackUpdateWithWhereUniqueWithoutFileInput | Prisma.FeedbackUpdateWithWhereUniqueWithoutFileInput[]
-  updateMany?: Prisma.FeedbackUpdateManyWithWhereWithoutFileInput | Prisma.FeedbackUpdateManyWithWhereWithoutFileInput[]
-  deleteMany?: Prisma.FeedbackScalarWhereInput | Prisma.FeedbackScalarWhereInput[]
-}
-
-export type FeedbackUncheckedUpdateManyWithoutFileNestedInput = {
-  create?: Prisma.XOR<Prisma.FeedbackCreateWithoutFileInput, Prisma.FeedbackUncheckedCreateWithoutFileInput> | Prisma.FeedbackCreateWithoutFileInput[] | Prisma.FeedbackUncheckedCreateWithoutFileInput[]
-  connectOrCreate?: Prisma.FeedbackCreateOrConnectWithoutFileInput | Prisma.FeedbackCreateOrConnectWithoutFileInput[]
-  upsert?: Prisma.FeedbackUpsertWithWhereUniqueWithoutFileInput | Prisma.FeedbackUpsertWithWhereUniqueWithoutFileInput[]
-  createMany?: Prisma.FeedbackCreateManyFileInputEnvelope
-  set?: Prisma.FeedbackWhereUniqueInput | Prisma.FeedbackWhereUniqueInput[]
-  disconnect?: Prisma.FeedbackWhereUniqueInput | Prisma.FeedbackWhereUniqueInput[]
-  delete?: Prisma.FeedbackWhereUniqueInput | Prisma.FeedbackWhereUniqueInput[]
-  connect?: Prisma.FeedbackWhereUniqueInput | Prisma.FeedbackWhereUniqueInput[]
-  update?: Prisma.FeedbackUpdateWithWhereUniqueWithoutFileInput | Prisma.FeedbackUpdateWithWhereUniqueWithoutFileInput[]
-  updateMany?: Prisma.FeedbackUpdateManyWithWhereWithoutFileInput | Prisma.FeedbackUpdateManyWithWhereWithoutFileInput[]
-  deleteMany?: Prisma.FeedbackScalarWhereInput | Prisma.FeedbackScalarWhereInput[]
-}
-
 export type EnumFeedbackStageFieldUpdateOperationsInput = {
   set?: $Enums.FeedbackStage
 }
@@ -611,6 +567,7 @@ export type EnumFeedbackRecommendationFieldUpdateOperationsInput = {
 
 export type FeedbackCreateWithoutAuthorInput = {
   id?: string
+  file?: string | null
   content: string
   stage: $Enums.FeedbackStage
   recommendation: $Enums.FeedbackRecommendation
@@ -618,14 +575,13 @@ export type FeedbackCreateWithoutAuthorInput = {
   updatedAt?: Date | string
   submission: Prisma.SubmissionCreateNestedOneWithoutFeedbacksInput
   revision: Prisma.RevisionCreateNestedOneWithoutFeedbacksInput
-  file?: Prisma.FileCreateNestedOneWithoutFeedbacksInput
 }
 
 export type FeedbackUncheckedCreateWithoutAuthorInput = {
   id?: string
   submissionId: string
   revisionId: string
-  fileId?: string | null
+  file?: string | null
   content: string
   stage: $Enums.FeedbackStage
   recommendation: $Enums.FeedbackRecommendation
@@ -667,7 +623,7 @@ export type FeedbackScalarWhereInput = {
   submissionId?: Prisma.UuidFilter<"Feedback"> | string
   revisionId?: Prisma.UuidFilter<"Feedback"> | string
   authorId?: Prisma.UuidFilter<"Feedback"> | string
-  fileId?: Prisma.UuidNullableFilter<"Feedback"> | string | null
+  file?: Prisma.StringNullableFilter<"Feedback"> | string | null
   content?: Prisma.StringFilter<"Feedback"> | string
   stage?: Prisma.EnumFeedbackStageFilter<"Feedback"> | $Enums.FeedbackStage
   recommendation?: Prisma.EnumFeedbackRecommendationFilter<"Feedback"> | $Enums.FeedbackRecommendation
@@ -677,6 +633,7 @@ export type FeedbackScalarWhereInput = {
 
 export type FeedbackCreateWithoutSubmissionInput = {
   id?: string
+  file?: string | null
   content: string
   stage: $Enums.FeedbackStage
   recommendation: $Enums.FeedbackRecommendation
@@ -684,14 +641,13 @@ export type FeedbackCreateWithoutSubmissionInput = {
   updatedAt?: Date | string
   revision: Prisma.RevisionCreateNestedOneWithoutFeedbacksInput
   author: Prisma.UserCreateNestedOneWithoutFeedbacksInput
-  file?: Prisma.FileCreateNestedOneWithoutFeedbacksInput
 }
 
 export type FeedbackUncheckedCreateWithoutSubmissionInput = {
   id?: string
   revisionId: string
   authorId: string
-  fileId?: string | null
+  file?: string | null
   content: string
   stage: $Enums.FeedbackStage
   recommendation: $Enums.FeedbackRecommendation
@@ -727,6 +683,7 @@ export type FeedbackUpdateManyWithWhereWithoutSubmissionInput = {
 
 export type FeedbackCreateWithoutRevisionInput = {
   id?: string
+  file?: string | null
   content: string
   stage: $Enums.FeedbackStage
   recommendation: $Enums.FeedbackRecommendation
@@ -734,14 +691,13 @@ export type FeedbackCreateWithoutRevisionInput = {
   updatedAt?: Date | string
   submission: Prisma.SubmissionCreateNestedOneWithoutFeedbacksInput
   author: Prisma.UserCreateNestedOneWithoutFeedbacksInput
-  file?: Prisma.FileCreateNestedOneWithoutFeedbacksInput
 }
 
 export type FeedbackUncheckedCreateWithoutRevisionInput = {
   id?: string
   submissionId: string
   authorId: string
-  fileId?: string | null
+  file?: string | null
   content: string
   stage: $Enums.FeedbackStage
   recommendation: $Enums.FeedbackRecommendation
@@ -775,61 +731,11 @@ export type FeedbackUpdateManyWithWhereWithoutRevisionInput = {
   data: Prisma.XOR<Prisma.FeedbackUpdateManyMutationInput, Prisma.FeedbackUncheckedUpdateManyWithoutRevisionInput>
 }
 
-export type FeedbackCreateWithoutFileInput = {
-  id?: string
-  content: string
-  stage: $Enums.FeedbackStage
-  recommendation: $Enums.FeedbackRecommendation
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  submission: Prisma.SubmissionCreateNestedOneWithoutFeedbacksInput
-  revision: Prisma.RevisionCreateNestedOneWithoutFeedbacksInput
-  author: Prisma.UserCreateNestedOneWithoutFeedbacksInput
-}
-
-export type FeedbackUncheckedCreateWithoutFileInput = {
-  id?: string
-  submissionId: string
-  revisionId: string
-  authorId: string
-  content: string
-  stage: $Enums.FeedbackStage
-  recommendation: $Enums.FeedbackRecommendation
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type FeedbackCreateOrConnectWithoutFileInput = {
-  where: Prisma.FeedbackWhereUniqueInput
-  create: Prisma.XOR<Prisma.FeedbackCreateWithoutFileInput, Prisma.FeedbackUncheckedCreateWithoutFileInput>
-}
-
-export type FeedbackCreateManyFileInputEnvelope = {
-  data: Prisma.FeedbackCreateManyFileInput | Prisma.FeedbackCreateManyFileInput[]
-  skipDuplicates?: boolean
-}
-
-export type FeedbackUpsertWithWhereUniqueWithoutFileInput = {
-  where: Prisma.FeedbackWhereUniqueInput
-  update: Prisma.XOR<Prisma.FeedbackUpdateWithoutFileInput, Prisma.FeedbackUncheckedUpdateWithoutFileInput>
-  create: Prisma.XOR<Prisma.FeedbackCreateWithoutFileInput, Prisma.FeedbackUncheckedCreateWithoutFileInput>
-}
-
-export type FeedbackUpdateWithWhereUniqueWithoutFileInput = {
-  where: Prisma.FeedbackWhereUniqueInput
-  data: Prisma.XOR<Prisma.FeedbackUpdateWithoutFileInput, Prisma.FeedbackUncheckedUpdateWithoutFileInput>
-}
-
-export type FeedbackUpdateManyWithWhereWithoutFileInput = {
-  where: Prisma.FeedbackScalarWhereInput
-  data: Prisma.XOR<Prisma.FeedbackUpdateManyMutationInput, Prisma.FeedbackUncheckedUpdateManyWithoutFileInput>
-}
-
 export type FeedbackCreateManyAuthorInput = {
   id?: string
   submissionId: string
   revisionId: string
-  fileId?: string | null
+  file?: string | null
   content: string
   stage: $Enums.FeedbackStage
   recommendation: $Enums.FeedbackRecommendation
@@ -839,6 +745,7 @@ export type FeedbackCreateManyAuthorInput = {
 
 export type FeedbackUpdateWithoutAuthorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   stage?: Prisma.EnumFeedbackStageFieldUpdateOperationsInput | $Enums.FeedbackStage
   recommendation?: Prisma.EnumFeedbackRecommendationFieldUpdateOperationsInput | $Enums.FeedbackRecommendation
@@ -846,14 +753,13 @@ export type FeedbackUpdateWithoutAuthorInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submission?: Prisma.SubmissionUpdateOneRequiredWithoutFeedbacksNestedInput
   revision?: Prisma.RevisionUpdateOneRequiredWithoutFeedbacksNestedInput
-  file?: Prisma.FileUpdateOneWithoutFeedbacksNestedInput
 }
 
 export type FeedbackUncheckedUpdateWithoutAuthorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   submissionId?: Prisma.StringFieldUpdateOperationsInput | string
   revisionId?: Prisma.StringFieldUpdateOperationsInput | string
-  fileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   stage?: Prisma.EnumFeedbackStageFieldUpdateOperationsInput | $Enums.FeedbackStage
   recommendation?: Prisma.EnumFeedbackRecommendationFieldUpdateOperationsInput | $Enums.FeedbackRecommendation
@@ -865,7 +771,7 @@ export type FeedbackUncheckedUpdateManyWithoutAuthorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   submissionId?: Prisma.StringFieldUpdateOperationsInput | string
   revisionId?: Prisma.StringFieldUpdateOperationsInput | string
-  fileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   stage?: Prisma.EnumFeedbackStageFieldUpdateOperationsInput | $Enums.FeedbackStage
   recommendation?: Prisma.EnumFeedbackRecommendationFieldUpdateOperationsInput | $Enums.FeedbackRecommendation
@@ -877,7 +783,7 @@ export type FeedbackCreateManySubmissionInput = {
   id?: string
   revisionId: string
   authorId: string
-  fileId?: string | null
+  file?: string | null
   content: string
   stage: $Enums.FeedbackStage
   recommendation: $Enums.FeedbackRecommendation
@@ -887,6 +793,7 @@ export type FeedbackCreateManySubmissionInput = {
 
 export type FeedbackUpdateWithoutSubmissionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   stage?: Prisma.EnumFeedbackStageFieldUpdateOperationsInput | $Enums.FeedbackStage
   recommendation?: Prisma.EnumFeedbackRecommendationFieldUpdateOperationsInput | $Enums.FeedbackRecommendation
@@ -894,14 +801,13 @@ export type FeedbackUpdateWithoutSubmissionInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   revision?: Prisma.RevisionUpdateOneRequiredWithoutFeedbacksNestedInput
   author?: Prisma.UserUpdateOneRequiredWithoutFeedbacksNestedInput
-  file?: Prisma.FileUpdateOneWithoutFeedbacksNestedInput
 }
 
 export type FeedbackUncheckedUpdateWithoutSubmissionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   revisionId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
-  fileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   stage?: Prisma.EnumFeedbackStageFieldUpdateOperationsInput | $Enums.FeedbackStage
   recommendation?: Prisma.EnumFeedbackRecommendationFieldUpdateOperationsInput | $Enums.FeedbackRecommendation
@@ -913,7 +819,7 @@ export type FeedbackUncheckedUpdateManyWithoutSubmissionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   revisionId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
-  fileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   stage?: Prisma.EnumFeedbackStageFieldUpdateOperationsInput | $Enums.FeedbackStage
   recommendation?: Prisma.EnumFeedbackRecommendationFieldUpdateOperationsInput | $Enums.FeedbackRecommendation
@@ -925,7 +831,7 @@ export type FeedbackCreateManyRevisionInput = {
   id?: string
   submissionId: string
   authorId: string
-  fileId?: string | null
+  file?: string | null
   content: string
   stage: $Enums.FeedbackStage
   recommendation: $Enums.FeedbackRecommendation
@@ -935,6 +841,7 @@ export type FeedbackCreateManyRevisionInput = {
 
 export type FeedbackUpdateWithoutRevisionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   stage?: Prisma.EnumFeedbackStageFieldUpdateOperationsInput | $Enums.FeedbackStage
   recommendation?: Prisma.EnumFeedbackRecommendationFieldUpdateOperationsInput | $Enums.FeedbackRecommendation
@@ -942,14 +849,13 @@ export type FeedbackUpdateWithoutRevisionInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submission?: Prisma.SubmissionUpdateOneRequiredWithoutFeedbacksNestedInput
   author?: Prisma.UserUpdateOneRequiredWithoutFeedbacksNestedInput
-  file?: Prisma.FileUpdateOneWithoutFeedbacksNestedInput
 }
 
 export type FeedbackUncheckedUpdateWithoutRevisionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   submissionId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
-  fileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   stage?: Prisma.EnumFeedbackStageFieldUpdateOperationsInput | $Enums.FeedbackStage
   recommendation?: Prisma.EnumFeedbackRecommendationFieldUpdateOperationsInput | $Enums.FeedbackRecommendation
@@ -961,55 +867,7 @@ export type FeedbackUncheckedUpdateManyWithoutRevisionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   submissionId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
-  fileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  content?: Prisma.StringFieldUpdateOperationsInput | string
-  stage?: Prisma.EnumFeedbackStageFieldUpdateOperationsInput | $Enums.FeedbackStage
-  recommendation?: Prisma.EnumFeedbackRecommendationFieldUpdateOperationsInput | $Enums.FeedbackRecommendation
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type FeedbackCreateManyFileInput = {
-  id?: string
-  submissionId: string
-  revisionId: string
-  authorId: string
-  content: string
-  stage: $Enums.FeedbackStage
-  recommendation: $Enums.FeedbackRecommendation
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type FeedbackUpdateWithoutFileInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.StringFieldUpdateOperationsInput | string
-  stage?: Prisma.EnumFeedbackStageFieldUpdateOperationsInput | $Enums.FeedbackStage
-  recommendation?: Prisma.EnumFeedbackRecommendationFieldUpdateOperationsInput | $Enums.FeedbackRecommendation
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submission?: Prisma.SubmissionUpdateOneRequiredWithoutFeedbacksNestedInput
-  revision?: Prisma.RevisionUpdateOneRequiredWithoutFeedbacksNestedInput
-  author?: Prisma.UserUpdateOneRequiredWithoutFeedbacksNestedInput
-}
-
-export type FeedbackUncheckedUpdateWithoutFileInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  submissionId?: Prisma.StringFieldUpdateOperationsInput | string
-  revisionId?: Prisma.StringFieldUpdateOperationsInput | string
-  authorId?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.StringFieldUpdateOperationsInput | string
-  stage?: Prisma.EnumFeedbackStageFieldUpdateOperationsInput | $Enums.FeedbackStage
-  recommendation?: Prisma.EnumFeedbackRecommendationFieldUpdateOperationsInput | $Enums.FeedbackRecommendation
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type FeedbackUncheckedUpdateManyWithoutFileInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  submissionId?: Prisma.StringFieldUpdateOperationsInput | string
-  revisionId?: Prisma.StringFieldUpdateOperationsInput | string
-  authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   stage?: Prisma.EnumFeedbackStageFieldUpdateOperationsInput | $Enums.FeedbackStage
   recommendation?: Prisma.EnumFeedbackRecommendationFieldUpdateOperationsInput | $Enums.FeedbackRecommendation
@@ -1024,7 +882,7 @@ export type FeedbackSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   submissionId?: boolean
   revisionId?: boolean
   authorId?: boolean
-  fileId?: boolean
+  file?: boolean
   content?: boolean
   stage?: boolean
   recommendation?: boolean
@@ -1033,7 +891,6 @@ export type FeedbackSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   submission?: boolean | Prisma.SubmissionDefaultArgs<ExtArgs>
   revision?: boolean | Prisma.RevisionDefaultArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  file?: boolean | Prisma.Feedback$fileArgs<ExtArgs>
 }, ExtArgs["result"]["feedback"]>
 
 export type FeedbackSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1041,7 +898,7 @@ export type FeedbackSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   submissionId?: boolean
   revisionId?: boolean
   authorId?: boolean
-  fileId?: boolean
+  file?: boolean
   content?: boolean
   stage?: boolean
   recommendation?: boolean
@@ -1050,7 +907,6 @@ export type FeedbackSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   submission?: boolean | Prisma.SubmissionDefaultArgs<ExtArgs>
   revision?: boolean | Prisma.RevisionDefaultArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  file?: boolean | Prisma.Feedback$fileArgs<ExtArgs>
 }, ExtArgs["result"]["feedback"]>
 
 export type FeedbackSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1058,7 +914,7 @@ export type FeedbackSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   submissionId?: boolean
   revisionId?: boolean
   authorId?: boolean
-  fileId?: boolean
+  file?: boolean
   content?: boolean
   stage?: boolean
   recommendation?: boolean
@@ -1067,7 +923,6 @@ export type FeedbackSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   submission?: boolean | Prisma.SubmissionDefaultArgs<ExtArgs>
   revision?: boolean | Prisma.RevisionDefaultArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  file?: boolean | Prisma.Feedback$fileArgs<ExtArgs>
 }, ExtArgs["result"]["feedback"]>
 
 export type FeedbackSelectScalar = {
@@ -1075,7 +930,7 @@ export type FeedbackSelectScalar = {
   submissionId?: boolean
   revisionId?: boolean
   authorId?: boolean
-  fileId?: boolean
+  file?: boolean
   content?: boolean
   stage?: boolean
   recommendation?: boolean
@@ -1083,24 +938,21 @@ export type FeedbackSelectScalar = {
   updatedAt?: boolean
 }
 
-export type FeedbackOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "submissionId" | "revisionId" | "authorId" | "fileId" | "content" | "stage" | "recommendation" | "createdAt" | "updatedAt", ExtArgs["result"]["feedback"]>
+export type FeedbackOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "submissionId" | "revisionId" | "authorId" | "file" | "content" | "stage" | "recommendation" | "createdAt" | "updatedAt", ExtArgs["result"]["feedback"]>
 export type FeedbackInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   submission?: boolean | Prisma.SubmissionDefaultArgs<ExtArgs>
   revision?: boolean | Prisma.RevisionDefaultArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  file?: boolean | Prisma.Feedback$fileArgs<ExtArgs>
 }
 export type FeedbackIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   submission?: boolean | Prisma.SubmissionDefaultArgs<ExtArgs>
   revision?: boolean | Prisma.RevisionDefaultArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  file?: boolean | Prisma.Feedback$fileArgs<ExtArgs>
 }
 export type FeedbackIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   submission?: boolean | Prisma.SubmissionDefaultArgs<ExtArgs>
   revision?: boolean | Prisma.RevisionDefaultArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  file?: boolean | Prisma.Feedback$fileArgs<ExtArgs>
 }
 
 export type $FeedbackPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1109,14 +961,13 @@ export type $FeedbackPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     submission: Prisma.$SubmissionPayload<ExtArgs>
     revision: Prisma.$RevisionPayload<ExtArgs>
     author: Prisma.$UserPayload<ExtArgs>
-    file: Prisma.$FilePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     submissionId: string
     revisionId: string
     authorId: string
-    fileId: string | null
+    file: string | null
     content: string
     stage: $Enums.FeedbackStage
     recommendation: $Enums.FeedbackRecommendation
@@ -1519,7 +1370,6 @@ export interface Prisma__FeedbackClient<T, Null = never, ExtArgs extends runtime
   submission<T extends Prisma.SubmissionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SubmissionDefaultArgs<ExtArgs>>): Prisma.Prisma__SubmissionClient<runtime.Types.Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   revision<T extends Prisma.RevisionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RevisionDefaultArgs<ExtArgs>>): Prisma.Prisma__RevisionClient<runtime.Types.Result.GetResult<Prisma.$RevisionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   author<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  file<T extends Prisma.Feedback$fileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Feedback$fileArgs<ExtArgs>>): Prisma.Prisma__FileClient<runtime.Types.Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1553,7 +1403,7 @@ export interface FeedbackFieldRefs {
   readonly submissionId: Prisma.FieldRef<"Feedback", 'String'>
   readonly revisionId: Prisma.FieldRef<"Feedback", 'String'>
   readonly authorId: Prisma.FieldRef<"Feedback", 'String'>
-  readonly fileId: Prisma.FieldRef<"Feedback", 'String'>
+  readonly file: Prisma.FieldRef<"Feedback", 'String'>
   readonly content: Prisma.FieldRef<"Feedback", 'String'>
   readonly stage: Prisma.FieldRef<"Feedback", 'FeedbackStage'>
   readonly recommendation: Prisma.FieldRef<"Feedback", 'FeedbackRecommendation'>
@@ -1957,25 +1807,6 @@ export type FeedbackDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many Feedbacks to delete.
    */
   limit?: number
-}
-
-/**
- * Feedback.file
- */
-export type Feedback$fileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the File
-   */
-  select?: Prisma.FileSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the File
-   */
-  omit?: Prisma.FileOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.FileInclude<ExtArgs> | null
-  where?: Prisma.FileWhereInput
 }
 
 /**

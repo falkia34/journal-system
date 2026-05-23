@@ -14,32 +14,24 @@ export interface FeedbackRepository {
     sortOptions?: FeedbackSortOptions,
     paginationOptions?: PaginationOptions,
     abortSignal?: AbortSignal,
-    token?: string,
   ): Promise<Either<[Feedback[], PaginationOptions], Error>>;
 
   getFeedback(
     id: string,
     includeOptions?: FeedbackIncludeOptions,
     abortSignal?: AbortSignal,
-    token?: string,
   ): Promise<Either<Feedback, Error>>;
 
   createFeedback(
     feedback: Omit<Feedback, 'id' | 'createdAt' | 'updatedAt'>,
     abortSignal?: AbortSignal,
-    token?: string,
   ): Promise<Either<Feedback, Error>>;
 
   updateFeedback(
     id: string,
     feedback: Partial<Omit<Feedback, 'id' | 'createdAt' | 'updatedAt'>>,
     abortSignal?: AbortSignal,
-    token?: string,
   ): Promise<Either<Feedback, Error>>;
 
-  deleteFeedback(
-    id: string,
-    abortSignal?: AbortSignal,
-    token?: string,
-  ): Promise<Either<Feedback, Error>>;
+  deleteFeedback(id: string, abortSignal?: AbortSignal): Promise<Either<Feedback, Error>>;
 }

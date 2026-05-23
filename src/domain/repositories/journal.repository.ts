@@ -14,32 +14,24 @@ export interface JournalRepository {
     sortOptions?: JournalSortOptions,
     paginationOptions?: PaginationOptions,
     abortSignal?: AbortSignal,
-    token?: string,
   ): Promise<Either<[Journal[], PaginationOptions], Error>>;
 
   getJournal(
     id: string,
     includeOptions?: JournalIncludeOptions,
     abortSignal?: AbortSignal,
-    token?: string,
   ): Promise<Either<Journal, Error>>;
 
   createJournal(
     journal: Omit<Journal, 'id' | 'createdAt' | 'updatedAt'>,
     abortSignal?: AbortSignal,
-    token?: string,
   ): Promise<Either<Journal, Error>>;
 
   updateJournal(
     id: string,
     journal: Partial<Omit<Journal, 'id' | 'createdAt' | 'updatedAt'>>,
     abortSignal?: AbortSignal,
-    token?: string,
   ): Promise<Either<Journal, Error>>;
 
-  deleteJournal(
-    id: string,
-    abortSignal?: AbortSignal,
-    token?: string,
-  ): Promise<Either<Journal, Error>>;
+  deleteJournal(id: string, abortSignal?: AbortSignal): Promise<Either<Journal, Error>>;
 }

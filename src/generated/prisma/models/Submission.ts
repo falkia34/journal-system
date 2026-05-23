@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums"
-import type * as Prisma from "../internal/prismaNamespace"
+import type * as $Enums from "../enums.js"
+import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model Submission
@@ -52,6 +52,7 @@ export type SubmissionCountAggregateOutputType = {
   authorId: number
   title: number
   abstract: number
+  authors: number
   status: number
   createdAt: number
   updatedAt: number
@@ -87,6 +88,7 @@ export type SubmissionCountAggregateInputType = {
   authorId?: true
   title?: true
   abstract?: true
+  authors?: true
   status?: true
   createdAt?: true
   updatedAt?: true
@@ -171,6 +173,7 @@ export type SubmissionGroupByOutputType = {
   authorId: string
   title: string
   abstract: string
+  authors: runtime.JsonValue
   status: $Enums.SubmissionStatus
   createdAt: Date
   updatedAt: Date
@@ -203,6 +206,7 @@ export type SubmissionWhereInput = {
   authorId?: Prisma.UuidFilter<"Submission"> | string
   title?: Prisma.StringFilter<"Submission"> | string
   abstract?: Prisma.StringFilter<"Submission"> | string
+  authors?: Prisma.JsonFilter<"Submission">
   status?: Prisma.EnumSubmissionStatusFilter<"Submission"> | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
@@ -221,6 +225,7 @@ export type SubmissionOrderByWithRelationInput = {
   authorId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   abstract?: Prisma.SortOrder
+  authors?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -242,6 +247,7 @@ export type SubmissionWhereUniqueInput = Prisma.AtLeast<{
   authorId?: Prisma.UuidFilter<"Submission"> | string
   title?: Prisma.StringFilter<"Submission"> | string
   abstract?: Prisma.StringFilter<"Submission"> | string
+  authors?: Prisma.JsonFilter<"Submission">
   status?: Prisma.EnumSubmissionStatusFilter<"Submission"> | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
@@ -260,6 +266,7 @@ export type SubmissionOrderByWithAggregationInput = {
   authorId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   abstract?: Prisma.SortOrder
+  authors?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -277,6 +284,7 @@ export type SubmissionScalarWhereWithAggregatesInput = {
   authorId?: Prisma.UuidWithAggregatesFilter<"Submission"> | string
   title?: Prisma.StringWithAggregatesFilter<"Submission"> | string
   abstract?: Prisma.StringWithAggregatesFilter<"Submission"> | string
+  authors?: Prisma.JsonWithAggregatesFilter<"Submission">
   status?: Prisma.EnumSubmissionStatusWithAggregatesFilter<"Submission"> | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Submission"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Submission"> | Date | string
@@ -286,6 +294,7 @@ export type SubmissionCreateInput = {
   id?: string
   title: string
   abstract: string
+  authors: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.SubmissionStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -304,6 +313,7 @@ export type SubmissionUncheckedCreateInput = {
   authorId: string
   title: string
   abstract: string
+  authors: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.SubmissionStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -318,6 +328,7 @@ export type SubmissionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   abstract?: Prisma.StringFieldUpdateOperationsInput | string
+  authors?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -336,6 +347,7 @@ export type SubmissionUncheckedUpdateInput = {
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   abstract?: Prisma.StringFieldUpdateOperationsInput | string
+  authors?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -352,6 +364,7 @@ export type SubmissionCreateManyInput = {
   authorId: string
   title: string
   abstract: string
+  authors: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.SubmissionStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -361,6 +374,7 @@ export type SubmissionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   abstract?: Prisma.StringFieldUpdateOperationsInput | string
+  authors?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -372,6 +386,7 @@ export type SubmissionUncheckedUpdateManyInput = {
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   abstract?: Prisma.StringFieldUpdateOperationsInput | string
+  authors?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -393,6 +408,7 @@ export type SubmissionCountOrderByAggregateInput = {
   authorId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   abstract?: Prisma.SortOrder
+  authors?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -587,6 +603,7 @@ export type SubmissionCreateWithoutAuthorInput = {
   id?: string
   title: string
   abstract: string
+  authors: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.SubmissionStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -603,6 +620,7 @@ export type SubmissionUncheckedCreateWithoutAuthorInput = {
   journalId: string
   title: string
   abstract: string
+  authors: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.SubmissionStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -648,6 +666,7 @@ export type SubmissionScalarWhereInput = {
   authorId?: Prisma.UuidFilter<"Submission"> | string
   title?: Prisma.StringFilter<"Submission"> | string
   abstract?: Prisma.StringFilter<"Submission"> | string
+  authors?: Prisma.JsonFilter<"Submission">
   status?: Prisma.EnumSubmissionStatusFilter<"Submission"> | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
@@ -657,6 +676,7 @@ export type SubmissionCreateWithoutJournalInput = {
   id?: string
   title: string
   abstract: string
+  authors: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.SubmissionStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -673,6 +693,7 @@ export type SubmissionUncheckedCreateWithoutJournalInput = {
   authorId: string
   title: string
   abstract: string
+  authors: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.SubmissionStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -713,6 +734,7 @@ export type SubmissionCreateWithoutRevisionsInput = {
   id?: string
   title: string
   abstract: string
+  authors: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.SubmissionStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -730,6 +752,7 @@ export type SubmissionUncheckedCreateWithoutRevisionsInput = {
   authorId: string
   title: string
   abstract: string
+  authors: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.SubmissionStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -759,6 +782,7 @@ export type SubmissionUpdateWithoutRevisionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   abstract?: Prisma.StringFieldUpdateOperationsInput | string
+  authors?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -776,6 +800,7 @@ export type SubmissionUncheckedUpdateWithoutRevisionsInput = {
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   abstract?: Prisma.StringFieldUpdateOperationsInput | string
+  authors?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -789,6 +814,7 @@ export type SubmissionCreateWithoutDecisionsInput = {
   id?: string
   title: string
   abstract: string
+  authors: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.SubmissionStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -806,6 +832,7 @@ export type SubmissionUncheckedCreateWithoutDecisionsInput = {
   authorId: string
   title: string
   abstract: string
+  authors: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.SubmissionStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -835,6 +862,7 @@ export type SubmissionUpdateWithoutDecisionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   abstract?: Prisma.StringFieldUpdateOperationsInput | string
+  authors?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -852,6 +880,7 @@ export type SubmissionUncheckedUpdateWithoutDecisionsInput = {
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   abstract?: Prisma.StringFieldUpdateOperationsInput | string
+  authors?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -865,6 +894,7 @@ export type SubmissionCreateWithoutFeedbacksInput = {
   id?: string
   title: string
   abstract: string
+  authors: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.SubmissionStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -882,6 +912,7 @@ export type SubmissionUncheckedCreateWithoutFeedbacksInput = {
   authorId: string
   title: string
   abstract: string
+  authors: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.SubmissionStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -911,6 +942,7 @@ export type SubmissionUpdateWithoutFeedbacksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   abstract?: Prisma.StringFieldUpdateOperationsInput | string
+  authors?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -928,6 +960,7 @@ export type SubmissionUncheckedUpdateWithoutFeedbacksInput = {
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   abstract?: Prisma.StringFieldUpdateOperationsInput | string
+  authors?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -941,6 +974,7 @@ export type SubmissionCreateWithoutPublicationInput = {
   id?: string
   title: string
   abstract: string
+  authors: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.SubmissionStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -958,6 +992,7 @@ export type SubmissionUncheckedCreateWithoutPublicationInput = {
   authorId: string
   title: string
   abstract: string
+  authors: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.SubmissionStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -987,6 +1022,7 @@ export type SubmissionUpdateWithoutPublicationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   abstract?: Prisma.StringFieldUpdateOperationsInput | string
+  authors?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1004,6 +1040,7 @@ export type SubmissionUncheckedUpdateWithoutPublicationInput = {
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   abstract?: Prisma.StringFieldUpdateOperationsInput | string
+  authors?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1017,6 +1054,7 @@ export type SubmissionCreateWithoutParticipantsInput = {
   id?: string
   title: string
   abstract: string
+  authors: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.SubmissionStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1034,6 +1072,7 @@ export type SubmissionUncheckedCreateWithoutParticipantsInput = {
   authorId: string
   title: string
   abstract: string
+  authors: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.SubmissionStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1063,6 +1102,7 @@ export type SubmissionUpdateWithoutParticipantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   abstract?: Prisma.StringFieldUpdateOperationsInput | string
+  authors?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1080,6 +1120,7 @@ export type SubmissionUncheckedUpdateWithoutParticipantsInput = {
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   abstract?: Prisma.StringFieldUpdateOperationsInput | string
+  authors?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1094,6 +1135,7 @@ export type SubmissionCreateManyAuthorInput = {
   journalId: string
   title: string
   abstract: string
+  authors: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.SubmissionStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1103,6 +1145,7 @@ export type SubmissionUpdateWithoutAuthorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   abstract?: Prisma.StringFieldUpdateOperationsInput | string
+  authors?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1119,6 +1162,7 @@ export type SubmissionUncheckedUpdateWithoutAuthorInput = {
   journalId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   abstract?: Prisma.StringFieldUpdateOperationsInput | string
+  authors?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1134,6 +1178,7 @@ export type SubmissionUncheckedUpdateManyWithoutAuthorInput = {
   journalId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   abstract?: Prisma.StringFieldUpdateOperationsInput | string
+  authors?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1144,6 +1189,7 @@ export type SubmissionCreateManyJournalInput = {
   authorId: string
   title: string
   abstract: string
+  authors: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.SubmissionStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1153,6 +1199,7 @@ export type SubmissionUpdateWithoutJournalInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   abstract?: Prisma.StringFieldUpdateOperationsInput | string
+  authors?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1169,6 +1216,7 @@ export type SubmissionUncheckedUpdateWithoutJournalInput = {
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   abstract?: Prisma.StringFieldUpdateOperationsInput | string
+  authors?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1184,6 +1232,7 @@ export type SubmissionUncheckedUpdateManyWithoutJournalInput = {
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   abstract?: Prisma.StringFieldUpdateOperationsInput | string
+  authors?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1253,6 +1302,7 @@ export type SubmissionSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   authorId?: boolean
   title?: boolean
   abstract?: boolean
+  authors?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1272,6 +1322,7 @@ export type SubmissionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   authorId?: boolean
   title?: boolean
   abstract?: boolean
+  authors?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1285,6 +1336,7 @@ export type SubmissionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   authorId?: boolean
   title?: boolean
   abstract?: boolean
+  authors?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1298,12 +1350,13 @@ export type SubmissionSelectScalar = {
   authorId?: boolean
   title?: boolean
   abstract?: boolean
+  authors?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type SubmissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "journalId" | "authorId" | "title" | "abstract" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["submission"]>
+export type SubmissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "journalId" | "authorId" | "title" | "abstract" | "authors" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["submission"]>
 export type SubmissionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   journal?: boolean | Prisma.JournalDefaultArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1340,6 +1393,7 @@ export type $SubmissionPayload<ExtArgs extends runtime.Types.Extensions.Internal
     authorId: string
     title: string
     abstract: string
+    authors: runtime.JsonValue
     status: $Enums.SubmissionStatus
     createdAt: Date
     updatedAt: Date
@@ -1778,6 +1832,7 @@ export interface SubmissionFieldRefs {
   readonly authorId: Prisma.FieldRef<"Submission", 'String'>
   readonly title: Prisma.FieldRef<"Submission", 'String'>
   readonly abstract: Prisma.FieldRef<"Submission", 'String'>
+  readonly authors: Prisma.FieldRef<"Submission", 'Json'>
   readonly status: Prisma.FieldRef<"Submission", 'SubmissionStatus'>
   readonly createdAt: Prisma.FieldRef<"Submission", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Submission", 'DateTime'>

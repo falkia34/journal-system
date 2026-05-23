@@ -60,4 +60,30 @@ export class JournalMapper {
       dto.editor_in_chief ? UserMapper.fromDtoToDomain(dto.editor_in_chief) : undefined,
     );
   }
+
+  public static fromDomainToFormData(journal: Partial<Journal>): FormData {
+    const formData = new FormData();
+    if (journal.id) formData.append('id', journal.id);
+    if (journal.name) formData.append('name', journal.name);
+    if (journal.description) formData.append('description', journal.description);
+    if (journal.editorInChiefId) formData.append('editorInChiefId', journal.editorInChiefId);
+    if (journal.createdAt) formData.append('createdAt', journal.createdAt.toISOString());
+    if (journal.updatedAt) formData.append('updatedAt', journal.updatedAt.toISOString());
+    return formData;
+  }
+
+  public static fromFormDataToDomain(formData: FormData): Journal {
+    return new Journal(
+      formData.get('id') as string,
+      formData.get('name') as string,
+      formData.get('description') as string,
+      formData.get('editorInChiefId') as string,
+      formData.get('createdAt')
+        ? DateTime.fromISO(formData.get('createdAt') as string).toJSDate()
+        : new Date(),
+      formData.get('updatedAt')
+        ? DateTime.fromISO(formData.get('updatedAt') as string).toJSDate()
+        : new Date(),
+    );
+  }
 }

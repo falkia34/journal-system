@@ -90,4 +90,37 @@ export class DecisionMapper {
       dto.decider ? UserMapper.fromDtoToDomain(dto.decider) : undefined,
     );
   }
+
+  public static fromDomainToFormData(decision: Partial<Decision>): FormData {
+    const formData = new FormData();
+    if (decision.id) formData.append('id', decision.id);
+    if (decision.submissionId) formData.append('submissionId', decision.submissionId);
+    if (decision.revisionId) formData.append('revisionId', decision.revisionId);
+    if (decision.deciderId) formData.append('deciderId', decision.deciderId);
+    if (decision.startStage) formData.append('startStage', decision.startStage);
+    if (decision.decidedStage) formData.append('decidedStage', decision.decidedStage);
+    if (decision.comment !== undefined) formData.append('comment', decision.comment ?? '');
+    if (decision.createdAt) formData.append('createdAt', decision.createdAt.toISOString());
+    if (decision.updatedAt) formData.append('updatedAt', decision.updatedAt.toISOString());
+    return formData;
+  }
+
+  public static fromFormDataToDomain(formData: FormData): Decision {
+    const commentValue = formData.get('comment') as string;
+    return new Decision(
+      formData.get('id') as string,
+      formData.get('submissionId') as string,
+      formData.get('revisionId') as string,
+      formData.get('deciderId') as string,
+      formData.get('startStage') as Decision['startStage'],
+      formData.get('decidedStage') as Decision['decidedStage'],
+      commentValue || null,
+      formData.get('createdAt')
+        ? DateTime.fromISO(formData.get('createdAt') as string).toJSDate()
+        : new Date(),
+      formData.get('updatedAt')
+        ? DateTime.fromISO(formData.get('updatedAt') as string).toJSDate()
+        : new Date(),
+    );
+  }
 }

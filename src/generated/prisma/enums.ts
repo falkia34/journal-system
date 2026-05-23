@@ -10,62 +10,62 @@
 */
 
 export const Role = {
-  Author: 'Author',
-  Reviewer: 'Reviewer',
-  Editor: 'Editor',
-  Administrator: 'Administrator'
+  AUTHOR: 'AUTHOR',
+  REVIEWER: 'REVIEWER',
+  EDITOR: 'EDITOR',
+  ADMINISTRATOR: 'ADMINISTRATOR'
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
 
 
 export const SubmissionStatus = {
-  Draft: 'Draft',
-  Submitted: 'Submitted',
-  Review: 'Review',
-  Edit: 'Edit',
-  CopyEdit: 'CopyEdit',
-  LayoutEdit: 'LayoutEdit',
-  FinalReview: 'FinalReview',
-  Published: 'Published',
-  Rejected: 'Rejected',
-  Withdrawn: 'Withdrawn'
+  DRAFT: 'DRAFT',
+  SUBMITTED: 'SUBMITTED',
+  REVIEW: 'REVIEW',
+  EDIT: 'EDIT',
+  COPY_EDIT: 'COPY_EDIT',
+  LAYOUT_EDIT: 'LAYOUT_EDIT',
+  FINAL_REVIEW: 'FINAL_REVIEW',
+  PUBLISHED: 'PUBLISHED',
+  REJECTED: 'REJECTED',
+  WITHDRAWN: 'WITHDRAWN'
 } as const
 
 export type SubmissionStatus = (typeof SubmissionStatus)[keyof typeof SubmissionStatus]
 
 
 export const RevisionStage = {
-  Draft: 'Draft',
-  Submitted: 'Submitted',
-  Review: 'Review',
-  Edit: 'Edit',
-  CopyEdit: 'CopyEdit',
-  LayoutEdit: 'LayoutEdit',
-  FinalReview: 'FinalReview',
-  Published: 'Published',
-  Rejected: 'Rejected',
-  Withdrawn: 'Withdrawn'
+  DRAFT: 'DRAFT',
+  SUBMITTED: 'SUBMITTED',
+  REVIEW: 'REVIEW',
+  EDIT: 'EDIT',
+  COPY_EDIT: 'COPY_EDIT',
+  LAYOUT_EDIT: 'LAYOUT_EDIT',
+  FINAL_REVIEW: 'FINAL_REVIEW',
+  PUBLISHED: 'PUBLISHED',
+  REJECTED: 'REJECTED',
+  WITHDRAWN: 'WITHDRAWN'
 } as const
 
 export type RevisionStage = (typeof RevisionStage)[keyof typeof RevisionStage]
 
 
 export const FeedbackRecommendation = {
-  Continue: 'Continue',
-  Reject: 'Reject',
-  Revise: 'Revise'
+  CONTINUE: 'CONTINUE',
+  REJECT: 'REJECT',
+  REVISE: 'REVISE'
 } as const
 
 export type FeedbackRecommendation = (typeof FeedbackRecommendation)[keyof typeof FeedbackRecommendation]
 
 
 export const FeedbackStage = {
-  Review: 'Review',
-  Edit: 'Edit',
-  CopyEdit: 'CopyEdit',
-  LayoutEdit: 'LayoutEdit',
-  FinalReview: 'FinalReview'
+  REVIEW: 'REVIEW',
+  EDIT: 'EDIT',
+  COPY_EDIT: 'COPY_EDIT',
+  LAYOUT_EDIT: 'LAYOUT_EDIT',
+  FINAL_REVIEW: 'FINAL_REVIEW'
 } as const
 
 export type FeedbackStage = (typeof FeedbackStage)[keyof typeof FeedbackStage]

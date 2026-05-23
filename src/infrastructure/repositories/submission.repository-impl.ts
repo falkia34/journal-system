@@ -34,7 +34,7 @@ export class SubmissionRepositoryImpl implements SubmissionRepository {
         ...(cursor ? { cursor, skip: 1 } : {}),
         orderBy: buildSubmissionOrderBy(sortOptions),
         where: buildSubmissionWhere(filterOptions),
-        include: buildSubmissionInclude(includeOptions),
+        include: buildSubmissionInclude(includeOptions, filterOptions?.participantUserId),
       });
 
       const hasNextPage = submissions.length > take;
@@ -87,6 +87,7 @@ export class SubmissionRepositoryImpl implements SubmissionRepository {
           journalId: submission.journalId,
           title: submission.title,
           abstract: submission.abstract,
+          authors: submission.authors,
           status: submission.status,
         },
         include: buildSubmissionInclude(),
@@ -110,6 +111,7 @@ export class SubmissionRepositoryImpl implements SubmissionRepository {
           journalId: submission.journalId,
           title: submission.title,
           abstract: submission.abstract,
+          authors: submission.authors,
           status: submission.status,
         },
         include: buildSubmissionInclude(),
@@ -140,6 +142,18 @@ const buildSubmissionWhere = (filterOptions?: SubmissionFilterOptions) => {
     ...(filterOptions?.journalId ? { journalId: filterOptions.journalId } : {}),
     ...(filterOptions?.authorId ? { authorId: filterOptions.authorId } : {}),
     ...(filterOptions?.status ? { status: filterOptions.status } : {}),
+    ...(filterOptions?.participantUserId
+      ? {
+          participants: {
+            some: {
+              userId: filterOptions.participantUserId,
+              ...(filterOptions?.participantStages && filterOptions.participantStages.length > 0
+                ? { stage: { in: filterOptions.participantStages } }
+                : {}),
+            },
+          },
+        }
+      : {}),
   };
 };
 
@@ -151,21 +165,24 @@ const buildSubmissionOrderBy = (sortOptions?: SubmissionSortOptions) => {
   const orderBy: Array<Record<string, 'asc' | 'desc'>> = [];
 
   if (sortOptions.createdAt) {
-    orderBy.push({ createdAt: sortOptions.createdAt });
+    orderBy.push({ createdAt: sortOptions.createdAt.toLowerCase() as 'asc' | 'desc' });
   }
 
   if (sortOptions.updatedAt) {
-    orderBy.push({ updatedAt: sortOptions.updatedAt });
+    orderBy.push({ updatedAt: sortOptions.updatedAt.toLowerCase() as 'asc' | 'desc' });
   }
 
   if (sortOptions.title) {
-    orderBy.push({ title: sortOptions.title });
+    orderBy.push({ title: sortOptions.title.toLowerCase() as 'asc' | 'desc' });
   }
 
   return orderBy.length > 0 ? orderBy : { createdAt: 'desc' as const };
 };
 
-const buildSubmissionInclude = (includeOptions?: SubmissionIncludeOptions) => {
+const buildSubmissionInclude = (
+  includeOptions?: SubmissionIncludeOptions,
+  participantUserId?: string,
+) => {
   if (!includeOptions || includeOptions.length === 0) {
     return undefined;
   }
@@ -173,5 +190,13 @@ const buildSubmissionInclude = (includeOptions?: SubmissionIncludeOptions) => {
   return {
     author: includeOptions.includes('author'),
     journal: includeOptions.includes('journal'),
+    participants: includeOptions.includes('participants')
+      ? {
+          where: participantUserId ? { userId: participantUserId } : undefined,
+          include: {
+            user: true,
+          },
+        }
+      : undefined,
   };
 };

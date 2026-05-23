@@ -110,7 +110,7 @@ export class IssueRepositoryImpl implements IssueRepository {
           number: issue.number,
           title: issue.title,
           description: issue.description,
-          publishedAt: issue.publishedAt ?? undefined,
+          publishedAt: issue.publishedAt,
         },
         include: buildIssueInclude(['journal', 'publications']),
       });
@@ -156,23 +156,23 @@ const buildIssueOrderBy = (sortOptions?: IssueSortOptions) => {
   const orderBy: Array<Record<string, 'asc' | 'desc'>> = [];
 
   if (sortOptions.createdAt) {
-    orderBy.push({ createdAt: sortOptions.createdAt });
+    orderBy.push({ createdAt: sortOptions.createdAt.toLowerCase() as 'asc' | 'desc' });
   }
 
   if (sortOptions.updatedAt) {
-    orderBy.push({ updatedAt: sortOptions.updatedAt });
+    orderBy.push({ updatedAt: sortOptions.updatedAt.toLowerCase() as 'asc' | 'desc' });
   }
 
   if (sortOptions.publishedAt) {
-    orderBy.push({ publishedAt: sortOptions.publishedAt });
+    orderBy.push({ publishedAt: sortOptions.publishedAt.toLowerCase() as 'asc' | 'desc' });
   }
 
   if (sortOptions.volume) {
-    orderBy.push({ volume: sortOptions.volume });
+    orderBy.push({ volume: sortOptions.volume.toLowerCase() as 'asc' | 'desc' });
   }
 
   if (sortOptions.number) {
-    orderBy.push({ number: sortOptions.number });
+    orderBy.push({ number: sortOptions.number.toLowerCase() as 'asc' | 'desc' });
   }
 
   return orderBy.length > 0 ? orderBy : { createdAt: 'desc' as const };

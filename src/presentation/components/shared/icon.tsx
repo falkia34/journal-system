@@ -1,12 +1,20 @@
 'use client';
 
 import {
+  AssignmentOutlined,
+  AssignmentRounded,
+  AssignmentTurnedInOutlined,
+  AssignmentTurnedInRounded,
   BusinessCenterOutlined,
   BusinessCenterRounded,
+  CalendarMonthOutlined,
+  CalendarMonthRounded,
   Diversity2Outlined,
   Diversity2Rounded,
   Diversity3Outlined,
   Diversity3Rounded,
+  DriveFileRenameOutlineOutlined,
+  DriveFileRenameOutlineRounded,
   EmojiEventsOutlined,
   EmojiEventsRounded,
   Groups3Outlined,
@@ -27,14 +35,20 @@ import {
   LockRounded,
   ManageAccountsOutlined,
   ManageAccountsRounded,
+  MenuBookOutlined,
+  MenuBookRounded,
   MilitaryTechOutlined,
   MilitaryTechRounded,
   MonetizationOnOutlined,
   MonetizationOnRounded,
   PeopleAltOutlined,
   PeopleAltRounded,
+  PeopleOutlined,
+  PeopleRounded,
   PersonOutlined,
   PersonRounded,
+  RateReviewOutlined,
+  RateReviewRounded,
   RequestQuoteOutlined,
   RequestQuoteRounded,
   ReviewsOutlined,
@@ -52,14 +66,30 @@ type Props = {
 
 export function Icon({ name, ...props }: Props) {
   switch (name) {
+    case 'assignment':
+      return <AssignmentRounded {...props} />;
+    case 'assignment-outlined':
+      return <AssignmentOutlined {...props} />;
+    case 'assignment-turned-in':
+      return <AssignmentTurnedInRounded {...props} />;
+    case 'assignment-turned-in-outlined':
+      return <AssignmentTurnedInOutlined {...props} />;
     case 'business-center':
       return <BusinessCenterRounded {...props} />;
     case 'business-center-outlined':
       return <BusinessCenterOutlined {...props} />;
+    case 'calendar-month':
+      return <CalendarMonthRounded {...props} />;
+    case 'calendar-month-outlined':
+      return <CalendarMonthOutlined {...props} />;
     case 'diversity-2':
       return <Diversity2Rounded {...props} />;
     case 'diversity-2-outlined':
       return <Diversity2Outlined {...props} />;
+    case 'drive-file-rename-outline':
+      return <DriveFileRenameOutlineRounded {...props} />;
+    case 'drive-file-rename-outline-outlined':
+      return <DriveFileRenameOutlineOutlined {...props} />;
     case 'diversity-3':
       return <Diversity3Rounded {...props} />;
     case 'diversity-3-outlined':
@@ -104,6 +134,10 @@ export function Icon({ name, ...props }: Props) {
       return <ManageAccountsRounded {...props} />;
     case 'manage-account-outlined':
       return <ManageAccountsOutlined {...props} />;
+    case 'menu-book':
+      return <MenuBookRounded {...props} />;
+    case 'menu-book-outlined':
+      return <MenuBookOutlined {...props} />;
     case 'military-tech':
       return <MilitaryTechRounded {...props} />;
     case 'military-tech-outlined':
@@ -116,10 +150,18 @@ export function Icon({ name, ...props }: Props) {
       return <PeopleAltRounded {...props} />;
     case 'people-alt-outlined':
       return <PeopleAltOutlined {...props} />;
+    case 'people':
+      return <PeopleRounded {...props} />;
+    case 'people-outlined':
+      return <PeopleOutlined {...props} />;
     case 'person':
       return <PersonRounded {...props} />;
     case 'person-outlined':
       return <PersonOutlined {...props} />;
+    case 'rate-review':
+      return <RateReviewRounded {...props} />;
+    case 'rate-review-outlined':
+      return <RateReviewOutlined {...props} />;
     case 'request-quote':
       return <RequestQuoteRounded {...props} />;
     case 'request-quote-outlined':

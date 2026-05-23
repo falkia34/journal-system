@@ -50,6 +50,41 @@ export class IssueMapper {
     );
   }
 
+  public static fromDomainToFormData(issue: Partial<Issue>): FormData {
+    const formData = new FormData();
+    if (issue.id) formData.append('id', issue.id);
+    if (issue.journalId) formData.append('journalId', issue.journalId);
+    if (issue.volume) formData.append('volume', String(issue.volume));
+    if (issue.number) formData.append('number', String(issue.number));
+    if (issue.title !== undefined) formData.append('title', issue.title ?? '');
+    if (issue.description !== undefined) formData.append('description', issue.description ?? '');
+    if (issue.publishedAt !== undefined)
+      formData.append('publishedAt', issue.publishedAt?.toISOString() ?? '');
+    if (issue.createdAt) formData.append('createdAt', issue.createdAt.toISOString());
+    if (issue.updatedAt) formData.append('updatedAt', issue.updatedAt.toISOString());
+    return formData;
+  }
+
+  public static fromFormDataToDomain(formData: FormData): Issue {
+    return new Issue(
+      formData.get('id') as string,
+      formData.get('journalId') as string,
+      Number(formData.get('volume')),
+      Number(formData.get('number')),
+      (formData.get('title') as string) || null,
+      (formData.get('description') as string) || null,
+      formData.get('publishedAt')
+        ? DateTime.fromISO(formData.get('publishedAt') as string).toJSDate()
+        : null,
+      formData.get('createdAt')
+        ? DateTime.fromISO(formData.get('createdAt') as string).toJSDate()
+        : new Date(),
+      formData.get('updatedAt')
+        ? DateTime.fromISO(formData.get('updatedAt') as string).toJSDate()
+        : new Date(),
+    );
+  }
+
   public static fromDomainToDto(issue: Partial<Issue>): Partial<IssueDto> {
     return {
       id: issue.id,

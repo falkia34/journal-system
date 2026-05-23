@@ -1,5 +1,5 @@
 import type { SubmissionRepository, AuthRepository } from '@app/domain/repositories';
-import { Either, left, isRight } from 'effect/Either';
+import { Either, left, isLeft } from 'effect/Either';
 import { inject, injectable } from 'inversify';
 import { SYMBOLS } from '@config';
 import { UseCase } from '@app/application';
@@ -17,7 +17,6 @@ export type GetSubmissionsParams = [
   sortOptions?: SubmissionSortOptions,
   paginationOptions?: PaginationOptions,
   abortSignal?: AbortSignal,
-  authenticate?: boolean,
 ];
 
 @injectable()
@@ -42,18 +41,26 @@ export class GetSubmissions
     sortOptions?: SubmissionSortOptions,
     paginationOptions?: PaginationOptions,
     abortSignal?: AbortSignal,
-    authenticate: boolean = true,
   ): Promise<Either<[Submission[], PaginationOptions], Error>> {
-    let accessToken: string | undefined;
+    const sessionResult = await this.authRepository.getSession();
+    if (isLeft(sessionResult)) return left(sessionResult.left);
+    const session = sessionResult.right;
 
-    if (authenticate) {
-      const accessTokenResult = await this.authRepository.getAccessToken();
-
-      if (isRight(accessTokenResult)) {
-        accessToken = accessTokenResult.right;
-      } else {
-        return left(accessTokenResult.left);
-      }
+    const role = session.activeRole;
+    if (role === 'EDITOR') {
+      filterOptions = {
+        ...filterOptions,
+        participantUserId: session.user.id,
+        participantStages: ['EDIT', 'COPY_EDIT', 'LAYOUT_EDIT', 'FINAL_REVIEW'],
+      };
+    } else if (role === 'REVIEWER') {
+      filterOptions = {
+        ...filterOptions,
+        participantUserId: session.user.id,
+        participantStages: ['REVIEW', 'FINAL_REVIEW'],
+      };
+    } else if (role === 'AUTHOR') {
+      filterOptions = { ...filterOptions, authorId: session.user.id };
     }
 
     return await this.submissionRepository.getSubmissions(
@@ -62,7 +69,6 @@ export class GetSubmissions
       sortOptions,
       paginationOptions,
       abortSignal,
-      accessToken,
     );
   }
 }

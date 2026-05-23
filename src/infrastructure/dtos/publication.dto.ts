@@ -23,8 +23,7 @@ export interface PublicationDto {
   issue_id: string;
   submission_id: string;
   revision_id: string;
-  doi: string | null;
-  published_at: string;
+  published_at: string | null;
   created_at: string;
   updated_at: string;
   issue?: IssueDto;
@@ -41,7 +40,6 @@ export class PublicationMapper {
       payload.issueId,
       payload.submissionId,
       payload.revisionId,
-      payload.doi,
       payload.publishedAt,
       payload.createdAt,
       payload.updatedAt,
@@ -57,7 +55,6 @@ export class PublicationMapper {
       issue_id: publication.issueId,
       submission_id: publication.submissionId,
       revision_id: publication.revisionId,
-      doi: publication.doi ?? null,
       published_at: publication.publishedAt?.toISOString(),
       created_at: publication.createdAt?.toISOString(),
       updated_at: publication.updatedAt?.toISOString(),
@@ -79,13 +76,42 @@ export class PublicationMapper {
       dto.issue_id,
       dto.submission_id,
       dto.revision_id,
-      dto.doi,
-      DateTime.fromISO(dto.published_at).toJSDate(),
+      dto.published_at ? DateTime.fromISO(dto.published_at).toJSDate() : null,
       DateTime.fromISO(dto.created_at).toJSDate(),
       DateTime.fromISO(dto.updated_at).toJSDate(),
       dto.issue ? IssueMapper.fromDtoToDomain(dto.issue) : undefined,
       dto.submission ? SubmissionMapper.fromDtoToDomain(dto.submission) : undefined,
       dto.revision ? RevisionMapper.fromDtoToDomain(dto.revision) : undefined,
+    );
+  }
+
+  public static fromDomainToFormData(publication: Partial<Publication>): FormData {
+    const formData = new FormData();
+    if (publication.id) formData.append('id', publication.id);
+    if (publication.issueId) formData.append('issueId', publication.issueId);
+    if (publication.submissionId) formData.append('submissionId', publication.submissionId);
+    if (publication.revisionId) formData.append('revisionId', publication.revisionId);
+    if (publication.publishedAt !== undefined)
+      formData.append('publishedAt', publication.publishedAt?.toISOString() ?? '');
+    if (publication.createdAt) formData.append('createdAt', publication.createdAt.toISOString());
+    if (publication.updatedAt) formData.append('updatedAt', publication.updatedAt.toISOString());
+    return formData;
+  }
+
+  public static fromFormDataToDomain(formData: FormData): Publication {
+    const publishedAtValue = formData.get('publishedAt') as string;
+    return new Publication(
+      formData.get('id') as string,
+      formData.get('issueId') as string,
+      formData.get('submissionId') as string,
+      formData.get('revisionId') as string,
+      publishedAtValue ? DateTime.fromISO(publishedAtValue).toJSDate() : null,
+      formData.get('createdAt')
+        ? DateTime.fromISO(formData.get('createdAt') as string).toJSDate()
+        : new Date(),
+      formData.get('updatedAt')
+        ? DateTime.fromISO(formData.get('updatedAt') as string).toJSDate()
+        : new Date(),
     );
   }
 }

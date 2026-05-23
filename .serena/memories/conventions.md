@@ -1,0 +1,12 @@
+# Conventions
+- Architecture: Clean Architecture with Inversify DI.
+- DI: `reflect-metadata` required at top of injection files. Use `SYMBOLS`.
+- TypeScript: `isolatedModules` enabled. Use `import type` for interfaces.
+- Barrel exports: Use `export type { ... }` in barrel files.
+- Path aliases: `@app/*` -> `./src/*`, `@config/*` -> `./config/*`. Do NOT use `@/*`.
+- Use `Either` from `effect/Either` for error handling in UseCases and Repositories. Always handle `left` and `right`.
+- When injecting new dependencies, ensure both `private readonly` field and constructor `inject` are added.
+- Admin manages participants (editor/reviewer assignment). Participants are created/deleted via `app/(internal)/submissions/[submissionId]/participants` route.
+- Editor/Reviewer feedback is created via `app/(internal)/submissions/[submissionId]/revisions/[revisionId]/feedbacks` route. Access controlled by `participant` assignment and revision stage/frozen status.
+- Admin decides on revisions via `app/(internal)/submissions/[submissionId]/revisions/[revisionId]/decide` route. Admin decision creates `Decision`, updates `Submission` status, and may update `Revision` (isFrozen, currentStage).
+- Prisma: Output to `src/generated/prisma`.

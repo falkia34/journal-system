@@ -4,11 +4,9 @@ import { Feedback } from '@app/domain/entities';
 import type { SubmissionDto } from './submission.dto';
 import type { RevisionDto } from './revision.dto';
 import type { UserDto } from './user.dto';
-import type { FileDto } from './file.dto';
 import { SubmissionMapper } from './submission.dto';
 import { RevisionMapper } from './revision.dto';
 import { UserMapper } from './user.dto';
-import { FileMapper } from './file.dto';
 
 export type FeedbackRecord = Prisma.FeedbackGetPayload<object>;
 
@@ -17,7 +15,6 @@ export type FeedbackRecordWithIncludes = Prisma.FeedbackGetPayload<{
     submission: true;
     revision: true;
     author: true;
-    file: true;
   };
 }>;
 
@@ -26,7 +23,7 @@ export interface FeedbackDto {
   submission_id: string;
   revision_id: string;
   author_id: string;
-  file_id: string | null;
+  file: string | null;
   content: string;
   stage: Feedback['stage'];
   recommendation: Feedback['recommendation'];
@@ -35,7 +32,6 @@ export interface FeedbackDto {
   submission?: SubmissionDto;
   revision?: RevisionDto;
   author?: UserDto;
-  file?: FileDto;
 }
 
 export class FeedbackMapper {
@@ -45,7 +41,7 @@ export class FeedbackMapper {
       payload.submissionId,
       payload.revisionId,
       payload.authorId,
-      payload.fileId,
+      payload.file,
       payload.content,
       payload.stage,
       payload.recommendation,
@@ -54,7 +50,6 @@ export class FeedbackMapper {
       'submission' in payload ? SubmissionMapper.fromPrismaToDomain(payload.submission) : undefined,
       'revision' in payload ? RevisionMapper.fromPrismaToDomain(payload.revision) : undefined,
       'author' in payload ? UserMapper.fromPrismaToDomain(payload.author) : undefined,
-      'file' in payload && payload.file ? FileMapper.fromPrismaToDomain(payload.file) : undefined,
     );
   }
 
@@ -64,7 +59,7 @@ export class FeedbackMapper {
       submission_id: feedback.submissionId,
       revision_id: feedback.revisionId,
       author_id: feedback.authorId,
-      file_id: feedback.fileId ?? null,
+      file: feedback.file ?? null,
       content: feedback.content,
       stage: feedback.stage,
       recommendation: feedback.recommendation,
@@ -79,7 +74,6 @@ export class FeedbackMapper {
       author: feedback.author
         ? (UserMapper.fromDomainToDto(feedback.author) as UserDto)
         : undefined,
-      file: feedback.file ? (FileMapper.fromDomainToDto(feedback.file) as FileDto) : undefined,
     };
   }
 
@@ -89,7 +83,7 @@ export class FeedbackMapper {
       dto.submission_id,
       dto.revision_id,
       dto.author_id,
-      dto.file_id,
+      dto.file,
       dto.content,
       dto.stage,
       dto.recommendation,
@@ -98,7 +92,40 @@ export class FeedbackMapper {
       dto.submission ? SubmissionMapper.fromDtoToDomain(dto.submission) : undefined,
       dto.revision ? RevisionMapper.fromDtoToDomain(dto.revision) : undefined,
       dto.author ? UserMapper.fromDtoToDomain(dto.author) : undefined,
-      dto.file ? FileMapper.fromDtoToDomain(dto.file) : undefined,
+    );
+  }
+
+  public static fromDomainToFormData(feedback: Partial<Feedback>): FormData {
+    const formData = new FormData();
+    if (feedback.id) formData.append('id', feedback.id);
+    if (feedback.submissionId) formData.append('submissionId', feedback.submissionId);
+    if (feedback.revisionId) formData.append('revisionId', feedback.revisionId);
+    if (feedback.authorId) formData.append('authorId', feedback.authorId);
+    if (feedback.file !== undefined) formData.append('file', feedback.file ?? '');
+    if (feedback.content) formData.append('content', feedback.content);
+    if (feedback.stage) formData.append('stage', feedback.stage);
+    if (feedback.recommendation) formData.append('recommendation', feedback.recommendation);
+    if (feedback.createdAt) formData.append('createdAt', feedback.createdAt.toISOString());
+    if (feedback.updatedAt) formData.append('updatedAt', feedback.updatedAt.toISOString());
+    return formData;
+  }
+
+  public static fromFormDataToDomain(formData: FormData): Feedback {
+    return new Feedback(
+      formData.get('id') as string,
+      formData.get('submissionId') as string,
+      formData.get('revisionId') as string,
+      formData.get('authorId') as string,
+      formData.get('file') as string,
+      formData.get('content') as string,
+      formData.get('stage') as Feedback['stage'],
+      formData.get('recommendation') as Feedback['recommendation'],
+      formData.get('createdAt')
+        ? DateTime.fromISO(formData.get('createdAt') as string).toJSDate()
+        : new Date(),
+      formData.get('updatedAt')
+        ? DateTime.fromISO(formData.get('updatedAt') as string).toJSDate()
+        : new Date(),
     );
   }
 }

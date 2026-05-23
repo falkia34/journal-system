@@ -156,11 +156,11 @@ export class DecisionRepositoryImpl implements DecisionRepository {
     const orderBy: Array<Record<string, 'asc' | 'desc'>> = [];
 
     if (sortOptions.createdAt) {
-      orderBy.push({ createdAt: sortOptions.createdAt });
+      orderBy.push({ createdAt: sortOptions.createdAt.toLowerCase() as 'asc' | 'desc' });
     }
 
     if (sortOptions.updatedAt) {
-      orderBy.push({ updatedAt: sortOptions.updatedAt });
+      orderBy.push({ updatedAt: sortOptions.updatedAt.toLowerCase() as 'asc' | 'desc' });
     }
 
     return orderBy.length > 0 ? orderBy : { createdAt: 'desc' as const };

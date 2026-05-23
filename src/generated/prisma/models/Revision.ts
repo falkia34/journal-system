@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums"
-import type * as Prisma from "../internal/prismaNamespace"
+import type * as $Enums from "../enums.js"
+import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model Revision
@@ -37,7 +37,7 @@ export type RevisionSumAggregateOutputType = {
 export type RevisionMinAggregateOutputType = {
   id: string | null
   submissionId: string | null
-  fileId: string | null
+  file: string | null
   version: number | null
   startStage: $Enums.RevisionStage | null
   currentStage: $Enums.RevisionStage | null
@@ -49,7 +49,7 @@ export type RevisionMinAggregateOutputType = {
 export type RevisionMaxAggregateOutputType = {
   id: string | null
   submissionId: string | null
-  fileId: string | null
+  file: string | null
   version: number | null
   startStage: $Enums.RevisionStage | null
   currentStage: $Enums.RevisionStage | null
@@ -61,7 +61,7 @@ export type RevisionMaxAggregateOutputType = {
 export type RevisionCountAggregateOutputType = {
   id: number
   submissionId: number
-  fileId: number
+  file: number
   version: number
   startStage: number
   currentStage: number
@@ -83,7 +83,7 @@ export type RevisionSumAggregateInputType = {
 export type RevisionMinAggregateInputType = {
   id?: true
   submissionId?: true
-  fileId?: true
+  file?: true
   version?: true
   startStage?: true
   currentStage?: true
@@ -95,7 +95,7 @@ export type RevisionMinAggregateInputType = {
 export type RevisionMaxAggregateInputType = {
   id?: true
   submissionId?: true
-  fileId?: true
+  file?: true
   version?: true
   startStage?: true
   currentStage?: true
@@ -107,7 +107,7 @@ export type RevisionMaxAggregateInputType = {
 export type RevisionCountAggregateInputType = {
   id?: true
   submissionId?: true
-  fileId?: true
+  file?: true
   version?: true
   startStage?: true
   currentStage?: true
@@ -206,7 +206,7 @@ export type RevisionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 export type RevisionGroupByOutputType = {
   id: string
   submissionId: string
-  fileId: string
+  file: string | null
   version: number
   startStage: $Enums.RevisionStage
   currentStage: $Enums.RevisionStage
@@ -241,7 +241,7 @@ export type RevisionWhereInput = {
   NOT?: Prisma.RevisionWhereInput | Prisma.RevisionWhereInput[]
   id?: Prisma.UuidFilter<"Revision"> | string
   submissionId?: Prisma.UuidFilter<"Revision"> | string
-  fileId?: Prisma.UuidFilter<"Revision"> | string
+  file?: Prisma.StringNullableFilter<"Revision"> | string | null
   version?: Prisma.IntFilter<"Revision"> | number
   startStage?: Prisma.EnumRevisionStageFilter<"Revision"> | $Enums.RevisionStage
   currentStage?: Prisma.EnumRevisionStageFilter<"Revision"> | $Enums.RevisionStage
@@ -249,8 +249,7 @@ export type RevisionWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Revision"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Revision"> | Date | string
   submission?: Prisma.XOR<Prisma.SubmissionScalarRelationFilter, Prisma.SubmissionWhereInput>
-  file?: Prisma.XOR<Prisma.FileScalarRelationFilter, Prisma.FileWhereInput>
-  decision?: Prisma.XOR<Prisma.DecisionNullableScalarRelationFilter, Prisma.DecisionWhereInput> | null
+  decisions?: Prisma.DecisionListRelationFilter
   feedbacks?: Prisma.FeedbackListRelationFilter
   publication?: Prisma.XOR<Prisma.PublicationNullableScalarRelationFilter, Prisma.PublicationWhereInput> | null
 }
@@ -258,7 +257,7 @@ export type RevisionWhereInput = {
 export type RevisionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   submissionId?: Prisma.SortOrder
-  fileId?: Prisma.SortOrder
+  file?: Prisma.SortOrderInput | Prisma.SortOrder
   version?: Prisma.SortOrder
   startStage?: Prisma.SortOrder
   currentStage?: Prisma.SortOrder
@@ -266,8 +265,7 @@ export type RevisionOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   submission?: Prisma.SubmissionOrderByWithRelationInput
-  file?: Prisma.FileOrderByWithRelationInput
-  decision?: Prisma.DecisionOrderByWithRelationInput
+  decisions?: Prisma.DecisionOrderByRelationAggregateInput
   feedbacks?: Prisma.FeedbackOrderByRelationAggregateInput
   publication?: Prisma.PublicationOrderByWithRelationInput
 }
@@ -279,7 +277,7 @@ export type RevisionWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.RevisionWhereInput[]
   NOT?: Prisma.RevisionWhereInput | Prisma.RevisionWhereInput[]
   submissionId?: Prisma.UuidFilter<"Revision"> | string
-  fileId?: Prisma.UuidFilter<"Revision"> | string
+  file?: Prisma.StringNullableFilter<"Revision"> | string | null
   version?: Prisma.IntFilter<"Revision"> | number
   startStage?: Prisma.EnumRevisionStageFilter<"Revision"> | $Enums.RevisionStage
   currentStage?: Prisma.EnumRevisionStageFilter<"Revision"> | $Enums.RevisionStage
@@ -287,8 +285,7 @@ export type RevisionWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Revision"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Revision"> | Date | string
   submission?: Prisma.XOR<Prisma.SubmissionScalarRelationFilter, Prisma.SubmissionWhereInput>
-  file?: Prisma.XOR<Prisma.FileScalarRelationFilter, Prisma.FileWhereInput>
-  decision?: Prisma.XOR<Prisma.DecisionNullableScalarRelationFilter, Prisma.DecisionWhereInput> | null
+  decisions?: Prisma.DecisionListRelationFilter
   feedbacks?: Prisma.FeedbackListRelationFilter
   publication?: Prisma.XOR<Prisma.PublicationNullableScalarRelationFilter, Prisma.PublicationWhereInput> | null
 }, "id" | "submissionId_version">
@@ -296,7 +293,7 @@ export type RevisionWhereUniqueInput = Prisma.AtLeast<{
 export type RevisionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   submissionId?: Prisma.SortOrder
-  fileId?: Prisma.SortOrder
+  file?: Prisma.SortOrderInput | Prisma.SortOrder
   version?: Prisma.SortOrder
   startStage?: Prisma.SortOrder
   currentStage?: Prisma.SortOrder
@@ -316,7 +313,7 @@ export type RevisionScalarWhereWithAggregatesInput = {
   NOT?: Prisma.RevisionScalarWhereWithAggregatesInput | Prisma.RevisionScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"Revision"> | string
   submissionId?: Prisma.UuidWithAggregatesFilter<"Revision"> | string
-  fileId?: Prisma.UuidWithAggregatesFilter<"Revision"> | string
+  file?: Prisma.StringNullableWithAggregatesFilter<"Revision"> | string | null
   version?: Prisma.IntWithAggregatesFilter<"Revision"> | number
   startStage?: Prisma.EnumRevisionStageWithAggregatesFilter<"Revision"> | $Enums.RevisionStage
   currentStage?: Prisma.EnumRevisionStageWithAggregatesFilter<"Revision"> | $Enums.RevisionStage
@@ -327,6 +324,7 @@ export type RevisionScalarWhereWithAggregatesInput = {
 
 export type RevisionCreateInput = {
   id?: string
+  file?: string | null
   version: number
   startStage?: $Enums.RevisionStage
   currentStage?: $Enums.RevisionStage
@@ -334,8 +332,7 @@ export type RevisionCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   submission: Prisma.SubmissionCreateNestedOneWithoutRevisionsInput
-  file: Prisma.FileCreateNestedOneWithoutRevisionsInput
-  decision?: Prisma.DecisionCreateNestedOneWithoutRevisionInput
+  decisions?: Prisma.DecisionCreateNestedManyWithoutRevisionInput
   feedbacks?: Prisma.FeedbackCreateNestedManyWithoutRevisionInput
   publication?: Prisma.PublicationCreateNestedOneWithoutRevisionInput
 }
@@ -343,20 +340,21 @@ export type RevisionCreateInput = {
 export type RevisionUncheckedCreateInput = {
   id?: string
   submissionId: string
-  fileId: string
+  file?: string | null
   version: number
   startStage?: $Enums.RevisionStage
   currentStage?: $Enums.RevisionStage
   isFrozen?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  decision?: Prisma.DecisionUncheckedCreateNestedOneWithoutRevisionInput
+  decisions?: Prisma.DecisionUncheckedCreateNestedManyWithoutRevisionInput
   feedbacks?: Prisma.FeedbackUncheckedCreateNestedManyWithoutRevisionInput
   publication?: Prisma.PublicationUncheckedCreateNestedOneWithoutRevisionInput
 }
 
 export type RevisionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   version?: Prisma.IntFieldUpdateOperationsInput | number
   startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
   currentStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
@@ -364,8 +362,7 @@ export type RevisionUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submission?: Prisma.SubmissionUpdateOneRequiredWithoutRevisionsNestedInput
-  file?: Prisma.FileUpdateOneRequiredWithoutRevisionsNestedInput
-  decision?: Prisma.DecisionUpdateOneWithoutRevisionNestedInput
+  decisions?: Prisma.DecisionUpdateManyWithoutRevisionNestedInput
   feedbacks?: Prisma.FeedbackUpdateManyWithoutRevisionNestedInput
   publication?: Prisma.PublicationUpdateOneWithoutRevisionNestedInput
 }
@@ -373,14 +370,14 @@ export type RevisionUpdateInput = {
 export type RevisionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   submissionId?: Prisma.StringFieldUpdateOperationsInput | string
-  fileId?: Prisma.StringFieldUpdateOperationsInput | string
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   version?: Prisma.IntFieldUpdateOperationsInput | number
   startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
   currentStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
   isFrozen?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  decision?: Prisma.DecisionUncheckedUpdateOneWithoutRevisionNestedInput
+  decisions?: Prisma.DecisionUncheckedUpdateManyWithoutRevisionNestedInput
   feedbacks?: Prisma.FeedbackUncheckedUpdateManyWithoutRevisionNestedInput
   publication?: Prisma.PublicationUncheckedUpdateOneWithoutRevisionNestedInput
 }
@@ -388,7 +385,7 @@ export type RevisionUncheckedUpdateInput = {
 export type RevisionCreateManyInput = {
   id?: string
   submissionId: string
-  fileId: string
+  file?: string | null
   version: number
   startStage?: $Enums.RevisionStage
   currentStage?: $Enums.RevisionStage
@@ -399,6 +396,7 @@ export type RevisionCreateManyInput = {
 
 export type RevisionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   version?: Prisma.IntFieldUpdateOperationsInput | number
   startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
   currentStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
@@ -410,7 +408,7 @@ export type RevisionUpdateManyMutationInput = {
 export type RevisionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   submissionId?: Prisma.StringFieldUpdateOperationsInput | string
-  fileId?: Prisma.StringFieldUpdateOperationsInput | string
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   version?: Prisma.IntFieldUpdateOperationsInput | number
   startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
   currentStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
@@ -437,7 +435,7 @@ export type RevisionSubmissionIdVersionCompoundUniqueInput = {
 export type RevisionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   submissionId?: Prisma.SortOrder
-  fileId?: Prisma.SortOrder
+  file?: Prisma.SortOrder
   version?: Prisma.SortOrder
   startStage?: Prisma.SortOrder
   currentStage?: Prisma.SortOrder
@@ -453,7 +451,7 @@ export type RevisionAvgOrderByAggregateInput = {
 export type RevisionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   submissionId?: Prisma.SortOrder
-  fileId?: Prisma.SortOrder
+  file?: Prisma.SortOrder
   version?: Prisma.SortOrder
   startStage?: Prisma.SortOrder
   currentStage?: Prisma.SortOrder
@@ -465,7 +463,7 @@ export type RevisionMaxOrderByAggregateInput = {
 export type RevisionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   submissionId?: Prisma.SortOrder
-  fileId?: Prisma.SortOrder
+  file?: Prisma.SortOrder
   version?: Prisma.SortOrder
   startStage?: Prisma.SortOrder
   currentStage?: Prisma.SortOrder
@@ -533,60 +531,18 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
-export type RevisionCreateNestedManyWithoutFileInput = {
-  create?: Prisma.XOR<Prisma.RevisionCreateWithoutFileInput, Prisma.RevisionUncheckedCreateWithoutFileInput> | Prisma.RevisionCreateWithoutFileInput[] | Prisma.RevisionUncheckedCreateWithoutFileInput[]
-  connectOrCreate?: Prisma.RevisionCreateOrConnectWithoutFileInput | Prisma.RevisionCreateOrConnectWithoutFileInput[]
-  createMany?: Prisma.RevisionCreateManyFileInputEnvelope
-  connect?: Prisma.RevisionWhereUniqueInput | Prisma.RevisionWhereUniqueInput[]
-}
-
-export type RevisionUncheckedCreateNestedManyWithoutFileInput = {
-  create?: Prisma.XOR<Prisma.RevisionCreateWithoutFileInput, Prisma.RevisionUncheckedCreateWithoutFileInput> | Prisma.RevisionCreateWithoutFileInput[] | Prisma.RevisionUncheckedCreateWithoutFileInput[]
-  connectOrCreate?: Prisma.RevisionCreateOrConnectWithoutFileInput | Prisma.RevisionCreateOrConnectWithoutFileInput[]
-  createMany?: Prisma.RevisionCreateManyFileInputEnvelope
-  connect?: Prisma.RevisionWhereUniqueInput | Prisma.RevisionWhereUniqueInput[]
-}
-
-export type RevisionUpdateManyWithoutFileNestedInput = {
-  create?: Prisma.XOR<Prisma.RevisionCreateWithoutFileInput, Prisma.RevisionUncheckedCreateWithoutFileInput> | Prisma.RevisionCreateWithoutFileInput[] | Prisma.RevisionUncheckedCreateWithoutFileInput[]
-  connectOrCreate?: Prisma.RevisionCreateOrConnectWithoutFileInput | Prisma.RevisionCreateOrConnectWithoutFileInput[]
-  upsert?: Prisma.RevisionUpsertWithWhereUniqueWithoutFileInput | Prisma.RevisionUpsertWithWhereUniqueWithoutFileInput[]
-  createMany?: Prisma.RevisionCreateManyFileInputEnvelope
-  set?: Prisma.RevisionWhereUniqueInput | Prisma.RevisionWhereUniqueInput[]
-  disconnect?: Prisma.RevisionWhereUniqueInput | Prisma.RevisionWhereUniqueInput[]
-  delete?: Prisma.RevisionWhereUniqueInput | Prisma.RevisionWhereUniqueInput[]
-  connect?: Prisma.RevisionWhereUniqueInput | Prisma.RevisionWhereUniqueInput[]
-  update?: Prisma.RevisionUpdateWithWhereUniqueWithoutFileInput | Prisma.RevisionUpdateWithWhereUniqueWithoutFileInput[]
-  updateMany?: Prisma.RevisionUpdateManyWithWhereWithoutFileInput | Prisma.RevisionUpdateManyWithWhereWithoutFileInput[]
-  deleteMany?: Prisma.RevisionScalarWhereInput | Prisma.RevisionScalarWhereInput[]
-}
-
-export type RevisionUncheckedUpdateManyWithoutFileNestedInput = {
-  create?: Prisma.XOR<Prisma.RevisionCreateWithoutFileInput, Prisma.RevisionUncheckedCreateWithoutFileInput> | Prisma.RevisionCreateWithoutFileInput[] | Prisma.RevisionUncheckedCreateWithoutFileInput[]
-  connectOrCreate?: Prisma.RevisionCreateOrConnectWithoutFileInput | Prisma.RevisionCreateOrConnectWithoutFileInput[]
-  upsert?: Prisma.RevisionUpsertWithWhereUniqueWithoutFileInput | Prisma.RevisionUpsertWithWhereUniqueWithoutFileInput[]
-  createMany?: Prisma.RevisionCreateManyFileInputEnvelope
-  set?: Prisma.RevisionWhereUniqueInput | Prisma.RevisionWhereUniqueInput[]
-  disconnect?: Prisma.RevisionWhereUniqueInput | Prisma.RevisionWhereUniqueInput[]
-  delete?: Prisma.RevisionWhereUniqueInput | Prisma.RevisionWhereUniqueInput[]
-  connect?: Prisma.RevisionWhereUniqueInput | Prisma.RevisionWhereUniqueInput[]
-  update?: Prisma.RevisionUpdateWithWhereUniqueWithoutFileInput | Prisma.RevisionUpdateWithWhereUniqueWithoutFileInput[]
-  updateMany?: Prisma.RevisionUpdateManyWithWhereWithoutFileInput | Prisma.RevisionUpdateManyWithWhereWithoutFileInput[]
-  deleteMany?: Prisma.RevisionScalarWhereInput | Prisma.RevisionScalarWhereInput[]
-}
-
-export type RevisionCreateNestedOneWithoutDecisionInput = {
-  create?: Prisma.XOR<Prisma.RevisionCreateWithoutDecisionInput, Prisma.RevisionUncheckedCreateWithoutDecisionInput>
-  connectOrCreate?: Prisma.RevisionCreateOrConnectWithoutDecisionInput
+export type RevisionCreateNestedOneWithoutDecisionsInput = {
+  create?: Prisma.XOR<Prisma.RevisionCreateWithoutDecisionsInput, Prisma.RevisionUncheckedCreateWithoutDecisionsInput>
+  connectOrCreate?: Prisma.RevisionCreateOrConnectWithoutDecisionsInput
   connect?: Prisma.RevisionWhereUniqueInput
 }
 
-export type RevisionUpdateOneRequiredWithoutDecisionNestedInput = {
-  create?: Prisma.XOR<Prisma.RevisionCreateWithoutDecisionInput, Prisma.RevisionUncheckedCreateWithoutDecisionInput>
-  connectOrCreate?: Prisma.RevisionCreateOrConnectWithoutDecisionInput
-  upsert?: Prisma.RevisionUpsertWithoutDecisionInput
+export type RevisionUpdateOneRequiredWithoutDecisionsNestedInput = {
+  create?: Prisma.XOR<Prisma.RevisionCreateWithoutDecisionsInput, Prisma.RevisionUncheckedCreateWithoutDecisionsInput>
+  connectOrCreate?: Prisma.RevisionCreateOrConnectWithoutDecisionsInput
+  upsert?: Prisma.RevisionUpsertWithoutDecisionsInput
   connect?: Prisma.RevisionWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.RevisionUpdateToOneWithWhereWithoutDecisionInput, Prisma.RevisionUpdateWithoutDecisionInput>, Prisma.RevisionUncheckedUpdateWithoutDecisionInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RevisionUpdateToOneWithWhereWithoutDecisionsInput, Prisma.RevisionUpdateWithoutDecisionsInput>, Prisma.RevisionUncheckedUpdateWithoutDecisionsInput>
 }
 
 export type RevisionCreateNestedOneWithoutFeedbacksInput = {
@@ -619,28 +575,28 @@ export type RevisionUpdateOneRequiredWithoutPublicationNestedInput = {
 
 export type RevisionCreateWithoutSubmissionInput = {
   id?: string
+  file?: string | null
   version: number
   startStage?: $Enums.RevisionStage
   currentStage?: $Enums.RevisionStage
   isFrozen?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  file: Prisma.FileCreateNestedOneWithoutRevisionsInput
-  decision?: Prisma.DecisionCreateNestedOneWithoutRevisionInput
+  decisions?: Prisma.DecisionCreateNestedManyWithoutRevisionInput
   feedbacks?: Prisma.FeedbackCreateNestedManyWithoutRevisionInput
   publication?: Prisma.PublicationCreateNestedOneWithoutRevisionInput
 }
 
 export type RevisionUncheckedCreateWithoutSubmissionInput = {
   id?: string
-  fileId: string
+  file?: string | null
   version: number
   startStage?: $Enums.RevisionStage
   currentStage?: $Enums.RevisionStage
   isFrozen?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  decision?: Prisma.DecisionUncheckedCreateNestedOneWithoutRevisionInput
+  decisions?: Prisma.DecisionUncheckedCreateNestedManyWithoutRevisionInput
   feedbacks?: Prisma.FeedbackUncheckedCreateNestedManyWithoutRevisionInput
   publication?: Prisma.PublicationUncheckedCreateNestedOneWithoutRevisionInput
 }
@@ -677,7 +633,7 @@ export type RevisionScalarWhereInput = {
   NOT?: Prisma.RevisionScalarWhereInput | Prisma.RevisionScalarWhereInput[]
   id?: Prisma.UuidFilter<"Revision"> | string
   submissionId?: Prisma.UuidFilter<"Revision"> | string
-  fileId?: Prisma.UuidFilter<"Revision"> | string
+  file?: Prisma.StringNullableFilter<"Revision"> | string | null
   version?: Prisma.IntFilter<"Revision"> | number
   startStage?: Prisma.EnumRevisionStageFilter<"Revision"> | $Enums.RevisionStage
   currentStage?: Prisma.EnumRevisionStageFilter<"Revision"> | $Enums.RevisionStage
@@ -686,8 +642,9 @@ export type RevisionScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Revision"> | Date | string
 }
 
-export type RevisionCreateWithoutFileInput = {
+export type RevisionCreateWithoutDecisionsInput = {
   id?: string
+  file?: string | null
   version: number
   startStage?: $Enums.RevisionStage
   currentStage?: $Enums.RevisionStage
@@ -695,69 +652,14 @@ export type RevisionCreateWithoutFileInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   submission: Prisma.SubmissionCreateNestedOneWithoutRevisionsInput
-  decision?: Prisma.DecisionCreateNestedOneWithoutRevisionInput
   feedbacks?: Prisma.FeedbackCreateNestedManyWithoutRevisionInput
   publication?: Prisma.PublicationCreateNestedOneWithoutRevisionInput
 }
 
-export type RevisionUncheckedCreateWithoutFileInput = {
+export type RevisionUncheckedCreateWithoutDecisionsInput = {
   id?: string
   submissionId: string
-  version: number
-  startStage?: $Enums.RevisionStage
-  currentStage?: $Enums.RevisionStage
-  isFrozen?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  decision?: Prisma.DecisionUncheckedCreateNestedOneWithoutRevisionInput
-  feedbacks?: Prisma.FeedbackUncheckedCreateNestedManyWithoutRevisionInput
-  publication?: Prisma.PublicationUncheckedCreateNestedOneWithoutRevisionInput
-}
-
-export type RevisionCreateOrConnectWithoutFileInput = {
-  where: Prisma.RevisionWhereUniqueInput
-  create: Prisma.XOR<Prisma.RevisionCreateWithoutFileInput, Prisma.RevisionUncheckedCreateWithoutFileInput>
-}
-
-export type RevisionCreateManyFileInputEnvelope = {
-  data: Prisma.RevisionCreateManyFileInput | Prisma.RevisionCreateManyFileInput[]
-  skipDuplicates?: boolean
-}
-
-export type RevisionUpsertWithWhereUniqueWithoutFileInput = {
-  where: Prisma.RevisionWhereUniqueInput
-  update: Prisma.XOR<Prisma.RevisionUpdateWithoutFileInput, Prisma.RevisionUncheckedUpdateWithoutFileInput>
-  create: Prisma.XOR<Prisma.RevisionCreateWithoutFileInput, Prisma.RevisionUncheckedCreateWithoutFileInput>
-}
-
-export type RevisionUpdateWithWhereUniqueWithoutFileInput = {
-  where: Prisma.RevisionWhereUniqueInput
-  data: Prisma.XOR<Prisma.RevisionUpdateWithoutFileInput, Prisma.RevisionUncheckedUpdateWithoutFileInput>
-}
-
-export type RevisionUpdateManyWithWhereWithoutFileInput = {
-  where: Prisma.RevisionScalarWhereInput
-  data: Prisma.XOR<Prisma.RevisionUpdateManyMutationInput, Prisma.RevisionUncheckedUpdateManyWithoutFileInput>
-}
-
-export type RevisionCreateWithoutDecisionInput = {
-  id?: string
-  version: number
-  startStage?: $Enums.RevisionStage
-  currentStage?: $Enums.RevisionStage
-  isFrozen?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  submission: Prisma.SubmissionCreateNestedOneWithoutRevisionsInput
-  file: Prisma.FileCreateNestedOneWithoutRevisionsInput
-  feedbacks?: Prisma.FeedbackCreateNestedManyWithoutRevisionInput
-  publication?: Prisma.PublicationCreateNestedOneWithoutRevisionInput
-}
-
-export type RevisionUncheckedCreateWithoutDecisionInput = {
-  id?: string
-  submissionId: string
-  fileId: string
+  file?: string | null
   version: number
   startStage?: $Enums.RevisionStage
   currentStage?: $Enums.RevisionStage
@@ -768,24 +670,25 @@ export type RevisionUncheckedCreateWithoutDecisionInput = {
   publication?: Prisma.PublicationUncheckedCreateNestedOneWithoutRevisionInput
 }
 
-export type RevisionCreateOrConnectWithoutDecisionInput = {
+export type RevisionCreateOrConnectWithoutDecisionsInput = {
   where: Prisma.RevisionWhereUniqueInput
-  create: Prisma.XOR<Prisma.RevisionCreateWithoutDecisionInput, Prisma.RevisionUncheckedCreateWithoutDecisionInput>
+  create: Prisma.XOR<Prisma.RevisionCreateWithoutDecisionsInput, Prisma.RevisionUncheckedCreateWithoutDecisionsInput>
 }
 
-export type RevisionUpsertWithoutDecisionInput = {
-  update: Prisma.XOR<Prisma.RevisionUpdateWithoutDecisionInput, Prisma.RevisionUncheckedUpdateWithoutDecisionInput>
-  create: Prisma.XOR<Prisma.RevisionCreateWithoutDecisionInput, Prisma.RevisionUncheckedCreateWithoutDecisionInput>
+export type RevisionUpsertWithoutDecisionsInput = {
+  update: Prisma.XOR<Prisma.RevisionUpdateWithoutDecisionsInput, Prisma.RevisionUncheckedUpdateWithoutDecisionsInput>
+  create: Prisma.XOR<Prisma.RevisionCreateWithoutDecisionsInput, Prisma.RevisionUncheckedCreateWithoutDecisionsInput>
   where?: Prisma.RevisionWhereInput
 }
 
-export type RevisionUpdateToOneWithWhereWithoutDecisionInput = {
+export type RevisionUpdateToOneWithWhereWithoutDecisionsInput = {
   where?: Prisma.RevisionWhereInput
-  data: Prisma.XOR<Prisma.RevisionUpdateWithoutDecisionInput, Prisma.RevisionUncheckedUpdateWithoutDecisionInput>
+  data: Prisma.XOR<Prisma.RevisionUpdateWithoutDecisionsInput, Prisma.RevisionUncheckedUpdateWithoutDecisionsInput>
 }
 
-export type RevisionUpdateWithoutDecisionInput = {
+export type RevisionUpdateWithoutDecisionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   version?: Prisma.IntFieldUpdateOperationsInput | number
   startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
   currentStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
@@ -793,15 +696,14 @@ export type RevisionUpdateWithoutDecisionInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submission?: Prisma.SubmissionUpdateOneRequiredWithoutRevisionsNestedInput
-  file?: Prisma.FileUpdateOneRequiredWithoutRevisionsNestedInput
   feedbacks?: Prisma.FeedbackUpdateManyWithoutRevisionNestedInput
   publication?: Prisma.PublicationUpdateOneWithoutRevisionNestedInput
 }
 
-export type RevisionUncheckedUpdateWithoutDecisionInput = {
+export type RevisionUncheckedUpdateWithoutDecisionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   submissionId?: Prisma.StringFieldUpdateOperationsInput | string
-  fileId?: Prisma.StringFieldUpdateOperationsInput | string
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   version?: Prisma.IntFieldUpdateOperationsInput | number
   startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
   currentStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
@@ -814,6 +716,7 @@ export type RevisionUncheckedUpdateWithoutDecisionInput = {
 
 export type RevisionCreateWithoutFeedbacksInput = {
   id?: string
+  file?: string | null
   version: number
   startStage?: $Enums.RevisionStage
   currentStage?: $Enums.RevisionStage
@@ -821,22 +724,21 @@ export type RevisionCreateWithoutFeedbacksInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   submission: Prisma.SubmissionCreateNestedOneWithoutRevisionsInput
-  file: Prisma.FileCreateNestedOneWithoutRevisionsInput
-  decision?: Prisma.DecisionCreateNestedOneWithoutRevisionInput
+  decisions?: Prisma.DecisionCreateNestedManyWithoutRevisionInput
   publication?: Prisma.PublicationCreateNestedOneWithoutRevisionInput
 }
 
 export type RevisionUncheckedCreateWithoutFeedbacksInput = {
   id?: string
   submissionId: string
-  fileId: string
+  file?: string | null
   version: number
   startStage?: $Enums.RevisionStage
   currentStage?: $Enums.RevisionStage
   isFrozen?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  decision?: Prisma.DecisionUncheckedCreateNestedOneWithoutRevisionInput
+  decisions?: Prisma.DecisionUncheckedCreateNestedManyWithoutRevisionInput
   publication?: Prisma.PublicationUncheckedCreateNestedOneWithoutRevisionInput
 }
 
@@ -858,6 +760,7 @@ export type RevisionUpdateToOneWithWhereWithoutFeedbacksInput = {
 
 export type RevisionUpdateWithoutFeedbacksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   version?: Prisma.IntFieldUpdateOperationsInput | number
   startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
   currentStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
@@ -865,27 +768,27 @@ export type RevisionUpdateWithoutFeedbacksInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submission?: Prisma.SubmissionUpdateOneRequiredWithoutRevisionsNestedInput
-  file?: Prisma.FileUpdateOneRequiredWithoutRevisionsNestedInput
-  decision?: Prisma.DecisionUpdateOneWithoutRevisionNestedInput
+  decisions?: Prisma.DecisionUpdateManyWithoutRevisionNestedInput
   publication?: Prisma.PublicationUpdateOneWithoutRevisionNestedInput
 }
 
 export type RevisionUncheckedUpdateWithoutFeedbacksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   submissionId?: Prisma.StringFieldUpdateOperationsInput | string
-  fileId?: Prisma.StringFieldUpdateOperationsInput | string
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   version?: Prisma.IntFieldUpdateOperationsInput | number
   startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
   currentStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
   isFrozen?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  decision?: Prisma.DecisionUncheckedUpdateOneWithoutRevisionNestedInput
+  decisions?: Prisma.DecisionUncheckedUpdateManyWithoutRevisionNestedInput
   publication?: Prisma.PublicationUncheckedUpdateOneWithoutRevisionNestedInput
 }
 
 export type RevisionCreateWithoutPublicationInput = {
   id?: string
+  file?: string | null
   version: number
   startStage?: $Enums.RevisionStage
   currentStage?: $Enums.RevisionStage
@@ -893,22 +796,21 @@ export type RevisionCreateWithoutPublicationInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   submission: Prisma.SubmissionCreateNestedOneWithoutRevisionsInput
-  file: Prisma.FileCreateNestedOneWithoutRevisionsInput
-  decision?: Prisma.DecisionCreateNestedOneWithoutRevisionInput
+  decisions?: Prisma.DecisionCreateNestedManyWithoutRevisionInput
   feedbacks?: Prisma.FeedbackCreateNestedManyWithoutRevisionInput
 }
 
 export type RevisionUncheckedCreateWithoutPublicationInput = {
   id?: string
   submissionId: string
-  fileId: string
+  file?: string | null
   version: number
   startStage?: $Enums.RevisionStage
   currentStage?: $Enums.RevisionStage
   isFrozen?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  decision?: Prisma.DecisionUncheckedCreateNestedOneWithoutRevisionInput
+  decisions?: Prisma.DecisionUncheckedCreateNestedManyWithoutRevisionInput
   feedbacks?: Prisma.FeedbackUncheckedCreateNestedManyWithoutRevisionInput
 }
 
@@ -930,6 +832,7 @@ export type RevisionUpdateToOneWithWhereWithoutPublicationInput = {
 
 export type RevisionUpdateWithoutPublicationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   version?: Prisma.IntFieldUpdateOperationsInput | number
   startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
   currentStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
@@ -937,28 +840,27 @@ export type RevisionUpdateWithoutPublicationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submission?: Prisma.SubmissionUpdateOneRequiredWithoutRevisionsNestedInput
-  file?: Prisma.FileUpdateOneRequiredWithoutRevisionsNestedInput
-  decision?: Prisma.DecisionUpdateOneWithoutRevisionNestedInput
+  decisions?: Prisma.DecisionUpdateManyWithoutRevisionNestedInput
   feedbacks?: Prisma.FeedbackUpdateManyWithoutRevisionNestedInput
 }
 
 export type RevisionUncheckedUpdateWithoutPublicationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   submissionId?: Prisma.StringFieldUpdateOperationsInput | string
-  fileId?: Prisma.StringFieldUpdateOperationsInput | string
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   version?: Prisma.IntFieldUpdateOperationsInput | number
   startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
   currentStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
   isFrozen?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  decision?: Prisma.DecisionUncheckedUpdateOneWithoutRevisionNestedInput
+  decisions?: Prisma.DecisionUncheckedUpdateManyWithoutRevisionNestedInput
   feedbacks?: Prisma.FeedbackUncheckedUpdateManyWithoutRevisionNestedInput
 }
 
 export type RevisionCreateManySubmissionInput = {
   id?: string
-  fileId: string
+  file?: string | null
   version: number
   startStage?: $Enums.RevisionStage
   currentStage?: $Enums.RevisionStage
@@ -969,85 +871,35 @@ export type RevisionCreateManySubmissionInput = {
 
 export type RevisionUpdateWithoutSubmissionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   version?: Prisma.IntFieldUpdateOperationsInput | number
   startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
   currentStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
   isFrozen?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  file?: Prisma.FileUpdateOneRequiredWithoutRevisionsNestedInput
-  decision?: Prisma.DecisionUpdateOneWithoutRevisionNestedInput
+  decisions?: Prisma.DecisionUpdateManyWithoutRevisionNestedInput
   feedbacks?: Prisma.FeedbackUpdateManyWithoutRevisionNestedInput
   publication?: Prisma.PublicationUpdateOneWithoutRevisionNestedInput
 }
 
 export type RevisionUncheckedUpdateWithoutSubmissionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  fileId?: Prisma.StringFieldUpdateOperationsInput | string
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   version?: Prisma.IntFieldUpdateOperationsInput | number
   startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
   currentStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
   isFrozen?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  decision?: Prisma.DecisionUncheckedUpdateOneWithoutRevisionNestedInput
+  decisions?: Prisma.DecisionUncheckedUpdateManyWithoutRevisionNestedInput
   feedbacks?: Prisma.FeedbackUncheckedUpdateManyWithoutRevisionNestedInput
   publication?: Prisma.PublicationUncheckedUpdateOneWithoutRevisionNestedInput
 }
 
 export type RevisionUncheckedUpdateManyWithoutSubmissionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  fileId?: Prisma.StringFieldUpdateOperationsInput | string
-  version?: Prisma.IntFieldUpdateOperationsInput | number
-  startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
-  currentStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
-  isFrozen?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type RevisionCreateManyFileInput = {
-  id?: string
-  submissionId: string
-  version: number
-  startStage?: $Enums.RevisionStage
-  currentStage?: $Enums.RevisionStage
-  isFrozen?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type RevisionUpdateWithoutFileInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  version?: Prisma.IntFieldUpdateOperationsInput | number
-  startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
-  currentStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
-  isFrozen?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submission?: Prisma.SubmissionUpdateOneRequiredWithoutRevisionsNestedInput
-  decision?: Prisma.DecisionUpdateOneWithoutRevisionNestedInput
-  feedbacks?: Prisma.FeedbackUpdateManyWithoutRevisionNestedInput
-  publication?: Prisma.PublicationUpdateOneWithoutRevisionNestedInput
-}
-
-export type RevisionUncheckedUpdateWithoutFileInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  submissionId?: Prisma.StringFieldUpdateOperationsInput | string
-  version?: Prisma.IntFieldUpdateOperationsInput | number
-  startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
-  currentStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
-  isFrozen?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  decision?: Prisma.DecisionUncheckedUpdateOneWithoutRevisionNestedInput
-  feedbacks?: Prisma.FeedbackUncheckedUpdateManyWithoutRevisionNestedInput
-  publication?: Prisma.PublicationUncheckedUpdateOneWithoutRevisionNestedInput
-}
-
-export type RevisionUncheckedUpdateManyWithoutFileInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  submissionId?: Prisma.StringFieldUpdateOperationsInput | string
+  file?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   version?: Prisma.IntFieldUpdateOperationsInput | number
   startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
   currentStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
@@ -1062,10 +914,12 @@ export type RevisionUncheckedUpdateManyWithoutFileInput = {
  */
 
 export type RevisionCountOutputType = {
+  decisions: number
   feedbacks: number
 }
 
 export type RevisionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  decisions?: boolean | RevisionCountOutputTypeCountDecisionsArgs
   feedbacks?: boolean | RevisionCountOutputTypeCountFeedbacksArgs
 }
 
@@ -1082,6 +936,13 @@ export type RevisionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
 /**
  * RevisionCountOutputType without action
  */
+export type RevisionCountOutputTypeCountDecisionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DecisionWhereInput
+}
+
+/**
+ * RevisionCountOutputType without action
+ */
 export type RevisionCountOutputTypeCountFeedbacksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.FeedbackWhereInput
 }
@@ -1090,7 +951,7 @@ export type RevisionCountOutputTypeCountFeedbacksArgs<ExtArgs extends runtime.Ty
 export type RevisionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   submissionId?: boolean
-  fileId?: boolean
+  file?: boolean
   version?: boolean
   startStage?: boolean
   currentStage?: boolean
@@ -1098,8 +959,7 @@ export type RevisionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   createdAt?: boolean
   updatedAt?: boolean
   submission?: boolean | Prisma.SubmissionDefaultArgs<ExtArgs>
-  file?: boolean | Prisma.FileDefaultArgs<ExtArgs>
-  decision?: boolean | Prisma.Revision$decisionArgs<ExtArgs>
+  decisions?: boolean | Prisma.Revision$decisionsArgs<ExtArgs>
   feedbacks?: boolean | Prisma.Revision$feedbacksArgs<ExtArgs>
   publication?: boolean | Prisma.Revision$publicationArgs<ExtArgs>
   _count?: boolean | Prisma.RevisionCountOutputTypeDefaultArgs<ExtArgs>
@@ -1108,7 +968,7 @@ export type RevisionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type RevisionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   submissionId?: boolean
-  fileId?: boolean
+  file?: boolean
   version?: boolean
   startStage?: boolean
   currentStage?: boolean
@@ -1116,13 +976,12 @@ export type RevisionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   createdAt?: boolean
   updatedAt?: boolean
   submission?: boolean | Prisma.SubmissionDefaultArgs<ExtArgs>
-  file?: boolean | Prisma.FileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["revision"]>
 
 export type RevisionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   submissionId?: boolean
-  fileId?: boolean
+  file?: boolean
   version?: boolean
   startStage?: boolean
   currentStage?: boolean
@@ -1130,13 +989,12 @@ export type RevisionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   createdAt?: boolean
   updatedAt?: boolean
   submission?: boolean | Prisma.SubmissionDefaultArgs<ExtArgs>
-  file?: boolean | Prisma.FileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["revision"]>
 
 export type RevisionSelectScalar = {
   id?: boolean
   submissionId?: boolean
-  fileId?: boolean
+  file?: boolean
   version?: boolean
   startStage?: boolean
   currentStage?: boolean
@@ -1145,37 +1003,33 @@ export type RevisionSelectScalar = {
   updatedAt?: boolean
 }
 
-export type RevisionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "submissionId" | "fileId" | "version" | "startStage" | "currentStage" | "isFrozen" | "createdAt" | "updatedAt", ExtArgs["result"]["revision"]>
+export type RevisionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "submissionId" | "file" | "version" | "startStage" | "currentStage" | "isFrozen" | "createdAt" | "updatedAt", ExtArgs["result"]["revision"]>
 export type RevisionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   submission?: boolean | Prisma.SubmissionDefaultArgs<ExtArgs>
-  file?: boolean | Prisma.FileDefaultArgs<ExtArgs>
-  decision?: boolean | Prisma.Revision$decisionArgs<ExtArgs>
+  decisions?: boolean | Prisma.Revision$decisionsArgs<ExtArgs>
   feedbacks?: boolean | Prisma.Revision$feedbacksArgs<ExtArgs>
   publication?: boolean | Prisma.Revision$publicationArgs<ExtArgs>
   _count?: boolean | Prisma.RevisionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RevisionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   submission?: boolean | Prisma.SubmissionDefaultArgs<ExtArgs>
-  file?: boolean | Prisma.FileDefaultArgs<ExtArgs>
 }
 export type RevisionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   submission?: boolean | Prisma.SubmissionDefaultArgs<ExtArgs>
-  file?: boolean | Prisma.FileDefaultArgs<ExtArgs>
 }
 
 export type $RevisionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Revision"
   objects: {
     submission: Prisma.$SubmissionPayload<ExtArgs>
-    file: Prisma.$FilePayload<ExtArgs>
-    decision: Prisma.$DecisionPayload<ExtArgs> | null
+    decisions: Prisma.$DecisionPayload<ExtArgs>[]
     feedbacks: Prisma.$FeedbackPayload<ExtArgs>[]
     publication: Prisma.$PublicationPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     submissionId: string
-    fileId: string
+    file: string | null
     version: number
     startStage: $Enums.RevisionStage
     currentStage: $Enums.RevisionStage
@@ -1577,8 +1431,7 @@ readonly fields: RevisionFieldRefs;
 export interface Prisma__RevisionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   submission<T extends Prisma.SubmissionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SubmissionDefaultArgs<ExtArgs>>): Prisma.Prisma__SubmissionClient<runtime.Types.Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  file<T extends Prisma.FileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FileDefaultArgs<ExtArgs>>): Prisma.Prisma__FileClient<runtime.Types.Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  decision<T extends Prisma.Revision$decisionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Revision$decisionArgs<ExtArgs>>): Prisma.Prisma__DecisionClient<runtime.Types.Result.GetResult<Prisma.$DecisionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  decisions<T extends Prisma.Revision$decisionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Revision$decisionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DecisionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   feedbacks<T extends Prisma.Revision$feedbacksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Revision$feedbacksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   publication<T extends Prisma.Revision$publicationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Revision$publicationArgs<ExtArgs>>): Prisma.Prisma__PublicationClient<runtime.Types.Result.GetResult<Prisma.$PublicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
@@ -1612,7 +1465,7 @@ export interface Prisma__RevisionClient<T, Null = never, ExtArgs extends runtime
 export interface RevisionFieldRefs {
   readonly id: Prisma.FieldRef<"Revision", 'String'>
   readonly submissionId: Prisma.FieldRef<"Revision", 'String'>
-  readonly fileId: Prisma.FieldRef<"Revision", 'String'>
+  readonly file: Prisma.FieldRef<"Revision", 'String'>
   readonly version: Prisma.FieldRef<"Revision", 'Int'>
   readonly startStage: Prisma.FieldRef<"Revision", 'RevisionStage'>
   readonly currentStage: Prisma.FieldRef<"Revision", 'RevisionStage'>
@@ -2020,9 +1873,9 @@ export type RevisionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * Revision.decision
+ * Revision.decisions
  */
-export type Revision$decisionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Revision$decisionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Decision
    */
@@ -2036,6 +1889,11 @@ export type Revision$decisionArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   include?: Prisma.DecisionInclude<ExtArgs> | null
   where?: Prisma.DecisionWhereInput
+  orderBy?: Prisma.DecisionOrderByWithRelationInput | Prisma.DecisionOrderByWithRelationInput[]
+  cursor?: Prisma.DecisionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DecisionScalarFieldEnum | Prisma.DecisionScalarFieldEnum[]
 }
 
 /**

@@ -86,12 +86,12 @@ export class FeedbackRepositoryImpl implements FeedbackRepository {
           submissionId: feedback.submissionId,
           revisionId: feedback.revisionId,
           authorId: feedback.authorId,
-          fileId: feedback.fileId,
+          file: feedback.file,
           content: feedback.content,
           stage: feedback.stage,
           recommendation: feedback.recommendation,
         },
-        include: buildFeedbackInclude(['submission', 'revision', 'author', 'file']),
+        include: buildFeedbackInclude(['submission', 'revision', 'author']),
       });
 
       return right(FeedbackMapper.fromPrismaToDomain(created));
@@ -111,12 +111,12 @@ export class FeedbackRepositoryImpl implements FeedbackRepository {
           submissionId: feedback.submissionId,
           revisionId: feedback.revisionId,
           authorId: feedback.authorId,
-          fileId: feedback.fileId,
+          file: feedback.file,
           content: feedback.content,
           stage: feedback.stage,
           recommendation: feedback.recommendation,
         },
-        include: buildFeedbackInclude(['submission', 'revision', 'author', 'file']),
+        include: buildFeedbackInclude(['submission', 'revision', 'author']),
       });
 
       return right(FeedbackMapper.fromPrismaToDomain(updated));
@@ -129,7 +129,7 @@ export class FeedbackRepositoryImpl implements FeedbackRepository {
     try {
       const deleted = await this.dataSource.feedback.delete({
         where: { id },
-        include: buildFeedbackInclude(['submission', 'revision', 'author', 'file']),
+        include: buildFeedbackInclude(['submission', 'revision', 'author']),
       });
 
       return right(FeedbackMapper.fromPrismaToDomain(deleted));
@@ -160,11 +160,11 @@ const buildFeedbackOrderBy = (sortOptions?: FeedbackSortOptions) => {
   const orderBy: Array<Record<string, 'asc' | 'desc'>> = [];
 
   if (sortOptions.createdAt) {
-    orderBy.push({ createdAt: sortOptions.createdAt });
+    orderBy.push({ createdAt: sortOptions.createdAt.toLowerCase() as 'asc' | 'desc' });
   }
 
   if (sortOptions.updatedAt) {
-    orderBy.push({ updatedAt: sortOptions.updatedAt });
+    orderBy.push({ updatedAt: sortOptions.updatedAt.toLowerCase() as 'asc' | 'desc' });
   }
 
   return orderBy.length > 0 ? orderBy : { createdAt: 'desc' as const };
@@ -179,6 +179,5 @@ const buildFeedbackInclude = (includeOptions?: FeedbackIncludeOptions) => {
     submission: includeOptions.includes('submission'),
     revision: includeOptions.includes('revision'),
     author: includeOptions.includes('author'),
-    file: includeOptions.includes('file'),
   };
 };

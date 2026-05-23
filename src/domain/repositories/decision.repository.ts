@@ -14,32 +14,24 @@ export interface DecisionRepository {
     sortOptions?: DecisionSortOptions,
     paginationOptions?: PaginationOptions,
     abortSignal?: AbortSignal,
-    token?: string,
   ): Promise<Either<[Decision[], PaginationOptions], Error>>;
 
   getDecision(
     id: string,
     includeOptions?: DecisionIncludeOptions,
     abortSignal?: AbortSignal,
-    token?: string,
   ): Promise<Either<Decision, Error>>;
 
   createDecision(
     decision: Omit<Decision, 'id' | 'createdAt' | 'updatedAt'>,
     abortSignal?: AbortSignal,
-    token?: string,
   ): Promise<Either<Decision, Error>>;
 
   updateDecision(
     id: string,
     decision: Partial<Omit<Decision, 'id' | 'createdAt' | 'updatedAt'>>,
     abortSignal?: AbortSignal,
-    token?: string,
   ): Promise<Either<Decision, Error>>;
 
-  deleteDecision(
-    id: string,
-    abortSignal?: AbortSignal,
-    token?: string,
-  ): Promise<Either<Decision, Error>>;
+  deleteDecision(id: string, abortSignal?: AbortSignal): Promise<Either<Decision, Error>>;
 }

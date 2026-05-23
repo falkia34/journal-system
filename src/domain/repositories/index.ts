@@ -8,3 +8,4 @@ export * from './revision.repository';
 export * from './decision.repository';
 export * from './feedback.repository';
 export * from './publication.repository';
+export * from './participant.repository';

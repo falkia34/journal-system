@@ -32,8 +32,6 @@ npx next typegen         # Generate PageProps/LayoutProps types
 
 ## Architecture — Clean Architecture with Inversify DI
 
-Follows the pattern from [infinity-frontend](https://github.com/infiniteuny/infinity-frontend):
-
 ```
 app/                    # Next.js App Router (thin routing layer only)
   (auth)/               # Auth routes (login, callbacks)

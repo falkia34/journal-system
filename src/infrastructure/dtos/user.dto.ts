@@ -8,8 +8,7 @@ export interface UserDto {
   id: string;
   name: string;
   email: string;
-  password: string;
-  roles: ('Author' | 'Reviewer' | 'Editor' | 'Administrator')[];
+  roles: ('AUTHOR' | 'REVIEWER' | 'EDITOR' | 'ADMINISTRATOR')[];
   created_at: string;
   updated_at: string;
 }
@@ -20,7 +19,6 @@ export class UserMapper {
       payload.id,
       payload.name,
       payload.email,
-      payload.password,
       payload.roles,
       payload.createdAt,
       payload.updatedAt,
@@ -32,7 +30,6 @@ export class UserMapper {
       id: user.id,
       name: user.name,
       email: user.email,
-      password: user.password,
       roles: user.roles,
       created_at: user.createdAt?.toISOString(),
       updated_at: user.updatedAt?.toISOString(),
@@ -44,10 +41,40 @@ export class UserMapper {
       dto.id,
       dto.name,
       dto.email,
-      dto.password,
       dto.roles,
       DateTime.fromISO(dto.created_at).toJSDate(),
       DateTime.fromISO(dto.updated_at).toJSDate(),
+    );
+  }
+
+  public static fromDomainToFormData(user: Partial<User>): FormData {
+    const formData = new FormData();
+    if (user.id) formData.append('id', user.id);
+    if (user.name) formData.append('name', user.name);
+    if (user.email) formData.append('email', user.email);
+    if (user.roles) formData.append('roles', JSON.stringify(user.roles));
+    if (user.createdAt) formData.append('createdAt', user.createdAt.toISOString());
+    if (user.updatedAt) formData.append('updatedAt', user.updatedAt.toISOString());
+    return formData;
+  }
+
+  public static fromFormDataToDomain(formData: FormData): User {
+    return new User(
+      formData.get('id') as string,
+      formData.get('name') as string,
+      formData.get('email') as string,
+      JSON.parse(formData.get('roles') as string) as (
+        | 'AUTHOR'
+        | 'REVIEWER'
+        | 'EDITOR'
+        | 'ADMINISTRATOR'
+      )[],
+      formData.get('createdAt')
+        ? DateTime.fromISO(formData.get('createdAt') as string).toJSDate()
+        : new Date(),
+      formData.get('updatedAt')
+        ? DateTime.fromISO(formData.get('updatedAt') as string).toJSDate()
+        : new Date(),
     );
   }
 }

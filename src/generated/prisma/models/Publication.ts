@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums"
-import type * as Prisma from "../internal/prismaNamespace"
+import type * as $Enums from "../enums.js"
+import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model Publication
@@ -29,7 +29,6 @@ export type PublicationMinAggregateOutputType = {
   issueId: string | null
   revisionId: string | null
   submissionId: string | null
-  doi: string | null
   publishedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -40,7 +39,6 @@ export type PublicationMaxAggregateOutputType = {
   issueId: string | null
   revisionId: string | null
   submissionId: string | null
-  doi: string | null
   publishedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -51,7 +49,6 @@ export type PublicationCountAggregateOutputType = {
   issueId: number
   revisionId: number
   submissionId: number
-  doi: number
   publishedAt: number
   createdAt: number
   updatedAt: number
@@ -64,7 +61,6 @@ export type PublicationMinAggregateInputType = {
   issueId?: true
   revisionId?: true
   submissionId?: true
-  doi?: true
   publishedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -75,7 +71,6 @@ export type PublicationMaxAggregateInputType = {
   issueId?: true
   revisionId?: true
   submissionId?: true
-  doi?: true
   publishedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -86,7 +81,6 @@ export type PublicationCountAggregateInputType = {
   issueId?: true
   revisionId?: true
   submissionId?: true
-  doi?: true
   publishedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -170,8 +164,7 @@ export type PublicationGroupByOutputType = {
   issueId: string
   revisionId: string
   submissionId: string
-  doi: string | null
-  publishedAt: Date
+  publishedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: PublicationCountAggregateOutputType | null
@@ -202,8 +195,7 @@ export type PublicationWhereInput = {
   issueId?: Prisma.UuidFilter<"Publication"> | string
   revisionId?: Prisma.UuidFilter<"Publication"> | string
   submissionId?: Prisma.UuidFilter<"Publication"> | string
-  doi?: Prisma.StringNullableFilter<"Publication"> | string | null
-  publishedAt?: Prisma.DateTimeFilter<"Publication"> | Date | string
+  publishedAt?: Prisma.DateTimeNullableFilter<"Publication"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Publication"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Publication"> | Date | string
   issue?: Prisma.XOR<Prisma.IssueScalarRelationFilter, Prisma.IssueWhereInput>
@@ -216,8 +208,7 @@ export type PublicationOrderByWithRelationInput = {
   issueId?: Prisma.SortOrder
   revisionId?: Prisma.SortOrder
   submissionId?: Prisma.SortOrder
-  doi?: Prisma.SortOrderInput | Prisma.SortOrder
-  publishedAt?: Prisma.SortOrder
+  publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   issue?: Prisma.IssueOrderByWithRelationInput
@@ -234,8 +225,7 @@ export type PublicationWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.PublicationWhereInput[]
   NOT?: Prisma.PublicationWhereInput | Prisma.PublicationWhereInput[]
   issueId?: Prisma.UuidFilter<"Publication"> | string
-  doi?: Prisma.StringNullableFilter<"Publication"> | string | null
-  publishedAt?: Prisma.DateTimeFilter<"Publication"> | Date | string
+  publishedAt?: Prisma.DateTimeNullableFilter<"Publication"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Publication"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Publication"> | Date | string
   issue?: Prisma.XOR<Prisma.IssueScalarRelationFilter, Prisma.IssueWhereInput>
@@ -248,8 +238,7 @@ export type PublicationOrderByWithAggregationInput = {
   issueId?: Prisma.SortOrder
   revisionId?: Prisma.SortOrder
   submissionId?: Prisma.SortOrder
-  doi?: Prisma.SortOrderInput | Prisma.SortOrder
-  publishedAt?: Prisma.SortOrder
+  publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PublicationCountOrderByAggregateInput
@@ -265,16 +254,14 @@ export type PublicationScalarWhereWithAggregatesInput = {
   issueId?: Prisma.UuidWithAggregatesFilter<"Publication"> | string
   revisionId?: Prisma.UuidWithAggregatesFilter<"Publication"> | string
   submissionId?: Prisma.UuidWithAggregatesFilter<"Publication"> | string
-  doi?: Prisma.StringNullableWithAggregatesFilter<"Publication"> | string | null
-  publishedAt?: Prisma.DateTimeWithAggregatesFilter<"Publication"> | Date | string
+  publishedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Publication"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Publication"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Publication"> | Date | string
 }
 
 export type PublicationCreateInput = {
   id?: string
-  doi?: string | null
-  publishedAt?: Date | string
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   issue: Prisma.IssueCreateNestedOneWithoutPublicationsInput
@@ -287,16 +274,14 @@ export type PublicationUncheckedCreateInput = {
   issueId: string
   revisionId: string
   submissionId: string
-  doi?: string | null
-  publishedAt?: Date | string
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type PublicationUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  doi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   issue?: Prisma.IssueUpdateOneRequiredWithoutPublicationsNestedInput
@@ -309,8 +294,7 @@ export type PublicationUncheckedUpdateInput = {
   issueId?: Prisma.StringFieldUpdateOperationsInput | string
   revisionId?: Prisma.StringFieldUpdateOperationsInput | string
   submissionId?: Prisma.StringFieldUpdateOperationsInput | string
-  doi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -320,16 +304,14 @@ export type PublicationCreateManyInput = {
   issueId: string
   revisionId: string
   submissionId: string
-  doi?: string | null
-  publishedAt?: Date | string
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type PublicationUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  doi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -339,8 +321,7 @@ export type PublicationUncheckedUpdateManyInput = {
   issueId?: Prisma.StringFieldUpdateOperationsInput | string
   revisionId?: Prisma.StringFieldUpdateOperationsInput | string
   submissionId?: Prisma.StringFieldUpdateOperationsInput | string
-  doi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -370,7 +351,6 @@ export type PublicationCountOrderByAggregateInput = {
   issueId?: Prisma.SortOrder
   revisionId?: Prisma.SortOrder
   submissionId?: Prisma.SortOrder
-  doi?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -381,7 +361,6 @@ export type PublicationMaxOrderByAggregateInput = {
   issueId?: Prisma.SortOrder
   revisionId?: Prisma.SortOrder
   submissionId?: Prisma.SortOrder
-  doi?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -392,7 +371,6 @@ export type PublicationMinOrderByAggregateInput = {
   issueId?: Prisma.SortOrder
   revisionId?: Prisma.SortOrder
   submissionId?: Prisma.SortOrder
-  doi?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -506,8 +484,7 @@ export type PublicationUncheckedUpdateOneWithoutRevisionNestedInput = {
 
 export type PublicationCreateWithoutIssueInput = {
   id?: string
-  doi?: string | null
-  publishedAt?: Date | string
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   revision: Prisma.RevisionCreateNestedOneWithoutPublicationInput
@@ -518,8 +495,7 @@ export type PublicationUncheckedCreateWithoutIssueInput = {
   id?: string
   revisionId: string
   submissionId: string
-  doi?: string | null
-  publishedAt?: Date | string
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -558,16 +534,14 @@ export type PublicationScalarWhereInput = {
   issueId?: Prisma.UuidFilter<"Publication"> | string
   revisionId?: Prisma.UuidFilter<"Publication"> | string
   submissionId?: Prisma.UuidFilter<"Publication"> | string
-  doi?: Prisma.StringNullableFilter<"Publication"> | string | null
-  publishedAt?: Prisma.DateTimeFilter<"Publication"> | Date | string
+  publishedAt?: Prisma.DateTimeNullableFilter<"Publication"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Publication"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Publication"> | Date | string
 }
 
 export type PublicationCreateWithoutSubmissionInput = {
   id?: string
-  doi?: string | null
-  publishedAt?: Date | string
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   issue: Prisma.IssueCreateNestedOneWithoutPublicationsInput
@@ -578,8 +552,7 @@ export type PublicationUncheckedCreateWithoutSubmissionInput = {
   id?: string
   issueId: string
   revisionId: string
-  doi?: string | null
-  publishedAt?: Date | string
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -602,8 +575,7 @@ export type PublicationUpdateToOneWithWhereWithoutSubmissionInput = {
 
 export type PublicationUpdateWithoutSubmissionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  doi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   issue?: Prisma.IssueUpdateOneRequiredWithoutPublicationsNestedInput
@@ -614,16 +586,14 @@ export type PublicationUncheckedUpdateWithoutSubmissionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   issueId?: Prisma.StringFieldUpdateOperationsInput | string
   revisionId?: Prisma.StringFieldUpdateOperationsInput | string
-  doi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type PublicationCreateWithoutRevisionInput = {
   id?: string
-  doi?: string | null
-  publishedAt?: Date | string
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   issue: Prisma.IssueCreateNestedOneWithoutPublicationsInput
@@ -634,8 +604,7 @@ export type PublicationUncheckedCreateWithoutRevisionInput = {
   id?: string
   issueId: string
   submissionId: string
-  doi?: string | null
-  publishedAt?: Date | string
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -658,8 +627,7 @@ export type PublicationUpdateToOneWithWhereWithoutRevisionInput = {
 
 export type PublicationUpdateWithoutRevisionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  doi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   issue?: Prisma.IssueUpdateOneRequiredWithoutPublicationsNestedInput
@@ -670,8 +638,7 @@ export type PublicationUncheckedUpdateWithoutRevisionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   issueId?: Prisma.StringFieldUpdateOperationsInput | string
   submissionId?: Prisma.StringFieldUpdateOperationsInput | string
-  doi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -680,16 +647,14 @@ export type PublicationCreateManyIssueInput = {
   id?: string
   revisionId: string
   submissionId: string
-  doi?: string | null
-  publishedAt?: Date | string
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type PublicationUpdateWithoutIssueInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  doi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   revision?: Prisma.RevisionUpdateOneRequiredWithoutPublicationNestedInput
@@ -700,8 +665,7 @@ export type PublicationUncheckedUpdateWithoutIssueInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   revisionId?: Prisma.StringFieldUpdateOperationsInput | string
   submissionId?: Prisma.StringFieldUpdateOperationsInput | string
-  doi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -710,8 +674,7 @@ export type PublicationUncheckedUpdateManyWithoutIssueInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   revisionId?: Prisma.StringFieldUpdateOperationsInput | string
   submissionId?: Prisma.StringFieldUpdateOperationsInput | string
-  doi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -723,7 +686,6 @@ export type PublicationSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   issueId?: boolean
   revisionId?: boolean
   submissionId?: boolean
-  doi?: boolean
   publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -737,7 +699,6 @@ export type PublicationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   issueId?: boolean
   revisionId?: boolean
   submissionId?: boolean
-  doi?: boolean
   publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -751,7 +712,6 @@ export type PublicationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   issueId?: boolean
   revisionId?: boolean
   submissionId?: boolean
-  doi?: boolean
   publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -765,13 +725,12 @@ export type PublicationSelectScalar = {
   issueId?: boolean
   revisionId?: boolean
   submissionId?: boolean
-  doi?: boolean
   publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type PublicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "issueId" | "revisionId" | "submissionId" | "doi" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["publication"]>
+export type PublicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "issueId" | "revisionId" | "submissionId" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["publication"]>
 export type PublicationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   issue?: boolean | Prisma.IssueDefaultArgs<ExtArgs>
   revision?: boolean | Prisma.RevisionDefaultArgs<ExtArgs>
@@ -800,8 +759,7 @@ export type $PublicationPayload<ExtArgs extends runtime.Types.Extensions.Interna
     issueId: string
     revisionId: string
     submissionId: string
-    doi: string | null
-    publishedAt: Date
+    publishedAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["publication"]>
@@ -1234,7 +1192,6 @@ export interface PublicationFieldRefs {
   readonly issueId: Prisma.FieldRef<"Publication", 'String'>
   readonly revisionId: Prisma.FieldRef<"Publication", 'String'>
   readonly submissionId: Prisma.FieldRef<"Publication", 'String'>
-  readonly doi: Prisma.FieldRef<"Publication", 'String'>
   readonly publishedAt: Prisma.FieldRef<"Publication", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Publication", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Publication", 'DateTime'>

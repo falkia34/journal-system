@@ -2,16 +2,18 @@ import type { AuthServerDataSource } from '@app/infrastructure/datasources/serve
 import type { AuthClientDataSource } from '@app/infrastructure/datasources/client';
 import { AuthRepository } from '@app/domain/repositories';
 import { Either, left, right } from 'effect/Either';
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { NextRequest } from 'next/server';
 import { Session } from '@app/domain/entities';
 import { SYMBOLS } from '@config';
 
+@injectable()
 export class AuthRepositoryImpl implements AuthRepository {
+  private isServer = typeof window === 'undefined';
+
   public constructor(
     @inject(SYMBOLS.AuthDataSource)
     private authDataSource: AuthServerDataSource | AuthClientDataSource,
-    private isServer = typeof window === 'undefined',
   ) {}
 
   public async signIn(callbackUrl?: string): Promise<Either<void, Error>> {
@@ -19,8 +21,8 @@ export class AuthRepositoryImpl implements AuthRepository {
       if (this.isServer) {
         return left(new Error('Sign-in is not supported on the server side'));
       } else {
-        await (this.authDataSource as AuthClientDataSource).signIn.oauth2({
-          providerId: 'infinite-sso',
+        await (this.authDataSource as AuthClientDataSource).signIn.social({
+          provider: 'google',
           callbackURL: callbackUrl,
         });
       }
@@ -90,9 +92,10 @@ export class AuthRepositoryImpl implements AuthRepository {
             id: session.user.internalId || '',
             name: session.user.name || '',
             emailAddress: session.user.email || '',
+            imageUrl: session.user.image || null,
           },
-          (session.user.roles || []) as ('Author' | 'Editor' | 'Reviewer' | 'Administrator')[],
-          session.account!.accessTokenExpiresAt!,
+          (session.user.roles || []) as ('AUTHOR' | 'REVIEWER' | 'EDITOR' | 'ADMINISTRATOR')[],
+          session.user.activeRole as 'AUTHOR' | 'REVIEWER' | 'EDITOR' | 'ADMINISTRATOR',
         ),
       );
     } catch (error) {
@@ -100,41 +103,23 @@ export class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  public async getAccessToken(request?: Request): Promise<Either<string, Error>> {
+  public async updateSession(session: Session): Promise<Either<Session, Error>> {
     try {
-      let accessToken;
-
       if (this.isServer) {
-        let headers: HeadersInit;
-
-        if (request) {
-          headers = new NextRequest(request).headers;
-        } else {
-          const { headers: headersFunc } = await import('next/headers.js');
-          headers = await headersFunc();
-        }
-
-        accessToken = await (this.authDataSource as AuthServerDataSource).api.getAccessToken({
-          headers,
-          body: {
-            providerId: 'infinite-sso',
-          },
-        });
+        return left(new Error('Session update is not supported on the server side'));
       } else {
-        const { data, error } = await (this.authDataSource as AuthClientDataSource).getAccessToken({
-          providerId: 'infinite-sso',
+        const { data, error } = await (this.authDataSource as AuthClientDataSource).updateUser({
+          roles: session.roles,
+          activeRole: session.activeRole,
         });
-        accessToken = data;
         if (error) {
           return left(new Error(error.message));
         }
+        if (!data) {
+          return left(new Error('Failed to update session'));
+        }
+        return right(session);
       }
-
-      if (!accessToken) {
-        return left(new Error('Access token not found'));
-      }
-
-      return right(accessToken.accessToken);
     } catch (error) {
       return left(error instanceof Error ? error : new Error(String(error)));
     }

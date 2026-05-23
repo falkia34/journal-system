@@ -18,7 +18,7 @@ export function AuthFooter() {
         sx={{ color: 'outline' }}
         className="mx-auto my-0 max-w-2xl text-center text-sm"
       >
-        &copy; {new Date().getFullYear()}. Made with &#128154; by INFINITE UNY.
+        &copy; {new Date().getFullYear()}. Made with &#128154; by Muhammad Naufal.
       </Typography>
     </Container>
   );

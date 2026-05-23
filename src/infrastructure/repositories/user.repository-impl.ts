@@ -71,7 +71,6 @@ export class UserRepositoryImpl implements UserRepository {
         data: {
           name: user.name,
           email: user.email,
-          password: user.password,
           roles: user.roles,
         },
       });
@@ -92,7 +91,6 @@ export class UserRepositoryImpl implements UserRepository {
         data: {
           name: user.name,
           email: user.email,
-          password: user.password,
           ...(user.roles ? { roles: { set: user.roles } } : {}),
         },
       });
@@ -136,7 +134,7 @@ export class UserRepositoryImpl implements UserRepository {
       return { createdAt: 'desc' as const };
     }
 
-    const orderBy: Array<Record<string, 'asc' | 'desc'>> = [];
+    const orderBy: Array<Record<string, 'ASC' | 'DESC'>> = [];
 
     if (sortOptions.createdAt) {
       orderBy.push({ createdAt: sortOptions.createdAt });

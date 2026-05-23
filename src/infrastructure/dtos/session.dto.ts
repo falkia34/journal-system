@@ -1,4 +1,3 @@
-import { DateTime } from 'luxon';
 import { Session } from '@app/domain/entities';
 
 export interface SessionDto {
@@ -6,9 +5,10 @@ export interface SessionDto {
     id: string;
     name: string;
     email_address: string;
+    image_url: string | null;
   };
-  roles: ('Author' | 'Editor' | 'Reviewer' | 'Administrator')[];
-  expires_at: string;
+  roles: ('AUTHOR' | 'EDITOR' | 'REVIEWER' | 'ADMINISTRATOR')[];
+  active_role: 'AUTHOR' | 'EDITOR' | 'REVIEWER' | 'ADMINISTRATOR';
 }
 
 export class SessionMapper {
@@ -19,10 +19,11 @@ export class SessionMapper {
             id: session.user.id,
             name: session.user.name,
             email_address: session.user.emailAddress,
+            image_url: session.user.imageUrl,
           }
         : undefined,
       roles: session.roles,
-      expires_at: session.expiresAt?.toISOString(),
+      active_role: session.activeRole,
     };
   }
 
@@ -32,9 +33,10 @@ export class SessionMapper {
         id: dto.user.id,
         name: dto.user.name,
         emailAddress: dto.user.email_address,
+        imageUrl: dto.user.image_url,
       },
       dto.roles,
-      DateTime.fromISO(dto.expires_at).toJSDate(),
+      dto.active_role,
     );
   }
 }

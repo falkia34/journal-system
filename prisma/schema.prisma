@@ -8,10 +8,9 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid()) @db.Uuid
+  id        String   @id @default(uuid(7)) @db.Uuid
   email     String   @unique
   name      String
-  password  String
   roles     Role[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -26,10 +25,9 @@ model User {
 }
 
 model Journal {
-  id              String   @id @default(uuid()) @db.Uuid
+  id              String   @id @default(uuid(7)) @db.Uuid
   name            String
   description     String
-  issn            String?
   editorInChiefId String   @db.Uuid
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -42,7 +40,7 @@ model Journal {
 }
 
 model Issue {
-  id          String    @id @default(uuid()) @db.Uuid
+  id          String    @id @default(uuid(7)) @db.Uuid
   journalId   String    @db.Uuid
   volume      Int
   number      Int
@@ -59,13 +57,13 @@ model Issue {
 }
 
 model Submission {
-  id        String           @id @default(uuid()) @db.Uuid
+  id        String           @id @default(uuid(7)) @db.Uuid
   journalId String           @db.Uuid
   authorId  String           @db.Uuid
   title     String
   abstract  String
   authors   Json
-  status    SubmissionStatus @default(Draft)
+  status    SubmissionStatus @default(DRAFT)
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
 
@@ -81,19 +79,18 @@ model Submission {
 }
 
 model Revision {
-  id           String        @id @default(uuid()) @db.Uuid
+  id           String        @id @default(uuid(7)) @db.Uuid
   submissionId String        @db.Uuid
-  fileId       String        @db.Uuid
+  file         String?
   version      Int
-  startStage   RevisionStage @default(Draft)
-  currentStage RevisionStage @default(Draft)
+  startStage   RevisionStage @default(DRAFT)
+  currentStage RevisionStage @default(DRAFT)
   isFrozen     Boolean       @default(false)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 
   submission  Submission   @relation(fields: [submissionId], references: [id])
-  file        File         @relation(fields: [fileId], references: [id])
-  decision    Decision?
+  decisions   Decision[]
   feedbacks   Feedback[]
   publication Publication?
 
@@ -101,23 +98,10 @@ model Revision {
   @@map("revisions")
 }
 
-model File {
-  id           String @id @default(uuid()) @db.Uuid
-  filename     String
-  originalName String
-  mimeType     String
-  size         Int
-
-  revisions Revision[]
-  feedbacks Feedback[]
-
-  @@map("files")
-}
-
 model Decision {
-  id           String        @id @default(uuid()) @db.Uuid
+  id           String        @id @default(uuid(7)) @db.Uuid
   submissionId String        @db.Uuid
-  revisionId   String        @unique @db.Uuid
+  revisionId   String        @db.Uuid
   deciderId    String        @db.Uuid
   startStage   RevisionStage
   decidedStage RevisionStage
@@ -133,11 +117,11 @@ model Decision {
 }
 
 model Feedback {
-  id             String                 @id @default(uuid()) @db.Uuid
+  id             String                 @id @default(uuid(7)) @db.Uuid
   submissionId   String                 @db.Uuid
   revisionId     String                 @db.Uuid
   authorId       String                 @db.Uuid
-  fileId         String?                @db.Uuid
+  file           String?
   content        String
   stage          FeedbackStage
   recommendation FeedbackRecommendation
@@ -147,17 +131,15 @@ model Feedback {
   submission Submission @relation(fields: [submissionId], references: [id])
   revision   Revision   @relation(fields: [revisionId], references: [id])
   author     User       @relation("FeedbackAuthor", fields: [authorId], references: [id])
-  file       File?      @relation(fields: [fileId], references: [id])
 
   @@map("feedbacks")
 }
 
 model Publication {
-  id           String    @id @default(uuid()) @db.Uuid
+  id           String    @id @default(uuid(7)) @db.Uuid
   issueId      String    @db.Uuid
   revisionId   String    @unique @db.Uuid
   submissionId String    @unique @db.Uuid
-  doi          String?
   publishedAt  DateTime?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
@@ -171,7 +153,7 @@ model Publication {
 }
 
 model Participant {
-  id           String        @id @default(uuid()) @db.Uuid
+  id           String        @id @default(uuid(7)) @db.Uuid
   submissionId String        @db.Uuid
   userId       String        @db.Uuid
   stage        RevisionStage
@@ -185,58 +167,58 @@ model Participant {
 }
 
 enum Role {
-  Author        @map("AUTHOR")
-  Reviewer      @map("REVIEWER")
-  Editor        @map("EDITOR")
-  Administrator @map("ADMINISTRATOR")
+  AUTHOR
+  REVIEWER
+  EDITOR
+  ADMINISTRATOR
 
   @@map("role")
 }
 
 enum SubmissionStatus {
-  Draft       @map("DRAFT")
-  Submitted   @map("SUBMITTED")
-  Review      @map("REVIEW")
-  Edit        @map("EDIT")
-  CopyEdit    @map("COPY_EDIT")
-  LayoutEdit  @map("LAYOUT_EDIT")
-  FinalReview @map("FINAL_REVIEW")
-  Published   @map("PUBLISHED")
-  Rejected    @map("REJECTED")
-  Withdrawn   @map("WITHDRAWN")
+  DRAFT
+  SUBMITTED
+  REVIEW
+  EDIT
+  COPY_EDIT
+  LAYOUT_EDIT
+  FINAL_REVIEW
+  PUBLISHED
+  REJECTED
+  WITHDRAWN
 
   @@map("submission_status")
 }
 
 enum RevisionStage {
-  Draft       @map("DRAFT")
-  Submitted   @map("SUBMITTED")
-  Review      @map("REVIEW")
-  Edit        @map("EDIT")
-  CopyEdit    @map("COPY_EDIT")
-  LayoutEdit  @map("LAYOUT_EDIT")
-  FinalReview @map("FINAL_REVIEW")
-  Published   @map("PUBLISHED")
-  Rejected    @map("REJECTED")
-  Withdrawn   @map("WITHDRAWN")
+  DRAFT
+  SUBMITTED
+  REVIEW
+  EDIT
+  COPY_EDIT
+  LAYOUT_EDIT
+  FINAL_REVIEW
+  PUBLISHED
+  REJECTED
+  WITHDRAWN
 
   @@map("revision_stage")
 }
 
 enum FeedbackRecommendation {
-  Continue @map("CONTINUE")
-  Reject   @map("REJECT")
-  Revise   @map("REVISE")
+  CONTINUE
+  REJECT
+  REVISE
 
   @@map("feedback_recommendation")
 }
 
 enum FeedbackStage {
-  Review      @map("REVIEW")
-  Edit        @map("EDIT")
-  CopyEdit    @map("COPY_EDIT")
-  LayoutEdit  @map("LAYOUT_EDIT")
-  FinalReview @map("FINAL_REVIEW")
+  REVIEW
+  EDIT
+  COPY_EDIT
+  LAYOUT_EDIT
+  FINAL_REVIEW
 
   @@map("feedback_stage")
 }

@@ -8,3 +8,4 @@ export * from './journal.repository-impl';
 export * from './issue.repository-impl';
 export * from './publication.repository-impl';
 export * from './user.repository-impl';
+export * from './participant.repository-impl';

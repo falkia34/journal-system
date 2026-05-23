@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums"
-import type * as Prisma from "../internal/prismaNamespace"
+import type * as $Enums from "../enums.js"
+import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model Decision
@@ -236,11 +236,11 @@ export type DecisionOrderByWithRelationInput = {
 
 export type DecisionWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  revisionId?: string
   AND?: Prisma.DecisionWhereInput | Prisma.DecisionWhereInput[]
   OR?: Prisma.DecisionWhereInput[]
   NOT?: Prisma.DecisionWhereInput | Prisma.DecisionWhereInput[]
   submissionId?: Prisma.UuidFilter<"Decision"> | string
+  revisionId?: Prisma.UuidFilter<"Decision"> | string
   deciderId?: Prisma.UuidFilter<"Decision"> | string
   startStage?: Prisma.EnumRevisionStageFilter<"Decision"> | $Enums.RevisionStage
   decidedStage?: Prisma.EnumRevisionStageFilter<"Decision"> | $Enums.RevisionStage
@@ -250,7 +250,7 @@ export type DecisionWhereUniqueInput = Prisma.AtLeast<{
   submission?: Prisma.XOR<Prisma.SubmissionScalarRelationFilter, Prisma.SubmissionWhereInput>
   revision?: Prisma.XOR<Prisma.RevisionScalarRelationFilter, Prisma.RevisionWhereInput>
   decider?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "revisionId">
+}, "id">
 
 export type DecisionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -290,7 +290,7 @@ export type DecisionCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   submission: Prisma.SubmissionCreateNestedOneWithoutDecisionsInput
-  revision: Prisma.RevisionCreateNestedOneWithoutDecisionInput
+  revision: Prisma.RevisionCreateNestedOneWithoutDecisionsInput
   decider: Prisma.UserCreateNestedOneWithoutDecisionsInput
 }
 
@@ -314,7 +314,7 @@ export type DecisionUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submission?: Prisma.SubmissionUpdateOneRequiredWithoutDecisionsNestedInput
-  revision?: Prisma.RevisionUpdateOneRequiredWithoutDecisionNestedInput
+  revision?: Prisma.RevisionUpdateOneRequiredWithoutDecisionsNestedInput
   decider?: Prisma.UserUpdateOneRequiredWithoutDecisionsNestedInput
 }
 
@@ -371,11 +371,6 @@ export type DecisionListRelationFilter = {
 
 export type DecisionOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type DecisionNullableScalarRelationFilter = {
-  is?: Prisma.DecisionWhereInput | null
-  isNot?: Prisma.DecisionWhereInput | null
 }
 
 export type DecisionCountOrderByAggregateInput = {
@@ -498,36 +493,46 @@ export type DecisionUncheckedUpdateManyWithoutSubmissionNestedInput = {
   deleteMany?: Prisma.DecisionScalarWhereInput | Prisma.DecisionScalarWhereInput[]
 }
 
-export type DecisionCreateNestedOneWithoutRevisionInput = {
-  create?: Prisma.XOR<Prisma.DecisionCreateWithoutRevisionInput, Prisma.DecisionUncheckedCreateWithoutRevisionInput>
-  connectOrCreate?: Prisma.DecisionCreateOrConnectWithoutRevisionInput
-  connect?: Prisma.DecisionWhereUniqueInput
+export type DecisionCreateNestedManyWithoutRevisionInput = {
+  create?: Prisma.XOR<Prisma.DecisionCreateWithoutRevisionInput, Prisma.DecisionUncheckedCreateWithoutRevisionInput> | Prisma.DecisionCreateWithoutRevisionInput[] | Prisma.DecisionUncheckedCreateWithoutRevisionInput[]
+  connectOrCreate?: Prisma.DecisionCreateOrConnectWithoutRevisionInput | Prisma.DecisionCreateOrConnectWithoutRevisionInput[]
+  createMany?: Prisma.DecisionCreateManyRevisionInputEnvelope
+  connect?: Prisma.DecisionWhereUniqueInput | Prisma.DecisionWhereUniqueInput[]
 }
 
-export type DecisionUncheckedCreateNestedOneWithoutRevisionInput = {
-  create?: Prisma.XOR<Prisma.DecisionCreateWithoutRevisionInput, Prisma.DecisionUncheckedCreateWithoutRevisionInput>
-  connectOrCreate?: Prisma.DecisionCreateOrConnectWithoutRevisionInput
-  connect?: Prisma.DecisionWhereUniqueInput
+export type DecisionUncheckedCreateNestedManyWithoutRevisionInput = {
+  create?: Prisma.XOR<Prisma.DecisionCreateWithoutRevisionInput, Prisma.DecisionUncheckedCreateWithoutRevisionInput> | Prisma.DecisionCreateWithoutRevisionInput[] | Prisma.DecisionUncheckedCreateWithoutRevisionInput[]
+  connectOrCreate?: Prisma.DecisionCreateOrConnectWithoutRevisionInput | Prisma.DecisionCreateOrConnectWithoutRevisionInput[]
+  createMany?: Prisma.DecisionCreateManyRevisionInputEnvelope
+  connect?: Prisma.DecisionWhereUniqueInput | Prisma.DecisionWhereUniqueInput[]
 }
 
-export type DecisionUpdateOneWithoutRevisionNestedInput = {
-  create?: Prisma.XOR<Prisma.DecisionCreateWithoutRevisionInput, Prisma.DecisionUncheckedCreateWithoutRevisionInput>
-  connectOrCreate?: Prisma.DecisionCreateOrConnectWithoutRevisionInput
-  upsert?: Prisma.DecisionUpsertWithoutRevisionInput
-  disconnect?: Prisma.DecisionWhereInput | boolean
-  delete?: Prisma.DecisionWhereInput | boolean
-  connect?: Prisma.DecisionWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.DecisionUpdateToOneWithWhereWithoutRevisionInput, Prisma.DecisionUpdateWithoutRevisionInput>, Prisma.DecisionUncheckedUpdateWithoutRevisionInput>
+export type DecisionUpdateManyWithoutRevisionNestedInput = {
+  create?: Prisma.XOR<Prisma.DecisionCreateWithoutRevisionInput, Prisma.DecisionUncheckedCreateWithoutRevisionInput> | Prisma.DecisionCreateWithoutRevisionInput[] | Prisma.DecisionUncheckedCreateWithoutRevisionInput[]
+  connectOrCreate?: Prisma.DecisionCreateOrConnectWithoutRevisionInput | Prisma.DecisionCreateOrConnectWithoutRevisionInput[]
+  upsert?: Prisma.DecisionUpsertWithWhereUniqueWithoutRevisionInput | Prisma.DecisionUpsertWithWhereUniqueWithoutRevisionInput[]
+  createMany?: Prisma.DecisionCreateManyRevisionInputEnvelope
+  set?: Prisma.DecisionWhereUniqueInput | Prisma.DecisionWhereUniqueInput[]
+  disconnect?: Prisma.DecisionWhereUniqueInput | Prisma.DecisionWhereUniqueInput[]
+  delete?: Prisma.DecisionWhereUniqueInput | Prisma.DecisionWhereUniqueInput[]
+  connect?: Prisma.DecisionWhereUniqueInput | Prisma.DecisionWhereUniqueInput[]
+  update?: Prisma.DecisionUpdateWithWhereUniqueWithoutRevisionInput | Prisma.DecisionUpdateWithWhereUniqueWithoutRevisionInput[]
+  updateMany?: Prisma.DecisionUpdateManyWithWhereWithoutRevisionInput | Prisma.DecisionUpdateManyWithWhereWithoutRevisionInput[]
+  deleteMany?: Prisma.DecisionScalarWhereInput | Prisma.DecisionScalarWhereInput[]
 }
 
-export type DecisionUncheckedUpdateOneWithoutRevisionNestedInput = {
-  create?: Prisma.XOR<Prisma.DecisionCreateWithoutRevisionInput, Prisma.DecisionUncheckedCreateWithoutRevisionInput>
-  connectOrCreate?: Prisma.DecisionCreateOrConnectWithoutRevisionInput
-  upsert?: Prisma.DecisionUpsertWithoutRevisionInput
-  disconnect?: Prisma.DecisionWhereInput | boolean
-  delete?: Prisma.DecisionWhereInput | boolean
-  connect?: Prisma.DecisionWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.DecisionUpdateToOneWithWhereWithoutRevisionInput, Prisma.DecisionUpdateWithoutRevisionInput>, Prisma.DecisionUncheckedUpdateWithoutRevisionInput>
+export type DecisionUncheckedUpdateManyWithoutRevisionNestedInput = {
+  create?: Prisma.XOR<Prisma.DecisionCreateWithoutRevisionInput, Prisma.DecisionUncheckedCreateWithoutRevisionInput> | Prisma.DecisionCreateWithoutRevisionInput[] | Prisma.DecisionUncheckedCreateWithoutRevisionInput[]
+  connectOrCreate?: Prisma.DecisionCreateOrConnectWithoutRevisionInput | Prisma.DecisionCreateOrConnectWithoutRevisionInput[]
+  upsert?: Prisma.DecisionUpsertWithWhereUniqueWithoutRevisionInput | Prisma.DecisionUpsertWithWhereUniqueWithoutRevisionInput[]
+  createMany?: Prisma.DecisionCreateManyRevisionInputEnvelope
+  set?: Prisma.DecisionWhereUniqueInput | Prisma.DecisionWhereUniqueInput[]
+  disconnect?: Prisma.DecisionWhereUniqueInput | Prisma.DecisionWhereUniqueInput[]
+  delete?: Prisma.DecisionWhereUniqueInput | Prisma.DecisionWhereUniqueInput[]
+  connect?: Prisma.DecisionWhereUniqueInput | Prisma.DecisionWhereUniqueInput[]
+  update?: Prisma.DecisionUpdateWithWhereUniqueWithoutRevisionInput | Prisma.DecisionUpdateWithWhereUniqueWithoutRevisionInput[]
+  updateMany?: Prisma.DecisionUpdateManyWithWhereWithoutRevisionInput | Prisma.DecisionUpdateManyWithWhereWithoutRevisionInput[]
+  deleteMany?: Prisma.DecisionScalarWhereInput | Prisma.DecisionScalarWhereInput[]
 }
 
 export type DecisionCreateWithoutDeciderInput = {
@@ -538,7 +543,7 @@ export type DecisionCreateWithoutDeciderInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   submission: Prisma.SubmissionCreateNestedOneWithoutDecisionsInput
-  revision: Prisma.RevisionCreateNestedOneWithoutDecisionInput
+  revision: Prisma.RevisionCreateNestedOneWithoutDecisionsInput
 }
 
 export type DecisionUncheckedCreateWithoutDeciderInput = {
@@ -600,7 +605,7 @@ export type DecisionCreateWithoutSubmissionInput = {
   comment?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  revision: Prisma.RevisionCreateNestedOneWithoutDecisionInput
+  revision: Prisma.RevisionCreateNestedOneWithoutDecisionsInput
   decider: Prisma.UserCreateNestedOneWithoutDecisionsInput
 }
 
@@ -668,37 +673,25 @@ export type DecisionCreateOrConnectWithoutRevisionInput = {
   create: Prisma.XOR<Prisma.DecisionCreateWithoutRevisionInput, Prisma.DecisionUncheckedCreateWithoutRevisionInput>
 }
 
-export type DecisionUpsertWithoutRevisionInput = {
-  update: Prisma.XOR<Prisma.DecisionUpdateWithoutRevisionInput, Prisma.DecisionUncheckedUpdateWithoutRevisionInput>
-  create: Prisma.XOR<Prisma.DecisionCreateWithoutRevisionInput, Prisma.DecisionUncheckedCreateWithoutRevisionInput>
-  where?: Prisma.DecisionWhereInput
+export type DecisionCreateManyRevisionInputEnvelope = {
+  data: Prisma.DecisionCreateManyRevisionInput | Prisma.DecisionCreateManyRevisionInput[]
+  skipDuplicates?: boolean
 }
 
-export type DecisionUpdateToOneWithWhereWithoutRevisionInput = {
-  where?: Prisma.DecisionWhereInput
+export type DecisionUpsertWithWhereUniqueWithoutRevisionInput = {
+  where: Prisma.DecisionWhereUniqueInput
+  update: Prisma.XOR<Prisma.DecisionUpdateWithoutRevisionInput, Prisma.DecisionUncheckedUpdateWithoutRevisionInput>
+  create: Prisma.XOR<Prisma.DecisionCreateWithoutRevisionInput, Prisma.DecisionUncheckedCreateWithoutRevisionInput>
+}
+
+export type DecisionUpdateWithWhereUniqueWithoutRevisionInput = {
+  where: Prisma.DecisionWhereUniqueInput
   data: Prisma.XOR<Prisma.DecisionUpdateWithoutRevisionInput, Prisma.DecisionUncheckedUpdateWithoutRevisionInput>
 }
 
-export type DecisionUpdateWithoutRevisionInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
-  decidedStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
-  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submission?: Prisma.SubmissionUpdateOneRequiredWithoutDecisionsNestedInput
-  decider?: Prisma.UserUpdateOneRequiredWithoutDecisionsNestedInput
-}
-
-export type DecisionUncheckedUpdateWithoutRevisionInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  submissionId?: Prisma.StringFieldUpdateOperationsInput | string
-  deciderId?: Prisma.StringFieldUpdateOperationsInput | string
-  startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
-  decidedStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
-  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+export type DecisionUpdateManyWithWhereWithoutRevisionInput = {
+  where: Prisma.DecisionScalarWhereInput
+  data: Prisma.XOR<Prisma.DecisionUpdateManyMutationInput, Prisma.DecisionUncheckedUpdateManyWithoutRevisionInput>
 }
 
 export type DecisionCreateManyDeciderInput = {
@@ -720,7 +713,7 @@ export type DecisionUpdateWithoutDeciderInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submission?: Prisma.SubmissionUpdateOneRequiredWithoutDecisionsNestedInput
-  revision?: Prisma.RevisionUpdateOneRequiredWithoutDecisionNestedInput
+  revision?: Prisma.RevisionUpdateOneRequiredWithoutDecisionsNestedInput
 }
 
 export type DecisionUncheckedUpdateWithoutDeciderInput = {
@@ -763,7 +756,7 @@ export type DecisionUpdateWithoutSubmissionInput = {
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  revision?: Prisma.RevisionUpdateOneRequiredWithoutDecisionNestedInput
+  revision?: Prisma.RevisionUpdateOneRequiredWithoutDecisionsNestedInput
   decider?: Prisma.UserUpdateOneRequiredWithoutDecisionsNestedInput
 }
 
@@ -781,6 +774,50 @@ export type DecisionUncheckedUpdateWithoutSubmissionInput = {
 export type DecisionUncheckedUpdateManyWithoutSubmissionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   revisionId?: Prisma.StringFieldUpdateOperationsInput | string
+  deciderId?: Prisma.StringFieldUpdateOperationsInput | string
+  startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
+  decidedStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type DecisionCreateManyRevisionInput = {
+  id?: string
+  submissionId: string
+  deciderId: string
+  startStage: $Enums.RevisionStage
+  decidedStage: $Enums.RevisionStage
+  comment?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type DecisionUpdateWithoutRevisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
+  decidedStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submission?: Prisma.SubmissionUpdateOneRequiredWithoutDecisionsNestedInput
+  decider?: Prisma.UserUpdateOneRequiredWithoutDecisionsNestedInput
+}
+
+export type DecisionUncheckedUpdateWithoutRevisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  submissionId?: Prisma.StringFieldUpdateOperationsInput | string
+  deciderId?: Prisma.StringFieldUpdateOperationsInput | string
+  startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
+  decidedStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type DecisionUncheckedUpdateManyWithoutRevisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  submissionId?: Prisma.StringFieldUpdateOperationsInput | string
   deciderId?: Prisma.StringFieldUpdateOperationsInput | string
   startStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage
   decidedStage?: Prisma.EnumRevisionStageFieldUpdateOperationsInput | $Enums.RevisionStage

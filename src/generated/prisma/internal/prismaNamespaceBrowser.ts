@@ -17,8 +17,8 @@
 
 import * as runtime from "@prisma/client/runtime/index-browser"
 
-export type * from '../models'
-export type * from './prismaNamespace'
+export type * from '../models.js'
+export type * from './prismaNamespace.js'
 
 export const Decimal = runtime.Decimal
 
@@ -56,12 +56,10 @@ export const ModelName = {
   Issue: 'Issue',
   Submission: 'Submission',
   Revision: 'Revision',
-  File: 'File',
   Decision: 'Decision',
   Feedback: 'Feedback',
   Publication: 'Publication',
-  Participant: 'Participant',
-  Session: 'Session'
+  Participant: 'Participant'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -84,7 +82,6 @@ export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   name: 'name',
-  password: 'password',
   roles: 'roles',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -97,7 +94,6 @@ export const JournalScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
-  issn: 'issn',
   editorInChiefId: 'editorInChiefId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -127,6 +123,7 @@ export const SubmissionScalarFieldEnum = {
   authorId: 'authorId',
   title: 'title',
   abstract: 'abstract',
+  authors: 'authors',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -138,7 +135,7 @@ export type SubmissionScalarFieldEnum = (typeof SubmissionScalarFieldEnum)[keyof
 export const RevisionScalarFieldEnum = {
   id: 'id',
   submissionId: 'submissionId',
-  fileId: 'fileId',
+  file: 'file',
   version: 'version',
   startStage: 'startStage',
   currentStage: 'currentStage',
@@ -148,17 +145,6 @@ export const RevisionScalarFieldEnum = {
 } as const
 
 export type RevisionScalarFieldEnum = (typeof RevisionScalarFieldEnum)[keyof typeof RevisionScalarFieldEnum]
-
-
-export const FileScalarFieldEnum = {
-  id: 'id',
-  filename: 'filename',
-  originalName: 'originalName',
-  mimeType: 'mimeType',
-  size: 'size'
-} as const
-
-export type FileScalarFieldEnum = (typeof FileScalarFieldEnum)[keyof typeof FileScalarFieldEnum]
 
 
 export const DecisionScalarFieldEnum = {
@@ -181,7 +167,7 @@ export const FeedbackScalarFieldEnum = {
   submissionId: 'submissionId',
   revisionId: 'revisionId',
   authorId: 'authorId',
-  fileId: 'fileId',
+  file: 'file',
   content: 'content',
   stage: 'stage',
   recommendation: 'recommendation',
@@ -197,7 +183,6 @@ export const PublicationScalarFieldEnum = {
   issueId: 'issueId',
   revisionId: 'revisionId',
   submissionId: 'submissionId',
-  doi: 'doi',
   publishedAt: 'publishedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -218,24 +203,19 @@ export const ParticipantScalarFieldEnum = {
 export type ParticipantScalarFieldEnum = (typeof ParticipantScalarFieldEnum)[keyof typeof ParticipantScalarFieldEnum]
 
 
-export const SessionScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  role: 'role',
-  expiresAt: 'expiresAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
-
-
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -252,4 +232,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

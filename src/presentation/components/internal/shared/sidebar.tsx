@@ -14,47 +14,73 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import { internalStore, useShallow, useStore } from '@app/presentation/hooks';
 import { NestedMenu, PathMenu } from '@app/domain/entities';
+import { InternalStoreContext } from './store-provider';
 import { SidebarDropdownMenu } from './sidebar-dropdown-menu';
 import { SidebarMenu } from './sidebar-menu';
-import { useEffect } from 'react';
+import { useInternalStore } from '@app/presentation/hooks';
+import { useContext, useMemo, useSyncExternalStore } from 'react';
+import { useShallow } from 'zustand/shallow';
+import { APP } from '@config';
 
-type Props = {
-  menus: (PathMenu | NestedMenu<PathMenu>)[];
-};
-
-export function InternalSidebar({ menus }: Props) {
+export function InternalSidebar() {
+  const store = useContext(InternalStoreContext);
+  const sidebarExtended = useSyncExternalStore(
+    store!.subscribe,
+    () => store?.getState().sidebarExtended,
+    () => true,
+  );
   const [
+    activeRole,
     sidebarOpened,
-    sidebarExtended,
     sidebarHovered,
     setSidebarOpenedState,
-    getSidebarExtendedState,
     setSidebarExtendedState,
     setSidebarHoveredState,
-  ] = useStore(
-    internalStore,
+  ] = useInternalStore(
     useShallow((s) => [
+      s.session?.activeRole,
       s.sidebarOpened,
-      s.sidebarExtended,
       s.sidebarHovered,
       s.setSidebarOpenedState,
-      s.getSidebarExtendedState,
       s.setSidebarExtendedState,
       s.setSidebarHoveredState,
     ]),
   );
+  const menus = useMemo(() => {
+    let result: RequiredBy<PathMenu | NestedMenu<RequiredBy<PathMenu, 'icon'>>, 'icon'>[];
+
+    switch (activeRole) {
+      case 'ADMINISTRATOR':
+        result = APP.admin.sidebar.menus;
+        break;
+      case 'EDITOR':
+        result = APP.editor.sidebar.menus;
+        break;
+      case 'REVIEWER':
+        result = APP.reviewer.sidebar.menus;
+        break;
+      case 'AUTHOR':
+        result = APP.author.sidebar.menus;
+        break;
+      default:
+        result = [];
+    }
+    return result;
+  }, [activeRole]);
 
   const handleBackdrop = () => setSidebarOpenedState(false);
   const handleExtend = () => setSidebarExtendedState(!sidebarExtended);
-  const handleMouseEnter = () => setSidebarHoveredState(true);
-  const handleMouseLeave = () => setSidebarHoveredState(false);
-
-  useEffect(() => {
-    getSidebarExtendedState();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const handleMouseEnter = () => {
+    if (!sidebarExtended) {
+      setSidebarHoveredState(true);
+    }
+  };
+  const handleMouseLeave = () => {
+    if (!sidebarExtended) {
+      setSidebarHoveredState(false);
+    }
+  };
 
   return (
     <>
@@ -72,15 +98,13 @@ export function InternalSidebar({ menus }: Props) {
       >
         <Box className="flex min-h-full flex-col justify-between">
           <List>
-            {menus
-              ? menus.map((menu, i) => {
-                  if (menu.hasOwnProperty('path')) {
-                    return <SidebarMenu key={i} menu={menu as PathMenu} />;
-                  } else if (menu.hasOwnProperty('items')) {
-                    return <SidebarDropdownMenu key={i} menu={menu as NestedMenu<PathMenu>} />;
-                  }
-                })
-              : null}
+            {menus.map((menu, i) =>
+              'items' in menu ? (
+                <SidebarDropdownMenu key={i} menu={menu as NestedMenu<PathMenu>} />
+              ) : (
+                <SidebarMenu key={i} menu={menu as PathMenu} />
+              ),
+            )}
           </List>
 
           <Container

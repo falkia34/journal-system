@@ -7,4 +7,5 @@ export * from './decision.dto';
 export * from './feedback.dto';
 export * from './revision.dto';
 export * from './publication.dto';
-export * from './file.dto';
+export * from './participant.dto';
+export * from './pagination.dto';

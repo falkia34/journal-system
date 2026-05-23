@@ -2,12 +2,10 @@ import type { Prisma } from '@app/generated/prisma/client';
 import { DateTime } from 'luxon';
 import { Revision } from '@app/domain/entities';
 import type { SubmissionDto } from './submission.dto';
-import type { FileDto } from './file.dto';
 import type { FeedbackDto } from './feedback.dto';
 import type { DecisionDto } from './decision.dto';
 import type { PublicationDto } from './publication.dto';
 import { SubmissionMapper } from './submission.dto';
-import { FileMapper } from './file.dto';
 import { FeedbackMapper } from './feedback.dto';
 import { DecisionMapper } from './decision.dto';
 import { PublicationMapper } from './publication.dto';
@@ -17,9 +15,8 @@ export type RevisionRecord = Prisma.RevisionGetPayload<object>;
 export type RevisionRecordWithIncludes = Prisma.RevisionGetPayload<{
   include: {
     submission: true;
-    file: true;
     feedbacks: true;
-    decision: true;
+    decisions: true;
     publication: true;
   };
 }>;
@@ -27,7 +24,7 @@ export type RevisionRecordWithIncludes = Prisma.RevisionGetPayload<{
 export interface RevisionDto {
   id: string;
   submission_id: string;
-  file_id: string;
+  file: File | string | null;
   version: number;
   start_stage: Revision['startStage'];
   current_stage: Revision['currentStage'];
@@ -35,9 +32,8 @@ export interface RevisionDto {
   created_at: string;
   updated_at: string;
   submission?: SubmissionDto;
-  file?: FileDto;
   feedbacks?: FeedbackDto[];
-  decision?: DecisionDto;
+  decisions?: DecisionDto[];
   publication?: PublicationDto;
 }
 
@@ -46,7 +42,7 @@ export class RevisionMapper {
     return new Revision(
       payload.id,
       payload.submissionId,
-      payload.fileId,
+      payload.file,
       payload.version,
       payload.startStage,
       payload.currentStage,
@@ -54,12 +50,11 @@ export class RevisionMapper {
       payload.createdAt,
       payload.updatedAt,
       'submission' in payload ? SubmissionMapper.fromPrismaToDomain(payload.submission) : undefined,
-      'file' in payload && payload.file ? FileMapper.fromPrismaToDomain(payload.file) : undefined,
       'feedbacks' in payload
         ? payload.feedbacks.map((feedback) => FeedbackMapper.fromPrismaToDomain(feedback))
         : undefined,
-      'decision' in payload && payload.decision
-        ? DecisionMapper.fromPrismaToDomain(payload.decision)
+      'decisions' in payload
+        ? payload.decisions.map((decision) => DecisionMapper.fromPrismaToDomain(decision))
         : undefined,
       'publication' in payload && payload.publication
         ? PublicationMapper.fromPrismaToDomain(payload.publication)
@@ -71,7 +66,7 @@ export class RevisionMapper {
     return {
       id: revision.id,
       submission_id: revision.submissionId,
-      file_id: revision.fileId,
+      file: revision.file,
       version: revision.version,
       start_stage: revision.startStage,
       current_stage: revision.currentStage,
@@ -81,14 +76,15 @@ export class RevisionMapper {
       submission: revision.submission
         ? (SubmissionMapper.fromDomainToDto(revision.submission) as SubmissionDto)
         : undefined,
-      file: revision.file ? (FileMapper.fromDomainToDto(revision.file) as FileDto) : undefined,
       feedbacks: revision.feedbacks
         ? revision.feedbacks.map(
             (feedback) => FeedbackMapper.fromDomainToDto(feedback) as FeedbackDto,
           )
         : undefined,
-      decision: revision.decision
-        ? (DecisionMapper.fromDomainToDto(revision.decision) as DecisionDto)
+      decisions: revision.decisions
+        ? revision.decisions.map(
+            (decision) => DecisionMapper.fromDomainToDto(decision) as DecisionDto,
+          )
         : undefined,
       publication: revision.publication
         ? (PublicationMapper.fromDomainToDto(revision.publication) as PublicationDto)
@@ -100,7 +96,7 @@ export class RevisionMapper {
     return new Revision(
       dto.id,
       dto.submission_id,
-      dto.file_id,
+      dto.file,
       dto.version,
       dto.start_stage,
       dto.current_stage,
@@ -108,12 +104,51 @@ export class RevisionMapper {
       DateTime.fromISO(dto.created_at).toJSDate(),
       DateTime.fromISO(dto.updated_at).toJSDate(),
       dto.submission ? SubmissionMapper.fromDtoToDomain(dto.submission) : undefined,
-      dto.file ? FileMapper.fromDtoToDomain(dto.file) : undefined,
       dto.feedbacks
         ? dto.feedbacks.map((feedback) => FeedbackMapper.fromDtoToDomain(feedback))
         : undefined,
-      dto.decision ? DecisionMapper.fromDtoToDomain(dto.decision) : undefined,
+      dto.decisions
+        ? dto.decisions.map((decision) => DecisionMapper.fromDtoToDomain(decision))
+        : undefined,
       dto.publication ? PublicationMapper.fromDtoToDomain(dto.publication) : undefined,
+    );
+  }
+
+  public static fromDomainToFormData(revision: Partial<Revision>): FormData {
+    const formData = new FormData();
+    if (revision.id) formData.append('id', revision.id);
+    if (revision.submissionId) formData.append('submissionId', revision.submissionId);
+    if (revision.file !== undefined) formData.append('file', revision.file ?? '');
+    if (revision.version) formData.append('version', String(revision.version));
+    if (revision.startStage) formData.append('startStage', revision.startStage);
+    if (revision.currentStage) formData.append('currentStage', revision.currentStage);
+    if (revision.isFrozen !== undefined) formData.append('isFrozen', String(revision.isFrozen));
+    if (revision.createdAt) formData.append('createdAt', revision.createdAt.toISOString());
+    if (revision.updatedAt) formData.append('updatedAt', revision.updatedAt.toISOString());
+    return formData;
+  }
+
+  public static fromFormDataToDomain(formData: FormData): Revision {
+    const id = formData.get('id') as string | null;
+    const submissionId = formData.get('submissionId') as string | null;
+    const file = formData.get('file');
+    const version = formData.get('version');
+    const startStage = formData.get('startStage');
+    const currentStage = formData.get('currentStage');
+    const isFrozen = formData.get('isFrozen');
+    const createdAt = formData.get('createdAt') as string | null;
+    const updatedAt = formData.get('updatedAt') as string | null;
+
+    return new Revision(
+      id || '',
+      submissionId || '',
+      file as File | string | null,
+      version ? Number(version) : 0,
+      (startStage as Revision['startStage']) || 'DRAFT',
+      (currentStage as Revision['currentStage']) || 'DRAFT',
+      isFrozen === 'true',
+      createdAt ? DateTime.fromISO(createdAt).toJSDate() : new Date(),
+      updatedAt ? DateTime.fromISO(updatedAt).toJSDate() : new Date(),
     );
   }
 }

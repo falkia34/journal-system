@@ -41,7 +41,7 @@ export function LoginForm({ callbackUrl }: Props) {
           startIcon={<LoginRounded fontSize="small" />}
           onClick={() => login.execute(callbackUrl)}
         >
-          Login with INFINITE SSO
+          Login with Google
         </Button>
       </Box>
     </Paper>
